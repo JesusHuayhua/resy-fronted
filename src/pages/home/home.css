@@ -110,18 +110,16 @@ body {
 }
 
 .main-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw; /* Ocupa todo el ancho de la pantalla */
-  height: 100vh; /* Ocupa todo el alto de la pantalla */
+  position: relative; /* Cambiado de absolute a relative */
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centra el contenido verticalmente */
+  justify-content: center;
   align-items: center;
-  z-index: 2; /* Mantén el contenido por encima del carrusel */
+  z-index: 2;
 }
 
 .main-image {
@@ -136,14 +134,17 @@ body {
 }
 
 .logo-section {
-  position: relative;
+  position: absolute; /* Cambiado de relative a absolute */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta el centrado perfecto */
   text-align: center;
-  z-index: 3; /* Mantén el logo por encima del carrusel */
+  z-index: 3;
 }
 
 .logo-title {
   font-family: 'Brush Script MT', cursive, sans-serif;
-  font-size: 3.5em; /* Ajusta el tamaño del texto */
+  font-size: 3.5em;
   margin: 0;
   color: #e6ff6c;
   text-shadow: 2px 2px 8px #222;
@@ -153,9 +154,9 @@ body {
   background: #4e7c2f;
   color: #fff;
   display: inline-block;
-  padding: 0.5em 1.5em; /* Ajusta el espaciado interno */
+  padding: 0.5em 1.5em;
   border-radius: 16px;
-  font-size: 1.2em; /* Ajusta el tamaño del texto */
+  font-size: 1.2em;
   margin-top: 0.5em;
   font-family: sans-serif;
   box-shadow: 1px 1px 8px #222;
@@ -164,6 +165,8 @@ body {
 .slider-dots {
   position: absolute;
   bottom: 10%;
+  left: 50%; /* Centra horizontalmente */
+  transform: translateX(-50%); /* Ajusta el centrado */
   display: flex;
   gap: 0.5em;
 }
@@ -185,6 +188,8 @@ body {
 .slider-footer {
   position: absolute;
   bottom: 5%;
+  left: 50%; /* Centra horizontalmente */
+  transform: translateX(-50%); /* Ajusta el centrado */
   display: flex;
   justify-content: space-between;
   width: 90%;
@@ -220,10 +225,12 @@ body {
   }
   .main-content {
     height: 100vh;
-    padding-top: 120px;
   }
   .navbar-links-bg {
     gap: 0.7rem;
     padding: 0.4rem 0.3rem 0.4rem 0.5rem;
+  }
+  .logo-section {
+    top: 50%; /* Mantiene el centrado en móviles */
   }
 }

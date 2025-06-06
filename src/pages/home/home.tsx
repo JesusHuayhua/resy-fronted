@@ -5,9 +5,9 @@ import Carrusel from '../../components/carrusel/carrusel'
 function Home() {
   return (
     <div className="home-bg">
-      <Carrusel />
-      <Header />
       <main className="main-content">
+        <Header />
+        <Carrusel />
         <div className="logo-section">
           <h1 className="logo-title">Salon Verde</h1>
           <div className="logo-subtitle">Cevichería - Restaurante</div>

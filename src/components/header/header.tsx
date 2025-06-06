@@ -1,7 +1,16 @@
+import { useNavigate } from 'react-router-dom'
 import './header.css'
 import { FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 
 function Header() {
+
+  // Se crea un navigator.
+  const navigate = useNavigate();
+
+  const handleLoginClick = () =>{
+    navigate('/login');
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-group">
@@ -22,7 +31,10 @@ function Header() {
             <FaWhatsapp />
           </span>
         </div>
-        <button className="btn-login">INICIAR SESIÓN</button>
+        <button
+          className="btn-login"
+          onClick={handleLoginClick}
+        >INICIAR SESIÓN</button>
       </div>
     </header>
   )
