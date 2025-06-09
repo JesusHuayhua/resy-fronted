@@ -5,7 +5,6 @@ import Header from "../../navegaciónInicial/components/header/header";
 import Comida from "../components/comida/comida";
 import { obtenerMenuSemanal } from "../services/obtenerMenuSemanal";
 import { obtenerMenuDia } from "../services/obtenerMenuDelDia";
-import type { Plato } from "../services/clases/classPlato";
 import { Menu } from "../services/clases/classMenu";
 import type { PlatoConDisponibilidad } from "../services/obtenerPlatosDia";
 
