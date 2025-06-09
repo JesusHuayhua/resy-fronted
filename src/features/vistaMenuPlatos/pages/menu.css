@@ -1,0 +1,156 @@
+/* Reset y estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Contenedor principal del layout (sin incluir header) */
+.main-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  /* Deja espacio debajo del header fijo (aprox. 4rem de alto) */
+  padding-top: 4rem;
+  height: calc(100vh - 4rem);
+  font-family: sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Asegura que sidebar y content se extiendan a full altura */
+.sidebar, .content-section {
+  height: 100%;
+}
+
+/* Menú lateral con los días y filtros */
+.sidebar {
+  width: 250px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.sidebar .day-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7d457;
+  color: #FFFFFF;
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.sidebar .day-selector button {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.sidebar .day-selector button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .day-selector h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Opciones del menú */
+.sidebar .menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar .menu-options button {
+  width: 100%;
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Estado seleccionado */
+.sidebar .menu-options button.selected {
+  background-color: #f7d457;
+  color: #ffffff;
+}
+
+.sidebar .menu-options button.secondary {
+  background-color: #777;
+  color: white;
+}
+
+.sidebar .menu-options button:hover {
+  background-color: #999;
+}
+
+.sidebar .menu-options button.selected:hover {
+  background-color: #ffda55;
+}
+
+/* Sección principal al lado derecho del sidebar */
+.content-section {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  border-radius: 8px;
+}
+
+.content-section .menu-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.content-section .menu-tabs button {
+  background-color: #cfcfcf;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.content-section .menu-tabs button.active {
+  background-color: #f7d457;
+  color: #ffffff;
+}
+
+.content-section .menu-tabs button:hover {
+  background-color: #ddd;
+}
+
+.content-section .menu-tabs button.active:hover {
+  background-color: #ffda55;
+}
+
+/* Espacio reservado para el componente de imagen + descripción + precio */
+/* Actualiza esta regla en tu CSS principal */
+.content-section .food-card-placeholder {
+  flex: 1;
+  display: flex; /* Añade esto */
+
+  border-radius: 8px;
+
+}
