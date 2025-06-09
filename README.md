@@ -54,6 +54,7 @@ export default tseslint.config({
 ```
 
 ## Estructura de carpetas
+```js
 
 src/
 ├── features/
