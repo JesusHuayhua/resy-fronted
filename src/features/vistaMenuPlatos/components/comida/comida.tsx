@@ -1,31 +1,36 @@
-import type { Plato } from "../../services/clases/classPlato"
+
 import "./comida.css"
+import type { PlatoConDisponibilidad } from "../../services/obtenerPlatosDia";
 // Declarar siempre un interface Props pa que TS no se loquee :v
 interface Props{
-    plato : Plato;
+    platoDia : PlatoConDisponibilidad | undefined;
 }
 
-function Comida(){
-    // Se obtiene el plato a renderizar.
+function Comida({ platoDia }: Props) {
+    if (!platoDia) return <div>Selecciona un plato</div>;
+
     return (
         <div className="food-card">
             <div className="image-container">
-                <img src="ruta-de-la-imagen" alt="Nombre del plato" className="food-image" />
+                <img src={platoDia.plato.getFoto()} alt={platoDia.plato.getNombre()} className="food-image" />
             </div>
             <div className="content-container">
                 <p className="description">
-                La causa rellena es un plato típico de la gastronomía peruana, particularmente popular en la región costera. Se trata de un puré frío a base de papa amarilla, que se sazona con ají amarillo, limón, aceite y sal. El relleno consiste en pollo desmenuzado y verduras, acompañados de mayonesa. Decorado con huevos, aceitunas, perejil y palta. Es un plato servido como entrada.
+                    {platoDia.plato.getDescripcion()}
                 </p>
                 <div className="bottom-info">
                     <div className="price-container">
                         <div className="price-icon">S/</div>
-                        <span className="price">4.50</span>
+                        <span className="price">{platoDia.plato.getPrecio().toFixed(2)}</span>
                     </div>
-                    <div className="status disponible">DISPONIBLE</div>
+                    <div className={`status ${platoDia.disponible ? 'disponible' : 'agotado'}`}>
+                        {platoDia.disponible ? 'DISPONIBLE' : 'AGOTADO'}
+                    </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
+
 
 export default Comida;
