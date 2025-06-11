@@ -12,8 +12,9 @@
 
 .nosotros-titulo {
   font-family: 'Brush Script MT', cursive, sans-serif;
-  font-size: 5em; /* aumentado */
+  font-size: 3.5em; /* aumentado */
   margin-bottom: 0.5em;
+  margin-top: 90px;
 }
 
 .nosotros-separador {
@@ -25,7 +26,7 @@
 
 .nosotros-texto {
   font-family: 'Brush Script MT', cursive, sans-serif; /* igual que el título */
-  font-size: 2.5em;
+  font-size: 2em;
   width: 60%; /* igual que .nosotros-separador */
   max-width: none;
   margin: 0 auto;
@@ -34,3 +35,4 @@
   border-radius: 16px;
   line-height: 1.5;
 }
+

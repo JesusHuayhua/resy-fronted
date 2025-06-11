@@ -23,6 +23,10 @@ function Header() {
     navigate('/nosotros');
   }
 
+  const handleContactoClick = () => {
+    navigate('/contacto');
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-group">
@@ -36,7 +40,7 @@ function Header() {
           <a onClick={handleNosotrosClick}>NOSOTROS</a>
           <a href="#">GALERÍA</a>
           <a onClick={() => navigate('/menus')}>MENÚS</a>
-          <a href="#">CONTACTO</a>
+          <a onClick={handleContactoClick}>CONTACTO</a>
           <button className="btn-reservar" onClick={handleReservarClick}>RESERVAR</button>
         </div>
       </div>
