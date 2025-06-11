@@ -19,6 +19,10 @@ function Header() {
     navigate('/reserva');
   }
 
+  const handleNosotrosClick = () => {
+    navigate('/nosotros');
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-group">
@@ -29,7 +33,7 @@ function Header() {
             className="navbar-logo" 
             onClick={handleMainMenuClick} 
           />
-          <a href="#">NOSOTROS</a>
+          <a onClick={handleNosotrosClick}>NOSOTROS</a>
           <a href="#">GALERÍA</a>
           <a onClick={() => navigate('/menus')}>MENÚS</a>
           <a href="#">CONTACTO</a>

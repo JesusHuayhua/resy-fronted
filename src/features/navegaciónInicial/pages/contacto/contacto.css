@@ -1,0 +1,31 @@
+
+.contacto-container {
+  display: flex;
+  min-height: 100vh;
+  background: #222 url('/src/assets/background.avif') center/cover no-repeat;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+.contacto-left, .contacto-right {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contacto-horario, .contacto-info {
+  margin-bottom: 1em;
+  font-size: 1.1em;
+}
+
+.contacto-redes > div {
+  margin-bottom: 0.7em;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+

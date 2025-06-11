@@ -3,6 +3,9 @@ import Home from './features/navegaciónInicial/pages/home/home'
 import Login from './features/inicioSesion/pages/login/login'
 import MenuComp from './features/vistaMenuPlatos/pages/menu'
 import Reserva from './features/reserva/pages/reserva'
+import Nosotros from './features/navegaciónInicial/pages/nosotros/nosotros'
+import Contacto from './features/navegaciónInicial/pages/contacto/contacto'
+
 function App() {
   return (
     <Router>
@@ -10,10 +13,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/nosotros" element={<div>Página NosotrosCambiado</div>} />
+          <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/galeria" element={<div>Página Galería</div>} />
           <Route path="/menus" element={<MenuComp />} />
-          <Route path="/contacto" element={<div>Página Contacto</div>} />
+          <Route path="/contacto" element={<Contacto/>} />
           <Route path="/reserva" element={<Reserva />} />
         </Routes>
       </div>
