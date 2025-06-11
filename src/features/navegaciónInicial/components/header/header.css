@@ -108,3 +108,9 @@
 .home-bg {
   background: none; /* Elimina el fondo estático */
 }
+
+.navbar-logo {
+  width: 100px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  cursor: pointer;
+}
