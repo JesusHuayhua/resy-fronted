@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import './login.css';
 
+//
+
+
 // Imagenes.
 import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
 import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif'
@@ -10,6 +13,7 @@ function Login(){
     // tendremos dos states.
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
 
     // Manejan el estado de los textos.
     // Declararle lo del React.ChangeEvent pa que no se loquee.
@@ -52,7 +56,9 @@ function Login(){
                         <div className='login-links'>
                             <text>
                                 ¿No tiene cuenta?
-                                <span><Link to='#' className='help-link'> Regístrate </Link></span>
+                                <span>
+                                    <Link to='/registroUsuario' className='help-link'> Regístrate </Link>
+                                </span>
                             </text>
                             <Link to='#' className='help-link'>¿Has olvidado la contraseña?</Link>
                         </div>

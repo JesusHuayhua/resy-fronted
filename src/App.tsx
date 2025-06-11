@@ -3,6 +3,9 @@ import Home from './features/navegaciónInicial/pages/home/home'
 import Login from './features/inicioSesion/pages/login/login'
 import MenuComp from './features/vistaMenuPlatos/pages/menu'
 import Reserva from './features/reserva/pages/reserva'
+import RegistroUsuario from './features/inicioSesion/pages/registroUsuario/registroUsuario'
+
+
 function App() {
   return (
     <Router>
@@ -15,6 +18,7 @@ function App() {
           <Route path="/menus" element={<MenuComp />} />
           <Route path="/contacto" element={<div>Página Contacto</div>} />
           <Route path="/reserva" element={<Reserva />} />
+          <Route path="/registroUsuario" element={<RegistroUsuario />} />
         </Routes>
       </div>
     </Router>
