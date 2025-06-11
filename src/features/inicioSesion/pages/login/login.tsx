@@ -29,7 +29,7 @@ function Login(){
                     <div className='login-logo'>
                         <img className='logo-image' src={logoImagen} />
                     </div>
-                    <h1 className='login-title'>INICIAR SESION</h1>
+                    <h1 className='login-title'>INICIAR SESIÓN</h1>
                     {/* Se declara el from del login */}
                     <form className='login-form'>
                         <div className='input-group'>
