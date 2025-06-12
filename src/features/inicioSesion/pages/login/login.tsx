@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import './login.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 //
-
 
 // Imagenes.
 import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
 import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif'
-import { Link } from 'react-router-dom';
 
 function Login(){
     // tendremos dos states.
@@ -24,6 +23,7 @@ function Login(){
     const handlePassword = (e : React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     }
+
 
     return (
             <div
@@ -60,7 +60,7 @@ function Login(){
                                     <Link to='/registroUsuario' className='help-link'> Regístrate </Link>
                                 </span>
                             </text>
-                            <Link to='#' className='help-link'>¿Has olvidado la contraseña?</Link>
+                            <Link to='/recuperarContraseña' className='help-link'>¿Has olvidado la contraseña?</Link>
                         </div>
                     </form>
                 </div>
