@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import './login.css';
-import { Link } from 'react-router-dom';
+import './recuperar.css';
+import { useNavigate } from 'react-router-dom';
 
 //
 
@@ -8,10 +8,10 @@ import { Link } from 'react-router-dom';
 import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
 import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif'
 
-function Login(){
+function RecuperarContrasena(){
     // tendremos dos states.
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
 
     // Manejan el estado de los textos.
@@ -20,9 +20,13 @@ function Login(){
         setEmail(e.target.value);
     }
 
-    const handlePassword = (e : React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    }
+    const handleAceptar = () => {
+        navigate('/codigo'); // Navigate to the codigo page
+    };
+
+    const handleCancelar = () => {
+        navigate('/login'); // Navigate back to the login page
+    };
 
 
     return (
@@ -33,7 +37,8 @@ function Login(){
                     <div className='login-logo'>
                         <img className='logo-image' src={logoImagen} />
                     </div>
-                    <h1 className='login-title'>INICIAR SESIÓN</h1>
+                    <h1 className='recuperar-title'>RECUPERAR CONTRASEÑA</h1>
+                    <p className='recuperar-subtitle'>Introduce tu correo electrónico para buscar tu cuenta</p>
                     {/* Se declara el from del login */}
                     <form className='login-form'>
                         <div className='input-group'>
@@ -43,24 +48,20 @@ function Login(){
                                 onChange={handleEmail}
                                 value={email}
                             />
-                            <input 
-                                placeholder='Contraseña'
-                                className='form-input'
-                                onChange={handlePassword}
-                                value={password}
-                            />
                         </div>
-                        <button className='login-button'>  
-                            INICIAR
-                        </button>
-                        <div className='login-links'>
-                            <text>
-                                ¿No tiene cuenta?
-                                <span>
-                                    <Link to='/registroUsuario' className='help-link'> Regístrate </Link>
-                                </span>
-                            </text>
-                            <Link to='/recuperarContrasena' className='help-link'>¿Has olvidado la contraseña?</Link>
+                        <div className='button-group'>
+                            <button
+                                type='button'
+                                className='recuperar-button'
+                                onClick={handleAceptar}>
+                                ACEPTAR
+                            </button>
+                            <button
+                                type='button'
+                                className='cancel-button'
+                                onClick={handleCancelar}>
+                                CANCELAR
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -72,4 +73,4 @@ function Login(){
 
 }
 
-export default Login;
+export default RecuperarContrasena;

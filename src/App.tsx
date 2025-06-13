@@ -4,7 +4,9 @@ import Login from './features/inicioSesion/pages/login/login'
 import MenuComp from './features/vistaMenuPlatos/pages/menu'
 import Reserva from './features/reserva/pages/reserva'
 import RegistroUsuario from './features/inicioSesion/pages/registroUsuario/registroUsuario'
-
+import RecuperarContrasena from './features/inicioSesion/pages/recuperarContrasena/recuperar'
+import Codigo from './features/inicioSesion/pages/recuperarContrasena/codigo'
+import Cambiar from './features/inicioSesion/pages/recuperarContrasena/cambiar'
 
 function App() {
   return (
@@ -19,6 +21,9 @@ function App() {
           <Route path="/contacto" element={<div>Página Contacto</div>} />
           <Route path="/reserva" element={<Reserva />} />
           <Route path="/registroUsuario" element={<RegistroUsuario />} />
+          <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
+          <Route path="/codigo" element={<Codigo />} />
+          <Route path="/cambiar" element={<Cambiar />} />
         </Routes>
       </div>
     </Router>
