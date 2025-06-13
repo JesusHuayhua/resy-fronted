@@ -1,0 +1,38 @@
+.nosotros-bg {
+  min-height: 100vh;
+  background: #444 url('/src/assets/background.avif') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  padding: 2rem;
+  text-align: center;
+}
+
+.nosotros-titulo {
+  font-family: 'Brush Script MT', cursive, sans-serif;
+  font-size: 3.5em; /* aumentado */
+  margin-bottom: 0.5em;
+  margin-top: 90px;
+}
+
+.nosotros-separador {
+  width: 60%;
+  border: none;
+  border-top: 2px solid #e6d7a7;
+  margin: 0 auto 1.5em auto;
+}
+
+.nosotros-texto {
+  font-family: 'Brush Script MT', cursive, sans-serif; /* igual que el título */
+  font-size: 2em;
+  width: 60%; /* igual que .nosotros-separador */
+  max-width: none;
+  margin: 0 auto;
+  background: rgba(0,0,0,0.3);
+  padding: 1.5em 2em;
+  border-radius: 16px;
+  line-height: 1.5;
+}
+
