@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //
 
@@ -12,18 +12,35 @@ function Login(){
     // tendremos dos states.
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const navigate = useNavigate();
 
 
     // Manejan el estado de los textos.
     // Declararle lo del React.ChangeEvent pa que no se loquee.
     const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+        const value = e.target.value;
+        setEmail(value);
     }
 
-    const handlePassword = (e : React.ChangeEvent<HTMLInputElement>) => {
+    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
-    }
+    };
 
+    const handleLogin = () => {
+        const isEmailValid = email === 'cuenta@gmail.com';
+        const isPasswordValid = password === '123';
+
+        setEmailError(!isEmailValid);
+        setPasswordError(!isPasswordValid);
+
+        if (!isEmailValid || !isPasswordValid) {
+            navigate('/login'); // Reload the same page
+        } else {
+            // Proceed with login logic
+        }
+    };
 
     return (
             <div
@@ -37,12 +54,18 @@ function Login(){
                     {/* Se declara el from del login */}
                     <form className='login-form'>
                         <div className='input-group'>
+                            {emailError && (
+                                <p className='error-message'>Ingrese correctamente su correo electrónico</p>
+                            )}
                             <input 
                                 placeholder='Correo electrónico'
                                 className='form-input'
                                 onChange={handleEmail}
                                 value={email}
                             />
+                            {passwordError && (
+                                <p className='error-message'>Contraseña incorrecta</p>
+                            )}
                             <input 
                                 placeholder='Contraseña'
                                 className='form-input'
@@ -50,7 +73,10 @@ function Login(){
                                 value={password}
                             />
                         </div>
-                        <button className='login-button'>  
+                        <button
+                            type='button'
+                            className='login-button'
+                            onClick={handleLogin}>
                             INICIAR
                         </button>
                         <div className='login-links'>
