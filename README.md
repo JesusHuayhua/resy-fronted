@@ -54,67 +54,35 @@ export default tseslint.config({
 ```
 
 ## Estructura de carpetas
+```js
 
-```lua
-resi-backend/
-├── public/                     # Archivos estáticos públicos (index.html, favicon, assets)
-│   └── index.html
-│   └── vite.svg (o logo.svg)
-├── src/                        # Código fuente de la aplicación
-│   ├── assets/                 # Imágenes, iconos, fuentes, etc.
-│   │   ├── images/
-│   │   ├── icons/
-│   │   └── fonts/
-│   ├── components/             # Componentes React reutilizables y atómicos (botones, tarjetas)
-│   │   ├── Button/
-│   │   │   ├── Button.tsx
-│   │   │   └── Button.module.css (o .tailwind.css si usas CSS Modules con Tailwind)
-│   │   ├── Card/
-│   │   │   ├── Card.tsx
-│   │   │   └── index.ts        # Para exportar el componente
-│   │   └── common/             # Componentes muy genéricos (ej. Loader, Modal)
-│   │       ├── Loader.tsx
-│   │       └── Modal.tsx
-│   ├── constants/              # Constantes de la aplicación (rutas API, textos, etc.)
-│   │   └── api.ts
-│   │   └── app.ts
-│   ├── hooks/                  # Custom Hooks de React para lógica reutilizable
-│   │   ├── useAuth.ts
-│   │   └── useDebounce.ts
-│   ├── layouts/                # Estructuras de página reutilizables (Header, Footer, Navbar)
-│   │   ├── MainLayout.tsx
-│   │   └── AuthLayout.tsx
-│   ├── pages/                  # Componentes que representan una página completa
-│   │   ├── HomePage.tsx
-│   │   ├── LoginPage.tsx
-│   │   ├── ProductsPage.tsx
-│   │   ├── UsersPage/
-│   │   │   ├── UsersPage.tsx
-│   │   │   └── UsersPage.module.css
-│   │   └── NotFoundPage.tsx
-│   ├── services/               # Lógica para interactuar con tu backend (llamadas a la API)
-│   │   ├── authService.ts      # Maneja autenticación
-│   │   ├── userService.ts      # Consume el servicio de usuarios del backend
-│   │   ├── productService.ts   # Consume el servicio de productos del backend
-│   │   └── apiClient.ts        # Cliente HTTP base (ej. Axios instance)
-│   ├── store/                  # Gestión de estado global (ej. Redux Toolkit, Zustand, Context API)
-│   │   ├── index.ts            # Configuración del store
-│   │   ├── authSlice.ts        # Slices o módulos para el estado de autenticación
-│   │   └── productSlice.ts     # Slices o módulos para el estado de productos
-│   ├── styles/                 # Archivos CSS globales y configuración de Tailwind
-│   │   ├── index.css           # El archivo principal para Tailwind y CSS base
-│   │   └── variables.css       # Si usas variables CSS personalizadas
-│   ├── types/                  # Definiciones de tipos TypeScript globales
-│   │   ├── auth.d.ts
-│   │   ├── user.d.ts
-│   │   └── product.d.ts
-│   │   └── global.d.ts
-│   ├── utils/                  # Funciones de utilidad diversas (formateo, validación)
-│   │   ├── helpers.ts
-│   │   └── validators.ts
-│   ├── App.tsx                 # Componente raíz de la aplicación (manejo de rutas)
-│   ├── main.tsx                # Punto de entrada de la aplicación (renderiza App.tsx)
-│   └── vite-env.d.ts           # Tipos de entorno de Vite (generado automáticamente)
+src/
+├── features/
+│   ├── auth/
+│   │   ├── pages/            # LoginPage, RegisterPage
+│   │   ├── components/       # FormLogin, Logo, FooterAuth
+│   │   ├── hooks/            # useLogin (useEffect para fetch)
+│   │   └── services/         # login(), register() → llamadas al API
+│   │
+│   ├── reservas/
+│   │   ├── pages/            # ReservasPage, NuevaReservaPage
+│   │   ├── components/       # MesaCard, Calendario, Footer
+│   │   ├── hooks/            # useFetchReservas, useCrearReserva
+│   │   └── services/         # getReservas(), postReserva()
+│   │
+│   └── pedidos/
+│       ├── pages/            # MenuPage, CarritoPage
+│       ├── components/       # ItemCard, CarritoResumen, Header
+│       ├── hooks/            # useFetchMenu, useAgregarAlCarrito
+│       └── services/         # getMenu(), postPedido()
+│
+├── shared/
+│   └── components/           # Header, Footer, Button, Modal, etc.
+│
+├── utils/                    # formateadores, validadores, helpers puros
+├── router/                   # AppRouter.tsx → definición de rutas
+├── App.tsx                   # Entrada de la app
+└── main.tsx                    # Montaje de React
 ├── .env                        # Variables de entorno
 ├── .env.development
 ├── .env.production
