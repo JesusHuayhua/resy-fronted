@@ -1,8 +1,10 @@
 // src/components/BaseScreens/PantallaBase.tsx 
 // -> Indica solamente la ruta del archivo 
 import React from "react";//necesario para definir componentes con JSX
-import styles from "./PantallaBase.module.css";//para usar los estilos definidos en ese archivo .css
-import FondoDePantalla from "../../assets/FondoPantalla.png";
+//import { Link } from "react-router-dom"; // Para navegar en el navbar
+import styles from "./PantallaBaseSinLogin.module.css";//para usar los estilos definidos en ese archivo .css
+//
+import { Link } from "react-router-dom"; // librería de enrutamiento
 
 //esto signfica que define los tipos de datos esperados como props (propiedades) que puede recibir el componente
 interface BaseScreenProps {
@@ -19,7 +21,7 @@ export const PantallaBase: React.FC<BaseScreenProps> = ({ children }) => {
 
                  {/* Esta es la seccion de la imagen*/}
                 <div className={ styles.navSection + ' ' + styles.branding } >
-                    <img src="src/assets/LogoEmpresa.jpg" alt="Logo de la empresa" className={styles.brandLogo}/>
+                    <img src="src/assets/logo.webp" alt="Logo de la empresa" className={styles.brandLogo}/>
                 </div>
 
                 
@@ -33,17 +35,13 @@ export const PantallaBase: React.FC<BaseScreenProps> = ({ children }) => {
               
                 <div className={styles.navSection + ' ' + styles.reservar}>RESERVAR</div>
                 
-                <div className={styles.navSection + ' ' +styles.iniciarSesion}>INICIAR SESIÓN</div>
+                {/* Enlace al login */}
+                <Link to="/login" className={styles.navSection + ' ' + styles.iniciarSesion}>
+                    INICIAR SESIÓN
+                </Link>
             </nav>
             {/* Contenido principal del documento (<main></main>) */}
-            {/* Se cargara el fondo de pantalla asignado */}
-            <main 
-                className={styles.mainContent} 
-                
-                style={{ backgroundImage: `url(${FondoDePantalla})` }}
-            >
-                {children}
-            </main>
+            <main className={styles.mainContent}>{children}</main>
         </div>
     );
 };
