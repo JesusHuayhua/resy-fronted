@@ -107,70 +107,69 @@ function MenuComp(){
             </button>
         )
     })
-
-
-
-
-    
    
     return (
-        <div style={{ 
-            backgroundImage: `url(${img})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            minHeight: '100vh'
-        }}>
+        <>
             <Header />
-            <div className="main-container">
-                <div className="sidebar">
-                    <div className="day-selector">
-                        <button onClick={diaAnterior}>‹</button>
-                        <h3>{dias[filtros.dia]}</h3>
-                        <button onClick={diaSiguiente}>›</button>
+            <div style={{ 
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                minHeight: '100vh'
+            }}>
+                
+                <div className="main-container">
+                    <div className="sidebar">
+                        <div className="day-selector">
+                            <button onClick={diaAnterior}>‹</button>
+                            <h3>{dias[filtros.dia]}</h3>
+                            <button onClick={diaSiguiente}>›</button>
+                        </div>
+                        <div className="menu-options">
+                            {alimentosSeleccion}
+                        </div>
                     </div>
-                    <div className="menu-options">
-                        {alimentosSeleccion}
-                    </div>
-                </div>
-                <div className="content-section">
-                    <div className="menu-tabs">
-                        <button
-                            value="0"
-                            onClick={handleCategoriaClick}
-                            className={filtros.categoria === 0 ? 'active' : ''}
-                        >
-                            Entradas
-                        </button>
-                        <button
-                            value="1"
-                            onClick={handleCategoriaClick}
-                            className={filtros.categoria === 1 ? 'active' : ''}
-                        >
-                            Segundos
-                        </button>
-                        <button
-                            value="2"
-                            onClick={handleCategoriaClick}
-                            className={filtros.categoria === 2 ? 'active' : ''}
-                        >
-                            Carta
-                        </button>
-                        <button
-                            value="3"
-                            onClick={handleCategoriaClick}
-                            className={filtros.categoria === 3 ? 'active' : ''}
-                        >
-                            Adicional
-                        </button>
+                    <div className="content-section">
+                        <div className="menu-tabs">
+                            <button
+                                value="0"
+                                onClick={handleCategoriaClick}
+                                className={filtros.categoria === 0 ? 'active' : ''}
+                            >
+                                Entradas
+                            </button>
+                            <button
+                                value="1"
+                                onClick={handleCategoriaClick}
+                                className={filtros.categoria === 1 ? 'active' : ''}
+                            >
+                                Segundos
+                            </button>
+                            <button
+                                value="2"
+                                onClick={handleCategoriaClick}
+                                className={filtros.categoria === 2 ? 'active' : ''}
+                            >
+                                Carta
+                            </button>
+                            <button
+                                value="3"
+                                onClick={handleCategoriaClick}
+                                className={filtros.categoria === 3 ? 'active' : ''}
+                            >
+                                Adicional
+                            </button>
 
-                    </div>
-                    <div className="food-card-placeholder">
-                        <Comida platoDia ={platoSeleccionado}/>
+                        </div>
+                        <div className="food-card-placeholder">
+                            <Comida platoDia ={platoSeleccionado}/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
+        
     );
 }
 
