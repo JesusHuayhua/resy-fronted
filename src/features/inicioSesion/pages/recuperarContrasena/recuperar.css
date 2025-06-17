@@ -61,12 +61,22 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.login-title {
+.recuperar-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap; /* Ensure the title stays on one line */
+}
+
+/* Nueva clase para el subtítulo */
+.recuperar-subtitle {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 /* Formulario */
@@ -106,7 +116,13 @@ body {
 }
 
 /* Botón de iniciar sesión */
-.login-button {
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.recuperar-button {
   background: #4285f4;
   color: #fff;
   border: none;
@@ -116,21 +132,35 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  width: 50%;
-  align-self: center;
+  flex: 1;
 }
 
-.login-button:hover {
+.recuperar-button:hover {
   background: #3367d6;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
 }
 
-.login-button:active {
+.recuperar-button:active {
   transform: translateY(0);
+}
+
+/* Botón de cancelar */
+.cancel-button {
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.cancel-button:hover {
+  background: #d6d6d6;
 }
 
 /* Enlaces de ayuda */
@@ -166,12 +196,76 @@ body {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Mensaje de error */
-.error-message {
-    color: red;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    text-align: left;
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #4285f4; /* Blue color */
+    text-align: center;
+}
+
+.popup-message {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.popup-button {
+    background: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popup-button:hover {
+    background: #3367d6;
+}
+
+.popup-check {
+    width: 60px;
+    height: 60px;
+    background-color: #4285f4; /* Blue circle */
+    color: #fff; /* White check */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin: 0 auto 1rem auto; /* Center and add spacing below */
+}
+
+.popup-logo img {
+    width: 250px; /* Further increased size */
+    height: auto;
+    margin: 0 auto 1rem auto; /* Center and add spacing below */
+    display: block;
 }
 
 /* Responsive */
