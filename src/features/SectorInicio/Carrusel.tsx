@@ -26,6 +26,11 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
 
         return () => clearInterval(intervalId); // Limpieza cuando el componente se desmonta
     }, [images.length]);
+    //Para que tenga los puntos interactivos en la parte inferior
+    const goToIndex = (index: number) => {
+        setCurrentIndex(index);
+    };
+
     return (
         <div className="carousel">
             <button className="carousel__button prev" onClick={goToPrevious}>
@@ -37,6 +42,14 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
             <button className="carousel__button next" onClick={goToNext}>
                 &gt;
             </button>
+            <div className="carousel__indicators">
+                {images.map((_, index) => (
+                <span
+                key={index}
+                className={`indicator-dot ${index === currentIndex ? 'active' : ''}`}
+                onClick={() => goToIndex(index)}
+                />))}
+            </div>
             <div className="logo-lado-Izquierdo">
                 <div className="logo-fijo">
                     <img src="/src/assets/logo.png" alt="Logo Salon Verde" />

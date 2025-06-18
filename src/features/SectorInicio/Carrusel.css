@@ -39,3 +39,24 @@
 }
 
 
+.carousel__indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 14%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.indicator-dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.indicator-dot.active {
+  background-color: #B9C507; /* Color activo como en tu diseño */
+}
