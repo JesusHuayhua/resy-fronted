@@ -1,0 +1,28 @@
+.ubicacion-section {
+  background: rgba(0,0,0,0.3);
+  border-radius: 16px;
+  padding: 1.5em 2em;
+}
+
+.ubicacion-titulo, .contacto-titulo {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+  font-family: 'Brush Script MT', cursive, sans-serif;
+}
+
+.ubicacion-separador, .contacto-separador {
+  border: none;
+  border-top: 2px solid #e6d7a7;
+  margin-bottom: 1em;
+}
+
+.ubicacion-direccion {
+  margin-bottom: 1em;
+  font-size: 1em;
+}
+
+.ubicacion-mapa iframe {
+  height: 400px; /* O el valor que prefieras */
+  width: 100%;
+  border: 0;
+}

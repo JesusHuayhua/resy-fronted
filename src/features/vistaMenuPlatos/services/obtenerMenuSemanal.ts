@@ -5,9 +5,6 @@ import segundos from '../../../assets/imagenesComidas/segundos/segundos';
 import { Menu, DiaSemana } from './clases/classMenu';
 import { PlatosEnMenuDía } from './clases/classPlatoMenuDia';
 
-// Está función será un Promise, de tal manera que se ejecutará cada vez que se le invoca.
-// Digo promise puesto que 
-// Esto para mostrarlo en el catálogo.
 
 // Crearemos menús de lunes y martes (por pereza realmente :v)
 // Todos fueron seleccionados de forma arbitraria. Habrán algunas que no tendrán cantidad, otras sí.
