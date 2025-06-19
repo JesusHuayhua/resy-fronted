@@ -26,6 +26,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
 
         return () => clearInterval(intervalId); // Limpieza cuando el componente se desmonta
     }, [images.length]);
+    
     //Para que tenga los puntos interactivos en la parte inferior
     const goToIndex = (index: number) => {
         setCurrentIndex(index);

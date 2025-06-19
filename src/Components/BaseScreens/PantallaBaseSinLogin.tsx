@@ -18,22 +18,36 @@ export const PantallaBase: React.FC<BaseScreenProps> = ({ children }) => {
             {/* Esta es la barra de navegacion superior*/}
             <nav className={styles.navbar}>
 
-
-                 {/* Esta es la seccion de la imagen*/}
-                <div className={ styles.navSection + ' ' + styles.branding } >
+                {/* Esta es la seccion de la imagen */}
+                <Link to="/" className={styles.navSection + ' ' + styles.branding}>
                     <img src="src/assets/logo.webp" alt="Logo de la empresa" className={styles.brandLogo}/>
-                </div>
+                </Link>
+                
+                {/* Enlace al nosotros */}
+                <Link to="/nosotros" className={styles.navSection}>
+                    NOSOTROS
+                </Link>
+                
+                {/* Enlace a la galeria */}
+                <Link to="/galeria" className={styles.navSection}>
+                    GALERÍA
+                </Link>
+                
+                {/* Enlace al menús */}
+                <Link to="/menus" className={styles.navSection}>
+                    MENÚS
+                </Link>
 
-                
-                <div className={styles.navSection}>NOSOTROS</div>
-                
-                <div className={styles.navSection}>GALERÍA</div>
-                
-                <div className={styles.navSection}>MENÚS</div>
-              
-                <div className={styles.navSection}>CONTACTO</div>
-              
-                <div className={styles.navSection + ' ' + styles.reservar}>RESERVAR</div>
+
+                {/* Enlace al contacto */}
+                <Link to="/contacto" className={styles.navSection}>
+                    CONTACTO
+                </Link>
+
+                {/* Enlace al reservar */}
+                <Link to="/reserva" className={styles.navSection + ' ' + styles.reservar}>
+                    RESERVAR
+                </Link>
                 
                 {/* Enlace al login */}
                 <Link to="/login" className={styles.navSection + ' ' + styles.iniciarSesion}>
