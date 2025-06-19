@@ -1,5 +1,6 @@
 import React from 'react';
 import type { CSSProperties } from 'react';
+import { useNavigate } from 'react-router-dom';
 import mesasIcon from '../../../assets/imagenesReserva/mesasIcono.webp';
 import mesasImage from '../../../assets/imagenesReserva/mesas.webp';
 import localIcon from '../../../assets/imagenesReserva/hombreMoto.webp';
@@ -8,6 +9,8 @@ import pedidosIcon from '../../../assets/imagenesReserva/reservaIcono.webp';
 import pedidosImage from '../../../assets/imagenesReserva/fachada.webp';
 
 const Reserva = () => {
+  const navigate = useNavigate();
+
   const containerStyle: CSSProperties = {
     display: 'flex',
     width: '100vw',
@@ -91,6 +94,7 @@ const Reserva = () => {
         style={columnStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={() => navigate('/mesa_reserva')}
       >
         <div style={imageContainerStyle}>
           <img src={mesasImage} alt="Mesas" style={imageStyle} />
@@ -105,6 +109,7 @@ const Reserva = () => {
         style={columnStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={() => navigate('/local_reserva')}
       >
         <div style={imageContainerStyle}>
           <img src={localImage} alt="Local" style={imageStyle} />
@@ -119,6 +124,7 @@ const Reserva = () => {
         style={columnStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={() => navigate('/pedido_reserva')}
       >
         <div style={imageContainerStyle}>
           <img src={pedidosImage} alt="Pedidos" style={imageStyle} />
