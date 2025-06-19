@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './features/navegaciónInicial/pages/home/home'
+import Home from './features/SectorInicio/PantallaInicioSinLogin'
 import Login from './features/inicioSesion/pages/login/login'
 import MenuComp from './features/vistaMenuPlatos/pages/menu'
 import Reserva from './features/reserva/pages/reserva'
