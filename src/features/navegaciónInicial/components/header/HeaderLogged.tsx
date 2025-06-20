@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../../../assets/logo.webp';
 import { useUser } from '../../../user/context/UserContext';
 
@@ -7,7 +7,6 @@ const HeaderLogged: React.FC = () => {
   const { user, logout } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const checkIsMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -214,11 +213,6 @@ const HeaderLogged: React.FC = () => {
       border: 'none'
     }
   };
-
-  const getHamburgerLineStyle = (isActive: boolean, activeStyle: React.CSSProperties): React.CSSProperties => ({
-    ...styles.hamburgerLine,
-    ...(isActive ? activeStyle : {}),
-  });
 
   const handleUserMenuClick = (e: React.MouseEvent) => {
     e.stopPropagation();

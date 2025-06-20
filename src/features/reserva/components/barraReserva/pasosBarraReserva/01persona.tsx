@@ -2,108 +2,155 @@ import React, { useState } from 'react';
 
 interface PersonaSelectorProps {
   onNext: () => void;
+  backgroundImg: string;
 }
 
-const PersonaSelector: React.FC<PersonaSelectorProps> = ( {onNext}) => {
-  const [selectedPersonas, setSelectedPersonas] = useState<number | null>(null);
+const PersonaSelector: React.FC<PersonaSelectorProps> = ({ onNext, backgroundImg }) => {
+  const [selectedPersona, setSelectedPersona] = useState<number | null>(null);
+  const [hoveredPersona, setHoveredPersona] = useState<number | null>(null);
 
   const handlePersonaSelect = (number: number) => {
-    setSelectedPersonas(number);
-    onNext();
+    setSelectedPersona(number);
+    setTimeout(() => {
+      onNext();
+    }, 150);
   };
 
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
-    // En lugar de className="relative w-full h-full..."
-    <div className="relative w-full h-full flex items-center justify-center from-amber-900 via-amber-800 to-amber-900 overflow-y-auto">
-      {/* Content */}
-      <div className="w-full max-w-4xl mx-auto relative z-10 p-8 h-full flex flex-col justify-center">
-        {/* Title */}
-        <h1 className="text-white text-2xl md:text-3xl font-bold mb-8 tracking-wide">
-          Personas
-        </h1>
-        <hr className="border-gray-400 mb-8" />
+    <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
+      {/* Background Image desde prop */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${backgroundImg})`
+        }}
+      />
+      {/* Dark overlay for better contrast */}
+      <div className="absolute inset-0 bg-black/50"></div>
+
+      {/* Main content */}
+      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 py-8 flex flex-col justify-center items-center">
+        
+        {/* Header section */}
+        <div className="text-center mb-12">
+          <h1 className="text-white text-4xl md:text-5xl font-bold mb-4 tracking-wide drop-shadow-2xl">
+            Personas
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-transparent via-white to-transparent mx-auto mb-4"></div>
+          <p className="text-white text-lg md:text-xl opacity-90 max-w-md mx-auto drop-shadow-lg">
+            Selecciona tu persona ideal para comenzar tu experiencia
+          </p>
+        </div>
+
         {/* Number Grid */}
-        <div className="flex-1" style={{ marginTop: '10px', marginLeft: 'auto', marginRight: 'auto' }}>
-          <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-md justify-center flex">
-            {/* First row: 1, 2, 3 */}
-            {numbers.slice(0, 3).map((number) => (
+        <div className="flex items-center justify-center">
+          <div className="grid grid-cols-3 gap-6 md:gap-8 max-w-sm md:max-w-md">
+            
+            {/* Numbers 1-9 */}
+            {numbers.slice(0, 9).map((number) => (
               <button
                 key={number}
                 onClick={() => handlePersonaSelect(number)}
+                onMouseEnter={() => setHoveredPersona(number)}
+                onMouseLeave={() => setHoveredPersona(null)}
                 className={`
-                  w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white
-                  flex items-center justify-center text-white text-xl md:text-2xl font-semibold
-                  transition-all duration-300 hover:scale-110 hover:bg-white hover:text-amber-900
-                  ${selectedPersonas === number 
-                    ? 'bg-white text-amber-900 shadow-lg' 
-                    : 'bg-transparent hover:shadow-xl'
+                  relative w-20 h-20 md:w-24 md:h-24 rounded-full border-3 
+                  flex items-center justify-center text-2xl md:text-3xl font-bold
+                  transition-all duration-300 ease-out transform
+                  ${selectedPersona === number 
+                    ? 'bg-white text-gray-800 border-white shadow-2xl scale-110' 
+                    : hoveredPersona === number
+                    ? 'bg-white/30 text-white border-white scale-105 shadow-xl backdrop-blur-sm'
+                    : 'bg-black/40 text-white border-white/80 hover:border-white backdrop-blur-sm'
                   }
                 `}
+                style={{
+                  boxShadow: selectedPersona === number 
+                    ? '0 0 30px rgba(255, 255, 255, 0.8), 0 10px 25px rgba(0,0,0,0.4)' 
+                    : hoveredPersona === number 
+                    ? '0 0 20px rgba(255, 255, 255, 0.4), 0 8px 20px rgba(0,0,0,0.3)'
+                    : '0 4px 15px rgba(0,0,0,0.3)'
+                }}
               >
-                {number}
+                <span className={`transition-all duration-300 drop-shadow-lg ${
+                  hoveredPersona === number ? 'scale-110' : ''
+                }`}>
+                  {number}
+                </span>
+                
+                {/* Ripple effect on selection */}
+                {selectedPersona === number && (
+                  <div className="absolute inset-0 rounded-full border-2 border-white animate-ping opacity-75"></div>
+                )}
               </button>
             ))}
             
-            {/* Second row: 4, 5, 6 */}
-            {numbers.slice(3, 6).map((number) => (
-              <button
-                key={number}
-                onClick={() => handlePersonaSelect(number)}
-                className={`
-                  w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white
-                  flex items-center justify-center text-white text-xl md:text-2xl font-semibold
-                  transition-all duration-300 hover:scale-110 hover:bg-white hover:text-amber-900
-                  ${selectedPersonas === number 
-                    ? 'bg-white text-amber-900 shadow-lg' 
-                    : 'bg-transparent hover:shadow-xl'
-                  }
-                `}
-              >
-                {number}
-              </button>
-            ))}
-            
-            {/* Third row: 7, 8, 9 */}
-            {numbers.slice(6, 9).map((number) => (
-              <button
-                key={number}
-                onClick={() => handlePersonaSelect(number)}
-                className={`
-                  w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white
-                  flex items-center justify-center text-white text-xl md:text-2xl font-semibold
-                  transition-all duration-300 hover:scale-110 hover:bg-white hover:text-amber-900
-                  ${selectedPersonas === number 
-                    ? 'bg-white text-amber-900 shadow-lg' 
-                    : 'bg-transparent hover:shadow-xl'
-                  }
-                `}
-              >
-                {number}
-              </button>
-            ))}
-            
-            {/* Fourth row: 10 (centered) */}
-            <div className="col-start-2">
+            {/* Number 10 (centered) */}
+            <div className="col-start-2 flex justify-center">
               <button
                 onClick={() => handlePersonaSelect(10)}
+                onMouseEnter={() => setHoveredPersona(10)}
+                onMouseLeave={() => setHoveredPersona(null)}
                 className={`
-                  w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-white
-                  flex items-center justify-center text-white text-xl md:text-2xl font-semibold
-                  transition-all duration-300 hover:scale-110 hover:bg-white hover:text-amber-900
-                  ${selectedPersonas === 10 
-                    ? 'bg-white text-amber-900 shadow-lg' 
-                    : 'bg-transparent hover:shadow-xl'
+                  relative w-20 h-20 md:w-24 md:h-24 rounded-full border-3
+                  flex items-center justify-center text-2xl md:text-3xl font-bold
+                  transition-all duration-300 ease-out transform
+                  ${selectedPersona === 10 
+                    ? 'bg-white text-gray-800 border-white shadow-2xl scale-110' 
+                    : hoveredPersona === 10
+                    ? 'bg-white/30 text-white border-white scale-105 shadow-xl backdrop-blur-sm'
+                    : 'bg-black/40 text-white border-white/80 hover:border-white backdrop-blur-sm'
                   }
                 `}
+                style={{
+                  boxShadow: selectedPersona === 10 
+                    ? '0 0 30px rgba(255, 255, 255, 0.8), 0 10px 25px rgba(0,0,0,0.4)' 
+                    : hoveredPersona === 10 
+                    ? '0 0 20px rgba(255, 255, 255, 0.4), 0 8px 20px rgba(0,0,0,0.3)'
+                    : '0 4px 15px rgba(0,0,0,0.3)'
+                }}
               >
-                10
+                <span className={`transition-all duration-300 drop-shadow-lg ${
+                  hoveredPersona === 10 ? 'scale-110' : ''
+                }`}>
+                  10
+                </span>
+                
+                {/* Ripple effect on selection */}
+                {selectedPersona === 10 && (
+                  <div className="absolute inset-0 rounded-full border-2 border-white animate-ping opacity-75"></div>
+                )}
               </button>
             </div>
           </div>
         </div>
+
+        {/* Footer instruction */}
+        <div className="text-center mt-12">
+          <p className="text-white text-sm md:text-base opacity-90 drop-shadow-lg">
+            Haz clic en el número de tu persona preferida
+          </p>
+          {selectedPersona && (
+            <div className="mt-4 animate-fade-in">
+              <p className="text-white text-lg font-semibold drop-shadow-lg">
+                Persona {selectedPersona} seleccionada ✨
+              </p>
+            </div>
+          )}
+        </div>
       </div>
+
+      <style>{`
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

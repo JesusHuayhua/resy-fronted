@@ -30,13 +30,13 @@ const BarraReserva: React.FC = () => {
   const renderStepContent = () =>{
     switch (currentStep) {
       case 1:
-        return <StepPersona onNext={()=> setCurrentStep} />;
+        return <StepPersona onNext={() => setCurrentStep(currentStep + 1)} backgroundImg={BackgroundImg} />;
       case 2:
-        return <StepFecha onNext={()=> setCurrentStep} />;
+        return <StepFecha onNext={() => setCurrentStep(currentStep + 1)} />;
       case 3:
-        return <StepHora />;
+        return <StepHora onNext={() => setCurrentStep(currentStep + 1)} onBack={() => setCurrentStep(currentStep - 1)} />;
       case 4:
-        return <StepDatos />;
+        return <StepDatos onBack={() => setCurrentStep(currentStep - 1)} />;
       default:
         return null;
     }
