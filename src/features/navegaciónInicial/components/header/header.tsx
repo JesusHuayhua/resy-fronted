@@ -210,7 +210,7 @@ const Header: React.FC = () => {
             onClick={handleNavClick}
             className={location.pathname === "/ambientes" ? "active" : ""}
           >
-            GALERÍA
+            AMBIENTES
           </Link>
           <Link 
             to="/menus" 

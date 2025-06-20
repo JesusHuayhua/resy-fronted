@@ -86,6 +86,21 @@ const HeaderLogged: React.FC = () => {
     },
     reservar: {
       backgroundColor: '#B9C507',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '0 6px 6px 0',
+      fontSize: '1.2rem',
+      fontWeight: 400,
+      padding: '20px 0',
+      width: 350,
+      textAlign: 'center' as const,
+      height: 64,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      outline: 'none',
+      boxSizing: 'border-box' as const
     },
     mobileMenuBtn: {
       display: isMobile ? 'flex' : 'none',
@@ -131,6 +146,72 @@ const HeaderLogged: React.FC = () => {
       padding: '8px 16px',
       cursor: 'pointer',
       fontWeight: 500
+    },
+    userMenu: {
+      backgroundColor: '#FFB357',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '0 6px 6px 0',
+      fontSize: '1.2rem',
+      fontWeight: 400,
+      padding: '20px 0',
+      width: 250,
+      textAlign: 'center' as const,
+      height: 64,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      outline: 'none',
+      position: 'relative' as const,
+      boxSizing: 'border-box' as const
+    },
+    userName: {
+      whiteSpace: 'nowrap' as const,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      fontSize: '1.2rem',
+      fontWeight: 400,
+      flex: 1,
+      textAlign: 'center' as const
+    },
+    userIcon: {
+      marginRight: 10,
+      fontSize: 24
+    },
+    userArrow: {
+      marginLeft: 10,
+      fontSize: 18
+    },
+    dropdown: {
+      position: 'absolute' as const,
+      top: '100%',
+      right: 0,
+      background: '#FF9C32',
+      color: '#fff',
+      border: '2px solid #fff',
+      borderTop: 'none',
+      borderRadius: '0 0 4px 4px',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+      display: isMenuOpen ? 'block' : 'none',
+      zIndex: 1002
+    },
+    dropdownBtn: {
+      width: '100%',
+      background: 'transparent',
+      border: 'none',
+      color: '#fff',
+      fontSize: 22,
+      padding: '18px 0',
+      cursor: 'pointer',
+      textAlign: 'center' as const,
+      fontWeight: 400
+    },
+    divider: {
+      height: 2,
+      background: '#fff',
+      margin: 0,
+      border: 'none'
     }
   };
 
@@ -138,6 +219,11 @@ const HeaderLogged: React.FC = () => {
     ...styles.hamburgerLine,
     ...(isActive ? activeStyle : {}),
   });
+
+  const handleUserMenuClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleMenu();
+  };
 
   return (
     <header style={styles.header}>
@@ -155,7 +241,7 @@ const HeaderLogged: React.FC = () => {
             NOSOTROS
           </Link>
           <Link to="/ambientes" style={styles.navSection} onClick={handleNavClick}>
-            GALERÍA
+            AMBIENTES
           </Link>
           <Link to="/menus" style={styles.navSection} onClick={handleNavClick}>
             MENÚS
@@ -167,23 +253,22 @@ const HeaderLogged: React.FC = () => {
             RESERVAR
           </Link>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={styles.bienvenido}>
-            Bienvenido, {user?.DataUsuario?.Nombres || 'Usuario'}
-          </span>
-          <button onClick={logout} style={styles.cerrarSesion}>
-            Cerrar sesión
-          </button>
-          <button
-            style={styles.mobileMenuBtn}
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            type="button"
-          >
-            <span style={getHamburgerLineStyle(isMenuOpen, styles.hamburgerLineActive1)}></span>
-            <span style={getHamburgerLineStyle(isMenuOpen, styles.hamburgerLineActive2)}></span>
-            <span style={getHamburgerLineStyle(isMenuOpen, styles.hamburgerLineActive3)}></span>
-          </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
+          <div style={styles.userMenu} onClick={handleUserMenuClick}>
+            <span style={styles.userName}>
+              {user?.DataUsuario?.Nombres ? `BIENVENIDO ${user.DataUsuario.Nombres.toUpperCase()}` : 'BIENVENIDO USUARIO'}
+            </span>
+            <span style={styles.userArrow}>{isMenuOpen ? '▲' : '▼'}</span>
+            <div style={styles.dropdown}>
+              <button style={styles.dropdownBtn} onClick={e => { e.stopPropagation(); window.location.href = '/perfil'; }}>
+                PERFIL
+              </button>
+              <hr style={styles.divider} />
+              <button style={styles.dropdownBtn} onClick={e => { e.stopPropagation(); logout(); }}>
+                CERRAR SESIÓN
+              </button>
+            </div>
+          </div>
         </div>
       </nav>
     </header>
