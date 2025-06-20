@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
+import { verificarTokenRecuperacion } from '../../services/verificarTokenRecuperacionService';
 
 //
 
@@ -16,8 +17,15 @@ function IntroduceCodigo(){
 
     // Manejan el estado de los textos.
     // Declararle lo del React.ChangeEvent pa que no se loquee.
-const handleAceptar = () => {
-        navigate('/cambiar'); // Navigate to the codigo page
+const handleAceptar = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const correo = localStorage.getItem('recuperarCorreo') || '';
+        const ok = await verificarTokenRecuperacion(correo, codigo);
+        if (ok) {
+            navigate('/cambiar');
+        } else {
+            alert('Código incorrecto o expirado.');
+        }
     };
 
     const handleCodigo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,6 +59,7 @@ const handleAceptar = () => {
                         </div>
                         <div className='button-group'>
                             <button className='recuperar-button'
+                                type='submit'
                                 onClick={handleAceptar}>
                                 ACEPTAR
                             </button>

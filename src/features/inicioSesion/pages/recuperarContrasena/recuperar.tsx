@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
+import { recuperarContrasenia } from '../../services/recuperarcontraseniaService';
 
 //
 
@@ -20,8 +21,14 @@ function RecuperarContrasena(){
         setEmail(e.target.value);
     }
 
-    const handleAceptar = () => {
-        navigate('/codigo'); // Navigate to the codigo page
+    const handleAceptar = async () => {
+        const token = await recuperarContrasenia(email);
+        if (token) {
+            localStorage.setItem('recuperarCorreo', email); // Guardar el correo ingresado
+            navigate('/codigo');
+        } else {
+            alert('No se pudo recuperar el token.');
+        }
     };
 
     const handleCancelar = () => {

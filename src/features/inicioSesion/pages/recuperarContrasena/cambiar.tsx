@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
+import { actualizarPasswordRecuperacion } from '../../services/cambiarContrasenia';
 
 //
 
@@ -15,6 +16,9 @@ function CambiarContrasena(){
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
 
+    // Supón que el correo está disponible aquí. Ajusta según tu flujo.
+    const correoUsuario = localStorage.getItem('recuperarCorreo') || '';
+
 
     // Manejan el estado de los textos.
     // Declararle lo del React.ChangeEvent pa que no se loquee.
@@ -26,9 +30,18 @@ function CambiarContrasena(){
         setConfirmPassword(e.target.value);
     }
 
-    const handleAceptar = () => {
+    const handleAceptar = async () => {
         if (newPassword === confirmPassword) {
-            setShowPopup(true); // Show the popup
+            try {
+                const respuesta = await actualizarPasswordRecuperacion(correoUsuario, newPassword);
+                if (respuesta.status === 'ok') {
+                    setShowPopup(true); // Show the popup
+                } else {
+                    alert('Error al actualizar la contraseña');
+                }
+            } catch (error: any) {
+                alert(error || 'Error al actualizar la contraseña');
+            }
         } else {
             alert('Las contraseñas no coinciden');
         }
