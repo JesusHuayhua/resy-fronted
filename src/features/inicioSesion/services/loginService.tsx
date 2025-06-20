@@ -1,17 +1,29 @@
 import axios from 'axios';
 
-const API_URL = 'https://tu-api.com/api/login'; // Cambia esta URL por la de tu backend
+const API_URL = 'http://localhost:8080/login';
 
 export interface LoginResponse {
-  token: string;
-  user: any;
-  // ...otros campos que retorne tu API
+  acceso: boolean;
+  usuario: {
+    IdUsuario: number;
+    DataUsuario: {
+      Nombres: string;
+      Apellidos: string;
+      Correo: string;
+      Telefono: string;
+      Direccion: string;
+      FechaNacimiento: string;
+      Contrasenia: string;
+      Rol: number;
+      EstadoAcceso: boolean;
+    };
+  };
 }
 
-export async function login(username: string, password: string): Promise<LoginResponse> {
+export async function login(correo: string, contrasenia: string): Promise<LoginResponse> {
   const response = await axios.post<LoginResponse>(API_URL, {
-    username,
-    password,
+    correo,
+    contrasenia,
   });
   return response.data;
 }

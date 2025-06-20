@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import "./menu.css"
 import img from '../../../assets/background.avif'
 import Header from "../../navegaciónInicial/components/header/header";
+import HeaderLogged from '../../navegaciónInicial/components/header/HeaderLogged';
 import Comida from "../components/comida/comida";
 import { obtenerMenuSemanal } from "../services/obtenerMenuSemanal";
 import { obtenerMenuDia } from "../services/obtenerMenuDelDia";
 import { Menu } from "../services/clases/classMenu";
 import type { PlatoConDisponibilidad } from "../services/obtenerPlatosDia";
+import { useUser } from '../../user/context/UserContext';
 
 // Declararemos las categorias (puede que hayan mas. Por ahora esta hardcodeado)
 // Su "i" es el ID de la categoria
 const dias : string [] = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ,"Domingo"];
  
 function MenuComp(){
+    const { user } = useUser();
+
     // Objeto Filtro que manejará los indexs de cada array.
     const [filtros, setFiltros] = useState(
         {
@@ -110,7 +114,7 @@ function MenuComp(){
    
     return (
         <>
-            <Header />
+            {user ? <HeaderLogged /> : <Header />}
             <div style={{ 
                 backgroundImage: `url(${img})`,
                 backgroundSize: 'cover',

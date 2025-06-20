@@ -1,11 +1,15 @@
 import Header from '../../components/header/header';
+import HeaderLogged from '../../components/header/HeaderLogged';
 import Ubicacion from '../../components/ubicacion/ubicacion';
 import './contacto.css';
+import { useUser } from '../../../user/context/UserContext';
 
 function Contacto() {
+  const { user } = useUser();
+
   return (
     <>
-      <Header />
+      {user ? <HeaderLogged /> : <Header />}
       <section className="contacto-container">
         <div className="contacto-left">
           <Ubicacion />

@@ -1,9 +1,11 @@
 import './ambientes.css';
 import Header from '../../components/header/header';
+import HeaderLogged from '../../components/header/HeaderLogged';
 import bg from '../../../../assets/background.avif';
 import img1 from '../../../../assets/comedorPrincipal.avif';
 import img2 from '../../../../assets/entradaRestaurante.avif';
 import { useState } from 'react';
+import { useUser } from '../../../user/context/UserContext';
 
 const ambientes = [
   { titulo: 'Puerta Principal', imagen: img1 },
@@ -11,6 +13,7 @@ const ambientes = [
 ];
 
 function Ambientes() {
+  const { user } = useUser();
   const [index, setIndex] = useState(0);
   const [zoom, setZoom] = useState(false);
 
@@ -23,7 +26,7 @@ function Ambientes() {
 
   return (
     <div className="ambientes-bg" style={{ backgroundImage: `url(${bg})` }}>
-      <Header />
+      {user ? <HeaderLogged /> : <Header />}
       <div className="ambientes-content">
         <h2 className="ambientes-titulo">Ambientes</h2>
         <hr className="ambientes-separador" />
