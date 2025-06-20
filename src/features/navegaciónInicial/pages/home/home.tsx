@@ -1,17 +1,20 @@
 import './home.css'
 import Header from '../../components/header/header'
+import HeaderLogged from '../../components/header/HeaderLogged';
 import Carrusel from '../../components/carrusel/carrusel'
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../../user/context/UserContext';
 
 
 
 function Home() {
+  const { user } = useUser();
   const navigate = useNavigate();
   const handleAmbientesClick = () =>{navigate('/ambientes');}
   return (
     <div className="home-bg">
       <main className="main-content">
-        <Header />
+        {user ? <HeaderLogged /> : <Header />}
         <Carrusel />
         <div className="logo-section">
           <h1 className="logo-title">Salon Verde</h1>

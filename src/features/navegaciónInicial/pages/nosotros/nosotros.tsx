@@ -1,10 +1,14 @@
 import './nosotros.css'
 import Header from '../../components/header/header';
+import HeaderLogged from '../../components/header/HeaderLogged';
+import { useUser } from '../../../user/context/UserContext';
 
 function Nosotros() {
+  const { user } = useUser();
+
   return (
     <div className="nosotros-container">
-      <Header />
+      {user ? <HeaderLogged /> : <Header />}
       
       <main className="nosotros-main">
         <div className="nosotros-overlay"></div>
