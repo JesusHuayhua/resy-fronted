@@ -1,49 +1,166 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-interface Step2FechaProps {
-  onNext: () => void;
-  onBack: () => void;
+interface DayInfo {
+  name: string;
+  date: number;
+  isPast: boolean;
+  isToday: boolean;
 }
+interface CalendarSelectorProps {
+  onNext: () => void;
+}
+const WeeklyCalendar: React.FC<CalendarSelectorProps> = ( {onNext}) => {
+  const [weekDays, setWeekDays] = useState<DayInfo[]>([]);
+  const [currentMonth, setCurrentMonth] = useState('');
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
-const Step2Fecha: React.FC<Step2FechaProps> = ({ onNext, onBack }) => {
-  const [selectedDate, setSelectedDate] = useState<string>(''); // Puedes usar Date si prefieres
+  const dayNames = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+  const monthNames = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Fecha seleccionada:', selectedDate);
-    onNext();
+  useEffect(() => {
+    const today = new Date();
+    const currentDay = today.getDay();
+    const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
+    
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + mondayOffset);
+    
+    setCurrentMonth(monthNames[monday.getMonth()]);
+    
+    const days: DayInfo[] = [];
+    
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      
+      const isToday = date.toDateString() === today.toDateString();
+      const isPast = date < today && !isToday;
+      
+      days.push({
+        name: dayNames[i],
+        date: date.getDate(),
+        isPast,
+        isToday
+      });
+    }
+    
+    setWeekDays(days);
+  }, []);
+
+  const handleDayClick = (index: number) => {
+    if (!weekDays[index].isPast) {
+      setSelectedDay(index);
+      onNext();
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-semibold mb-4">Paso 2: Selecciona la fecha</h2>
-      <label htmlFor="fecha" className="block text-lg font-medium mb-2">
-        Fecha:
-      </label>
-      <input
-        type="date"
-        id="fecha"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-        className="border border-gray-300 p-2 rounded-md w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <div className="mt-6 flex justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="bg-gray-300 text-gray-800 py-2 px-6 rounded-md hover:bg-gray-400 transition-colors"
-        >
-          Atrás
-        </button>
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition-colors"
-        >
-          Siguiente
-        </button>
+    <div className="relative text-white w-full h-full flex items-center justify-center from-amber-900 via-amber-800 to-amber-900 overflow-hidden">
+      {/* Content */}
+      <div className="flex flex-col items-center justify-center h-full p-4 md:p-6">
+        
+        {/* Header */}
+        <div className="flex justify-between items-center w-full mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-wider">Fecha</h1>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-wider">{currentMonth}</h1>
+        </div>
+
+        {/* Línea gris separadora */}
+        <div className="w-full h-0.5 bg-gray-400 mb-4" />
+
+        {/* Calendar Grid */}
+        <div className="grid grid-cols-3 gap-2 md:gap-4 w-full mb-6 md:mb-8 flex-1">
+          {/* First Row */}
+          {weekDays.slice(0, 3).map((day, index) => (
+            <div
+              key={index}
+              onClick={() => handleDayClick(index)}
+              className={`
+                text-center p-2 md:p-4 rounded-lg transition-all duration-300 cursor-pointer
+                ${day.isPast 
+                  ? 'opacity-80 cursor-not-allowed bg-gray-800/20' 
+                  : 'hover:bg-white/10 bg-black/30'
+                }
+                ${selectedDay === index ? 'bg-white/20 scale-105' : ''}
+                ${day.isToday ? 'ring-2 ring-amber-500' : ''}
+                flex flex-col justify-center
+              `}
+            >
+              <div className={`text-xs md:text-lg font-bold mb-1 md:mb-2 ${day.isPast ? 'text-black-500' : 'text-white'}`}>
+                {day.name}
+              </div>
+              <div className={`text-2xl md:text-4xl font-light ${day.isPast ? 'text-black-600' : 'text-white'}`}>
+                {day.date.toString().padStart(2, '0')}
+              </div>
+            </div>
+          ))}
+          
+          {/* Second Row */}
+          {weekDays.slice(3, 6).map((day, index) => (
+            <div
+              key={index + 3}
+              onClick={() => handleDayClick(index + 3)}
+              className={`
+                text-center p-2 md:p-4 rounded-lg transition-all duration-300 cursor-pointer
+                ${day.isPast 
+                  ? 'opacity-40 cursor-not-allowed bg-gray-800/20' 
+                  : 'hover:bg-white/10 bg-black/30'
+                }
+                ${selectedDay === index + 3 ? 'bg-white/20 scale-105' : ''}
+                ${day.isToday ? 'ring-2 ring-amber-500' : ''}
+                 flex flex-col justify-center
+              `}
+            >
+              <div className={`text-xs md:text-lg font-bold mb-1 md:mb-2 ${day.isPast ? 'text-black-500' : 'text-white'}`}>
+                {day.name}
+              </div>
+              <div className={`text-2xl md:text-4xl font-light ${day.isPast ? 'text-black-600' : 'text-white'}`}>
+                {day.date.toString().padStart(2, '0')}
+              </div>
+            </div>
+          ))}
+          
+          {/* Third Row - Sunday centered */}
+          <div></div>
+          {weekDays.slice(6, 7).map((day, index) => (
+            <div
+              key={index + 6}
+              onClick={() => handleDayClick(index + 6)}
+              className={`
+                text-center p-2 md:p-4 rounded-lg transition-all duration-300 cursor-pointer
+                ${day.isPast 
+                  ? 'opacity-40 cursor-not-allowed bg-gray-800/20' 
+                  : 'hover:bg-white/10 bg-black/30'
+                }
+                ${selectedDay === index + 6 ? 'bg-white/20 scale-105' : ''}
+                ${day.isToday ? 'ring-2 ring-amber-500' : ''}
+                 flex flex-col justify-center
+              `}
+            >
+              <div className={`text-xs md:text-lg font-bold mb-1 md:mb-2 ${day.isPast ? 'text-black-500' : 'text-white'}`}>
+                {day.name}
+              </div>
+              <div className={`text-2xl md:text-4xl font-light ${day.isPast ? 'text-black-600' : 'text-white'}`}>
+                {day.date.toString().padStart(2, '0')}
+              </div>
+            </div>
+          ))}
+          <div></div>
+        </div>
+        {/* Footer */}
+          <div className="flex flex-row justify-center space-x-4 text-xs md:text-sm text-gray-400">
+            <a href="#" className="hover:text-white transition-colors underline">Términos y condiciones</a>
+            <p className="text-xs md:text-base text-gray-300 mx-4 mb-0">
+              Reservas de 2 o más días por favor comunícate con nosotros a través de nuestras redes sociales o llamando directamente al restaurante.
+            </p>
+            <a href="#" className="hover:text-white transition-colors underline">Políticas y privacidad</a>
+          </div>
       </div>
-    </form>
+    </div>
   );
 };
 
-export default Step2Fecha;
+export default WeeklyCalendar;
