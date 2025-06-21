@@ -1,0 +1,17 @@
+.stepper-scroll {
+  overflow-x: auto;
+  gap: 40px;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+.stepper-scroll > div {
+  min-width: 80px;
+}
+@media (max-width: 600px) {
+  .stepper-scroll {
+    gap: 20px;
+  }
+  .stepper-scroll > div {
+    min-width: 60px;
+  }
+}

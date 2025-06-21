@@ -1,0 +1,313 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  color:#333;
+}
+
+/* Contenedor principal */
+.login-container {
+  min-height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Overlay semi-transparente */
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* Tarjeta de login */
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: rgb(249, 247, 247);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Logo y título */
+.login-logo {
+  margin-bottom: 1.5rem;
+}
+
+.logo-image {
+  width: 180px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.recuperar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap; /* Ensure the title stays on one line */
+}
+
+/* Nueva clase para el subtítulo */
+.recuperar-subtitle {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Formulario */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.form-input:focus {
+  border-color: #4285f4;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+.form-input::placeholder {
+  color: #999;
+  font-size: 0.95rem;
+}
+
+/* Botón de iniciar sesión */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.recuperar-button {
+  background: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.recuperar-button:hover {
+  background: #3367d6;
+}
+
+.recuperar-button:active {
+  transform: translateY(0);
+}
+
+/* Botón de cancelar */
+.cancel-button {
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.cancel-button:hover {
+  background: #d6d6d6;
+}
+
+/* Enlaces de ayuda */
+.login-links {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  flex-direction: column;
+}
+
+.help-link {
+  color: #4285f4;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.help-link:hover {
+  color: #3367d6;
+  text-decoration: underline;
+}
+
+/* Copyright */
+.copyright {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.9rem;
+  z-index: 2;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #4285f4; /* Blue color */
+    text-align: center;
+}
+
+.popup-message {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.popup-button {
+    background: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.popup-button:hover {
+    background: #3367d6;
+}
+
+.popup-check {
+    width: 60px;
+    height: 60px;
+    background-color: #4285f4; /* Blue circle */
+    color: #fff; /* White check */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin: 0 auto 1rem auto; /* Center and add spacing below */
+}
+
+.popup-logo img {
+    width: 250px; /* Further increased size */
+    height: auto;
+    margin: 0 auto 1rem auto; /* Center and add spacing below */
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-card {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+    max-width: none;
+  }
+  
+  .logo-image {
+    width: 150px;
+  }
+  
+  .login-title {
+    font-size: 1.3rem;
+  }
+  
+  .login-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    margin: 0.5rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  .logo-image {
+    width: 130px;
+  }
+  
+  .form-input {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .login-button {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}

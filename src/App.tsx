@@ -1,34 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './features/SectorInicio/PantallaInicioSinLogin'
+import Login from './features/inicioSesion/pages/login/login'
+import MenuComp from './features/vistaMenuPlatos/pages/menu'
+import Reserva from './features/reserva/pages/reserva'
+
+import Nosotros from './features/navegaciónInicial/pages/nosotros/nosotros'
+import Contacto from './features/navegaciónInicial/pages/contacto/contacto'
+import Ambientes from './features/navegaciónInicial/pages/ambientes/ambientes'
+
+import MesaReserva from './features/reserva/pages/mesa/mesa'
+import PedidoReserva from './features/reserva/pages/pedido/pedido'
+import LocalReserva from './features/reserva/pages/local/local'
+import RegistroUsuario from './features/inicioSesion/pages/registroUsuario/registroUsuario'
+
+import RecuperarContrasena from './features/inicioSesion/pages/recuperarContrasena/recuperar'
+import Codigo from './features/inicioSesion/pages/recuperarContrasena/codigo'
+import Cambiar from './features/inicioSesion/pages/recuperarContrasena/cambiar'
+import { UserProvider, useUser } from './features/user/context/UserContext';
+import Header from './features/navegaciónInicial/components/header/header';
+import HeaderLogged from './features/navegaciónInicial/components/header/HeaderLogged';
+
+const AppHeader: React.FC = () => {
+  const { user } = useUser();
+  return user ? <HeaderLogged /> : <Header />;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <UserProvider>
+      <Router>
+        <div>
+          <AppHeader />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/galeria" element={<div>Página Galería</div>} />
+            <Route path="/menus" element={<MenuComp />} />
+            <Route path="/contacto" element={<Contacto/>} />
+            <Route path="/reserva" element={<Reserva />} />
+
+            <Route path="/ambientes" element={<Ambientes />} />
+
+            <Route path="/mesa_reserva" element={<MesaReserva />} />
+            <Route path="/pedido_reserva" element={<PedidoReserva />} />
+            <Route path="/local_reserva" element={<LocalReserva/>} />
+             <Route path="/registroUsuario" element={<RegistroUsuario />} />
+            <Route path="/recuperarContrasena" element={<RecuperarContrasena />} />
+            <Route path="/codigo" element={<Codigo />} />
+            <Route path="/cambiar" element={<Cambiar />} />
+
+          </Routes>
+        </div>
+      </Router>
+    </UserProvider>
   )
 }
 

@@ -1,0 +1,301 @@
+/* Contenedor principal del layout (sin incluir header) */
+.main-container {
+  display: flex;
+  flex-direction: row;
+  /* Deja espacio debajo del header fijo (aprox. 4rem de alto) */
+  padding-top: 6rem;
+  min-height: calc(100vh - 4rem);
+  height: auto; /* Cambio: permite que crezca según contenido */
+  font-family: sans-serif;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Solo oculta overflow horizontal */
+  overflow-y: auto; /* Permite scroll vertical cuando sea necesario */
+  gap: 0;
+}
+
+/* Asegura que sidebar y content se extiendan a full altura */
+.sidebar, .content-section {
+  min-height: 100%;
+}
+
+/* Menú lateral con los días y filtros */
+.sidebar {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 40px;
+  flex-shrink: 0; /* Evita que se comprima */
+}
+
+.sidebar .day-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7d457;
+  color: #FFFFFF;
+  padding: 12px 16px; /* Padding más consistente */
+  border-radius: 6px;
+  margin-bottom: 24px;
+  font-weight: normal;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil */
+}
+
+.sidebar .day-selector button {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  min-width: 36px; /* Ancho mínimo para botones */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar .day-selector button:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.sidebar .day-selector h3 {
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+  flex: 1; /* Centra el título */
+}
+
+/* Opciones del menú */
+.sidebar .menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Gap consistente */
+}
+
+.sidebar .menu-options button {
+  width: 100%;
+  background-color: rgba(85, 85, 85, 0.8); /* Fondo gris semi-transparente */
+  color: white;
+  border: none;
+  padding: 14px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 1.4;
+  border: 2px solid transparent;
+}
+
+/* Estado seleccionado */
+.sidebar .menu-options button.selected {
+  background-color: #f7d457;
+  color: #ffffff;
+  border-color: #f7d457;
+  transform: translateX(2px); /* Ligero desplazamiento visual */
+}
+
+.sidebar .menu-options button.secondary {
+  color: white;
+}
+
+.sidebar .menu-options button:hover {
+  background-color: rgba(102, 102, 102, 0.9);
+  transform: translateX(1px);
+}
+
+.sidebar .menu-options button.selected:hover {
+  background-color: #ffda55;
+  border-color: #ffda55;
+}
+
+/* Sección principal al lado derecho del sidebar */
+.content-section {
+  flex: 1;
+  padding: 21px;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent; /* Fondo transparente para mostrar la imagen */
+  min-width: 0; /* Permite que se comprima cuando sea necesario */
+}
+
+.content-section .menu-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 0;
+  align-items: center; /* Alinea los tabs verticalmente */
+  flex-wrap: wrap; /* Permite que los tabs se envuelvan en pantallas pequeñas */
+}
+
+.content-section .menu-tabs button {
+  background-color: rgba(85, 85, 85, 0.8); /* Fondo gris semi-transparente */
+  padding: 14px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 24px;
+  transition: all 0.3s ease;
+  color: #ffffff; /* Texto blanco */
+  border: 2px solid transparent;
+  line-height: 1.4;
+  white-space: nowrap; /* Evita que el texto se rompa */
+}
+
+.content-section .menu-tabs button.active {
+  background-color: #f7d457;
+  color: #ffffff;
+  border-color: #f7d457;
+  transform: translateY(-1px); /* Ligero levantamiento */
+  box-shadow: 0 2px 8px rgba(247, 212, 87, 0.3);
+}
+
+.content-section .menu-tabs button:hover {
+  background-color: rgba(189, 189, 189, 0.9); /* Hover más claro */
+  transform: translateY(-1px);
+}
+
+.content-section .menu-tabs button.active:hover {
+  background-color: #ffda55;
+  border-color: #ffda55;
+}
+
+/* Espacio reservado para el componente de imagen + descripción + precio */
+.content-section .food-card-placeholder {
+  flex: 1;
+  display: flex;
+  margin-top: 8px;
+  min-height: 300px; /* Altura mínima para evitar que desaparezca */
+}
+
+/* Mejoras adicionales para responsividad */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+    padding-left: 20px;
+  }
+  
+  .sidebar .day-selector h3 {
+    font-size: 20px;
+  }
+  
+  .content-section .menu-tabs button {
+    font-size: 20px;
+    padding: 12px 20px;
+  }
+  
+  .sidebar .menu-options button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    padding-top: 4rem;
+    height: auto;
+    min-height: calc(100vh - 4rem);
+  }
+  
+  .sidebar {
+    width: 100%;
+    padding: 15px 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    min-height: auto;
+  }
+  
+  .sidebar .day-selector {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar .day-selector h3 {
+    font-size: 18px;
+  }
+  
+  .sidebar .menu-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+  }
+  
+  .sidebar .menu-options button {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+  
+  .content-section {
+    padding: 16px;
+    flex: 1;
+  }
+  
+  .content-section .menu-tabs {
+    gap: 8px;
+  }
+  
+  .content-section .menu-tabs button {
+    font-size: 16px;
+    padding: 10px 16px;
+    flex: 1;
+    min-width: 80px;
+  }
+  
+  .content-section .food-card-placeholder {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-container {
+    padding-top: 3rem;
+  }
+  
+  .sidebar {
+    padding: 10px 15px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .sidebar .day-selector {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar .day-selector h3 {
+    font-size: 16px;
+  }
+  
+  .sidebar .menu-options {
+    flex-direction: column;
+  }
+  
+  .sidebar .menu-options button {
+    width: 100%;
+    text-align: left;
+    min-width: auto;
+  }
+  
+  .content-section {
+    padding: 12px;
+  }
+  
+  .content-section .menu-tabs button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .content-section .food-card-placeholder {
+    min-height: 200px;
+  }
+}

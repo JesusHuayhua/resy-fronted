@@ -1,0 +1,8 @@
+.logo-sobrepuesto {
+  position: absolute;
+  top: 25%;           /* Vertical: el porcentaje coloca la imagen centrada verticalmente */
+  left: 10%;            /* Horizotal: el porcentaje coloca la imagen al borde izquierdo de la pantalla */
+  width: 30rem;        /* Tamaño del logo */
+  height: auto;
+  z-index: 10;
+}
