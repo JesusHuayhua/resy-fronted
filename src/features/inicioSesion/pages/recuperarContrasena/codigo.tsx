@@ -1,3 +1,10 @@
+/**
+ * Página para ingresar el código de verificación enviado al usuario para recuperar la contraseña.
+ * Permite validar el código antes de permitir el cambio de contraseña.
+ *
+ * @component
+ */
+
 import { useState } from 'react';
 import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
@@ -7,16 +14,41 @@ import { verificarTokenRecuperacion } from '../../services/verificarTokenRecuper
 
 // Imagenes.
 import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
-import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif'
+import logoImagen from '../../../../assets/imagenesLogin/logo.png';
 
+/**
+ * Props del componente CodigoRecuperacion.
+ * @typedef {Object} CodigoRecuperacionProps
+ * @property {string} email - Correo electrónico del usuario al que se le envió el código.
+ * @property {(codigo: string) => void} onCodigoVerificado - Callback cuando el código es verificado correctamente.
+ */
+
+/**
+ * Componente IntroduceCodigo
+ * Página donde el usuario ingresa el código de verificación recibido por correo para recuperar su contraseña.
+ * Utiliza hooks para manejar el estado del código y la navegación.
+ * No recibe props.
+ *
+ * @returns {JSX.Element} Formulario para ingresar el código de recuperación.
+ */
 function IntroduceCodigo(){
-    // tendremos dos states.
+    /**
+     * Estado para almacenar el código ingresado por el usuario.
+     */
     const [codigo, setCodigo] = useState("");
+    /**
+     * Hook de navegación de React Router.
+     */
     const navigate = useNavigate();
 
 
     // Manejan el estado de los textos.
     // Declararle lo del React.ChangeEvent pa que no se loquee.
+    /**
+     * Maneja el envío del formulario de código de verificación.
+     * Llama al servicio para verificar el código y navega según el resultado.
+     * @param {React.FormEvent<HTMLFormElement>} e - Evento de envío del formulario.
+     */
 const handleAceptar = async (e: React.FormEvent) => {
         e.preventDefault();
         const correo = localStorage.getItem('recuperarCorreo') || '';
@@ -27,15 +59,29 @@ const handleAceptar = async (e: React.FormEvent) => {
             alert('Código incorrecto o expirado.');
         }
     };
-
+    /**
+     * Actualiza el estado del código cuando el usuario escribe en el input.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Evento de cambio del input.
+     */
     const handleCodigo = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCodigo(e.target.value);
     }
-
+    /**
+     * Navega de regreso a la página de login si el usuario cancela.
+     */
     const handleCancelar = () => {
         navigate('/login'); // Navigate back to the login page
     };
 
+
+    /**
+     * Hook para manejar efectos secundarios relacionados con el código de verificación.
+     */
+
+    /**
+     * Renderiza el formulario de ingreso de código de verificación.
+     * @returns {JSX.Element} Elemento JSX del formulario.
+     */
 
     return (
             <div
@@ -80,4 +126,7 @@ const handleAceptar = async (e: React.FormEvent) => {
 
 }
 
+/**
+ * Exporta el componente IntroduceCodigo como default.
+ */
 export default IntroduceCodigo;
