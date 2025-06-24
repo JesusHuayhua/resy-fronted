@@ -10,12 +10,6 @@ import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
 import { verificarTokenRecuperacion } from '../../services/verificarTokenRecuperacionService';
 
-//
-
-// Imagenes.
-import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
-import logoImagen from '../../../../assets/imagenesLogin/logo.png';
-
 /**
  * Props del componente CodigoRecuperacion.
  * @typedef {Object} CodigoRecuperacionProps
@@ -86,10 +80,11 @@ const handleAceptar = async (e: React.FormEvent) => {
     return (
             <div
                 className='login-container'
-                style={ {backgroundImage: `url(${mesaImagen})` }}>
+                // style={ {backgroundImage: `url(${mesaImagen})` }}
+            >
                 <div className='login-card'>
                     <div className='login-logo'>
-                        <img className='logo-image' src={logoImagen} />
+                        {/* <img className='logo-image' src={logoImagen} /> */}
                     </div>
                     <h1 className='recuperar-title'>INTRODUCE CODIGO</h1>
                     <p className='recuperar-subtitle'>Compruebe si has recibido en el correo electrónico un mensaje con tu código</p>
