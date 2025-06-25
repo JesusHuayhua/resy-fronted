@@ -58,7 +58,7 @@ export function AdminLayout(){
                     </ul>
                 </div>
             </div>
-            <main>
+            <main className="admin-main-content">
                 <Outlet />
             </main>
         </>

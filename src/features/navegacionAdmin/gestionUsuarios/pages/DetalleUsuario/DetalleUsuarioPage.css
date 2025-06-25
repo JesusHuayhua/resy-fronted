@@ -1,0 +1,36 @@
+.detalle-usuario-container {
+  padding: 32px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.detalle-usuario-title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 24px;
+}
+
+.detalle-usuario-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px;
+  box-shadow: 0 2px 8px #0001;
+}
+
+.detalle-usuario-placeholder {
+  color: #888;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .detalle-usuario-container {
+    padding: 10px;
+  }
+  .detalle-usuario-content {
+    padding: 16px;
+  }
+  .detalle-usuario-title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+}

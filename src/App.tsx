@@ -23,6 +23,8 @@ import { AdminLayout } from './layouts/adminLayout'
 import '@fontsource/inter/400.css'
 import HomeAdmin from './features/navegacionAdmin/gestionDePlatos/pages/HomeAdmin'
 import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/GestionarPlatos'
+import UsuariosPage from './features/navegacionAdmin/gestionUsuarios/pages/Usuarios/UsuariosPage'
+
 
 
 
@@ -57,7 +59,7 @@ function App() {
                 <Route index element= {<HomeAdmin />} />
                 <Route path="reservas" element={<div>Pagina reservas</div>} />
                 <Route path="alimentos" element={<GestionarPlatos />} />
-                <Route path="usuarios" element={<div>Pagina usuarios</div>} />
+                <Route path="usuarios" element={<UsuariosPage />} />
                 <Route path="log_out" element={<div>Pagina log_out</div>} />
               </Route>
               
