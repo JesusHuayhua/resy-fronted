@@ -21,7 +21,8 @@ import { UsuarioLayout } from './layouts/usuarioLayout'
 import { AdminLayout } from './layouts/adminLayout'
 
 import '@fontsource/inter/400.css'
-import HomeAdmin from './features/navegacionAdmin/pages/HomeAdmin'
+import HomeAdmin from './features/navegacionAdmin/gestionDePlatos/pages/HomeAdmin'
+import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/GestionarPlatos'
 
 
 
@@ -55,7 +56,7 @@ function App() {
               <Route path='/admin' element={<AdminLayout />}>
                 <Route index element= {<HomeAdmin />} />
                 <Route path="reservas" element={<div>Pagina reservas</div>} />
-                <Route path="alimentos" element={<div>Pagina  alimentos</div>} />
+                <Route path="alimentos" element={<GestionarPlatos />} />
                 <Route path="usuarios" element={<div>Pagina usuarios</div>} />
                 <Route path="log_out" element={<div>Pagina log_out</div>} />
               </Route>

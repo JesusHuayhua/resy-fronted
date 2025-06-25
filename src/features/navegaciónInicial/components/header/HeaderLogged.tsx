@@ -270,9 +270,11 @@ const HeaderLogged: React.FC = () => {
               }
               <button style={styles.dropdownBtn} onClick={
                 e => {
-                  // e.stopPropagation(); No es necesario este stopPropagation. A menos que se navegue de la misma pagina.
+                  e.stopPropagation()
                   window.location.href = '/admin'; 
+                  user?.DataUsuario.Rol === 1 ?  window.location.href = '/admin' : window.location.href = '/usuario'; 
                   }
+                  
                 }>
                 {
                   user?.DataUsuario.Rol === 1 ? <text>MODO ADMINISTRADOR</text> : <text>PERFIL</text>
