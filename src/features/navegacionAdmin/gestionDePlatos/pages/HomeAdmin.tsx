@@ -1,4 +1,4 @@
-import { useUser } from "../../user/context/UserContext";
+import { useUser } from "../../../user/context/UserContext";
 
 function HomeAdmin(){
     const { user } = useUser()

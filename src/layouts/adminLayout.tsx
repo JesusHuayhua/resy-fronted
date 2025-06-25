@@ -13,7 +13,7 @@ export function AdminLayout(){
         <>
             <div className="admin-sidebar">
                 <div className="admin-sidebar-header">
-                    <Link to="/admin">
+                    <Link to="/">
                         <img className="admin-logo-image" src={logo} alt="Salar Verde Logo" />
                     </Link>
                 </div>
