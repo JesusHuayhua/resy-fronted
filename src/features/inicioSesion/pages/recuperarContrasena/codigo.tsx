@@ -10,6 +10,15 @@ import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
 import { verificarTokenRecuperacion } from '../../services/verificarTokenRecuperacionService';
 
+<<<<<<< Updated upstream
+=======
+//
+
+// Imagenes.
+import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
+import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif';
+
+>>>>>>> Stashed changes
 /**
  * Props del componente CodigoRecuperacion.
  * @typedef {Object} CodigoRecuperacionProps
