@@ -4,19 +4,22 @@ import ModalCrearUsuario from "../../components/modalCrearUsuario/ModalCrearUsua
 import "./UsuariosPage.css";
 import { obtenerUsuarios } from "../../services/obtenerUsuarios";
 import { Usuario } from "../../services/clases/classUsuario";
+import { obtenerRoles } from "../../services/obtenerRoles";
+import { Rol } from "../../services/clases/classRol";
 
-const roles = ["TODOS", "Cajero", "Cliente", "Admin"];
 const estados = ["TODOS", "Activo", "Inactivo"];
 const PAGE_SIZE = 10;
 
 const UsuariosPage: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
+  const [roles, setRoles] = useState<Rol[]>([]);
   const [filtroRol, setFiltroRol] = useState("TODOS");
   const [filtroEstado, setFiltroEstado] = useState("TODOS");
   const [busqueda, setBusqueda] = useState("");
   const [pagina, setPagina] = useState(1);
   const [showModal, setShowModal] = useState(false);
+  const [reload, setReload] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +27,8 @@ const UsuariosPage: React.FC = () => {
     obtenerUsuarios()
       .then(setUsuarios)
       .finally(() => setLoading(false));
-  }, []);
+    obtenerRoles().then(setRoles);
+  }, [reload]);
 
   // Filtrado simple
   const usuariosFiltrados = usuarios.filter(u =>
@@ -46,7 +50,10 @@ const UsuariosPage: React.FC = () => {
       <h1 className="usuarios-title">GESTIÓN DE USUARIOS</h1>
       <div className="usuarios-filtros">
         <select value={filtroRol} onChange={e => setFiltroRol(e.target.value)}>
-          {roles.map(r => <option key={r} value={r}>{r}</option>)}
+          <option value="TODOS">TODOS</option>
+          {roles.map(r => (
+            <option key={r.getId()} value={r.getNombre()}>{r.getNombre()}</option>
+          ))}
         </select>
         <select value={filtroEstado} onChange={e => setFiltroEstado(e.target.value)}>
           {estados.map(e => <option key={e} value={e}>{e}</option>)}
@@ -106,7 +113,12 @@ const UsuariosPage: React.FC = () => {
         <button disabled={pagina === totalPaginas} onClick={() => setPagina(p => Math.min(totalPaginas, p + 1))}>{'>'}</button>
         <button disabled={pagina === totalPaginas} onClick={() => setPagina(totalPaginas)}>{'>|'}</button>
       </div>
-      <ModalCrearUsuario open={showModal} onClose={() => setShowModal(false)} />
+      <ModalCrearUsuario
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        roles={roles}
+        onUsuarioCreado={() => setReload(r => r + 1)}
+      />
     </div>
   );
 };
