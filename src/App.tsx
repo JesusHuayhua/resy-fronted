@@ -20,7 +20,10 @@ import { UserProvider } from './features/user/context/UserContext';
 import { UsuarioLayout } from './layouts/usuarioLayout'
 import { AdminLayout } from './layouts/adminLayout'
 
+// Fuentes
 import '@fontsource/inter/400.css'
+import '@fontsource/alegreya/400.css'
+
 import HomeAdmin from './features/navegacionAdmin/gestionDePlatos/pages/HomeAdmin'
 import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/GestionarPlatos'
 

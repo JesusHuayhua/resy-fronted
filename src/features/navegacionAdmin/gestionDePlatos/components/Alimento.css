@@ -1,0 +1,297 @@
+/* ===== COMPONENTE ALIMENTO - TARJETA INDIVIDUAL ===== */
+
+/* Cada tarjeta individual de alimento */
+.food-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Cambiado: altura fija más pequeña en lugar de auto */
+  height: 200px; /* Altura fija para evitar tarjetas demasiado altas */
+  width: 100%;
+  max-width: 280px;
+}
+
+/* Efecto hover para mejor interactividad */
+.food-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== SECCIÓN DE IMAGEN ===== */
+
+/* Contenedor de la imagen del plato */
+.food-image-container {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  flex-shrink: 0; /* Mantiene el tamaño fijo de la imagen */
+}
+
+/* La imagen del plato */
+.food-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Efecto zoom sutil en hover */
+.food-card:hover .food-image {
+  transform: scale(1.05);
+}
+
+/* ===== INFORMACIÓN DEL PLATO ===== */
+
+/* Contenedor de toda la información textual */
+.food-info {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  justify-content: space-between; /* Distribuye el contenido */
+}
+
+/* Nombre del plato */
+.food-name {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Inter';
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+  /* Cambiado: altura mínima más pequeña */
+  min-height: 40px; /* Ajustado para 2 líneas máximo */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Contenedor del precio y disponibilidad */
+.food-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 100px;
+}
+
+/* Precio del plato */
+.food-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+/* CORREGIDO: Información de disponibilidad */
+.food-availability {
+  font-size: 12px;
+  color: #6c757d;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.2;
+}
+
+/* NUEVO: Contenedor para el dot y el número */
+.availability-count {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Espacio entre el dot y el número */
+  font-weight: 500;
+  color: #495057;
+  font-family: 'Inter';
+}
+
+.availability-text {
+  margin-top: 2px;
+  color: #6c757d;
+  font-family: 'Inter';
+}
+
+/* CORREGIDO: Punto indicador de disponibilidad */
+.availability-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0; /* Removido el margen, ahora se controla con gap */
+  flex-shrink: 0; /* No se encoge */
+}
+
+.availability-dot.disponible {
+  background-color: #62C525;
+}
+
+.availability-dot.limitado {
+  background-color: #ffc107;
+}
+
+.availability-dot.agotado {
+  background-color: #dc3545;
+}
+
+/* ===== BOTONES DE ESTADO ===== */
+
+/* Contenedor del botón de estado */
+.food-status {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bolder;
+  font-family: 'Inter';
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  /* Cambiado: removido margin-top: auto ya que ahora controlamos con justify-content */
+}
+
+/* Estado: Disponible */
+.food-status.status-disponible {
+  background-color: #62C525;
+  color: white;
+}
+
+.food-status.status-disponible:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+/* Estado: Limitado */
+.food-status.status-limitado {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.food-status.status-limitado:hover {
+  background-color: #e0a800;
+  transform: translateY(-1px);
+}
+
+/* Estado: Agotado */
+.food-status.status-agotado {
+  background-color: #F72A2A;
+  color: white;
+  cursor: not-allowed;
+}
+
+.food-status.status-agotado:hover {
+  background-color: #c82333;
+}
+
+/* ===== ESTADOS ESPECIALES DE LA TARJETA ===== */
+
+/* Tarjeta cuando el plato está agotado */
+.food-card.agotado {
+  opacity: 0.7;
+}
+
+.food-card.agotado .food-image {
+  filter: grayscale(30%);
+}
+
+/* CORREGIDO: Tarjeta cuando el plato tiene stock limitado */
+.food-card.limitado::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  background-color: #ffc107;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Para tablets */
+@media (max-width: 992px) {
+  .food-card {
+    height: 300px; /* Altura reducida para tablets */
+  }
+  
+  .food-image-container {
+    height: 140px;
+  }
+  
+  .food-name {
+    font-size: 15px;
+    min-height: 36px;
+  }
+  
+  .food-price {
+    font-size: 16px;
+  }
+}
+
+/* Para móviles */
+@media (max-width: 768px) {
+  .food-card {
+    height: 280px; /* Altura reducida para móviles */
+  }
+  
+  .food-image-container {
+    height: 130px;
+  }
+  
+  .food-name {
+    font-size: 14px;
+    min-height: 32px;
+  }
+  
+  .food-price {
+    font-size: 15px;
+  }
+  
+  .food-availability {
+    font-size: 11px;
+  }
+}
+
+/* Para móviles muy pequeños */
+@media (max-width: 480px) {
+  .food-card {
+    height: 260px; /* Altura más compacta */
+  }
+  
+  .food-image-container {
+    height: 120px;
+  }
+  
+  .food-info {
+    padding: 12px;
+  }
+  
+  .food-status {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .food-name {
+    font-size: 13px;
+    margin-bottom: 8px;
+    min-height: 28px;
+  }
+  
+  .food-price {
+    font-size: 14px;
+  }
+  
+  .food-availability {
+    font-size: 10px;
+  }
+}
