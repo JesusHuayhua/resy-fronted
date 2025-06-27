@@ -99,33 +99,67 @@
 .detalle-usuario-info-fields {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px; /* Reducido para menor separación vertical */
 }
 
 .detalle-usuario-info-row {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 2px;
+  gap: 10px; /* Menor separación horizontal */
+  margin-bottom: 0; /* Sin margen inferior extra */
+  min-height: 30px; /* Más compacto */
 }
 .detalle-usuario-info-row label {
-  flex: 0 0 120px;
+  flex: 0 0 180px; /* Aumenta el ancho mínimo para evitar saltos de línea */
   font-weight: 500;
   color: #222;
+  white-space: nowrap; /* Evita salto de línea en los labels */
 }
 .detalle-usuario-info-row input,
 .detalle-usuario-info-row select {
-  flex: 1 1 0;
-  padding: 7px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
   font-size: 1rem;
-  background: #f5f5f5;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+.detalle-usuario-info-row input[type="date"] {
+  background: #fff;
 }
 .detalle-usuario-info-row input[type="checkbox"] {
   width: 22px;
   height: 22px;
   margin-left: 0;
+}
+
+.detalle-usuario-label {
+  font-weight: bold;
+  color: #222;
+}
+
+.detalle-usuario-input {
+  flex: 1 1 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #f5f5f5;
+  min-height: 36px;
+  display: flex;  
+  align-items: center;
+}
+.detalle-usuario-input,
+.detalle-usuario-input-readonly {
+  min-height: 28px; /* Más compacto */
+  padding: 4px 8px;
+}
+
+.detalle-usuario-input-readonly {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  color: #222;
+  pointer-events: none;
+  user-select: text;
 }
 
 .detalle-usuario-estado-activo {
@@ -235,14 +269,19 @@
   .detalle-usuario-avatar-col {
     justify-content: flex-start;
   }
+  .detalle-usuario-info-row label {
+    flex: 0 0 140px; /* Ajuste para pantallas medianas */
+    font-size: 0.98rem;
+  }
 }
+
 @media (max-width: 600px) {
   .detalle-usuario-title {
     font-size: 1.2rem;
     margin-bottom: 12px;
   }
   .detalle-usuario-info-row label {
-    flex: 0 0 80px;
+    flex: 0 0 110px; /* Ajuste para móviles */
     font-size: 0.95rem;
   }
   .detalle-usuario-reserva-card {

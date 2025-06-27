@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./DetalleUsuarioPage.css";
-import { FaArrowLeft, FaEdit, FaSave } from "react-icons/fa";
+import { FaArrowLeft, FaEdit, FaSave, FaTimes } from "react-icons/fa";
+import { Usuario } from "../../services/clases/classUsuario";
+import axios from "axios";
 
 const AVATAR_URL = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
@@ -9,8 +11,53 @@ const DetalleUsuarioPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // Aquí podrías obtener el usuario por ID cuando el API esté listo
-  // Por ahora solo muestra la estructura vacía
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [editMode, setEditMode] = useState(false);
+  const [form, setForm] = useState({
+    Nombres: "",
+    Apellidos: "",
+    Correo: "",
+    Telefono: "",
+    Direccion: "",
+    FechaNacimiento: "",
+    Rol: 3,
+    EstadoAcceso: true,
+  });
+
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    axios
+      .get(`http://localhost:8080/usuarios?id_usuario=${id}`)
+      .then(res => {
+        if (Array.isArray(res.data) && res.data.length > 0) {
+          const u = res.data[0];
+          setUsuario(new Usuario(u.IdUsuario, u.DataUsuario));
+          setForm({ ...u.DataUsuario });
+        }
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  const handleEdit = () => setEditMode(true);
+  const handleCancel = () => {
+    if (usuario) setForm({ ...usuario.DataUsuario });
+    setEditMode(false);
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const { name, value, type } = target;
+    setForm(f => ({
+      ...f,
+      [name]: type === "checkbox" ? (target as HTMLInputElement).checked : value,
+    }));
+  };
+  const handleSave = () => {
+    // Aquí iría la llamada al API para guardar cambios
+    setEditMode(false);
+    // Actualizaría el usuario con el API
+  };
 
   return (
     <div className="detalle-usuario-container">
@@ -26,42 +73,157 @@ const DetalleUsuarioPage: React.FC = () => {
         </div>
         <div className="detalle-usuario-info-col">
           <div className="detalle-usuario-info-header">
-            <button className="detalle-usuario-edit-btn" title="Editar">
-              <FaEdit />
-            </button>
+            {!editMode ? (
+              <button className="detalle-usuario-edit-btn" title="Editar" onClick={handleEdit}>
+                <FaEdit />
+              </button>
+            ) : (
+              <>
+                <button className="detalle-usuario-save-btn" title="Guardar" onClick={handleSave}>
+                  <FaSave />
+                </button>
+                <button className="detalle-usuario-cancel-btn" title="Cancelar" onClick={handleCancel}>
+                  <FaTimes />
+                </button>
+              </>
+            )}
           </div>
           <div className="detalle-usuario-info-fields">
             <div className="detalle-usuario-info-row">
-              <label>Nombres</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Nombres</b></label>
+              {editMode ? (
+                <input
+                  name="Nombres"
+                  value={form.Nombres}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                />
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">{loading ? "-" : usuario?.DataUsuario.Nombres || "-"}</span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Apellidos</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Apellidos</b></label>
+              {editMode ? (
+                <input
+                  name="Apellidos"
+                  value={form.Apellidos}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                />
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">{loading ? "-" : usuario?.DataUsuario.Apellidos || "-"}</span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Correo Electronico</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Correo Electronico</b></label>
+              {editMode ? (
+                <input
+                  name="Correo"
+                  value={form.Correo}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                />
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">{loading ? "-" : usuario?.DataUsuario.Correo || "-"}</span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Rol</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Rol</b></label>
+              {editMode && usuario?.DataUsuario.Rol !== 3 ? (
+                <select
+                  name="Rol"
+                  value={form.Rol}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                >
+                  <option value={1}>Admin</option>
+                  <option value={2}>Cajero</option>
+                </select>
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">{loading ? "-" : usuario?.getRol() || "-"}</span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Telefono</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Telefono</b></label>
+              {editMode ? (
+                <input
+                  name="Telefono"
+                  value={form.Telefono}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                />
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">{loading ? "-" : usuario?.DataUsuario.Telefono || "-"}</span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Creado</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Dirección</b></label>
+              {editMode ? (
+                <input
+                  name="Direccion"
+                  value={form.Direccion}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                />
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">{loading ? "-" : usuario?.DataUsuario.Direccion || "-"}</span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Estado</label>
-              <span>-</span>
+              <label className="detalle-usuario-label"><b>Fecha Nacimiento</b></label>
+              {editMode ? (
+                <input
+                  name="FechaNacimiento"
+                  type="date"
+                  value={form.FechaNacimiento ? form.FechaNacimiento.slice(0, 10) : ""}
+                  onChange={handleChange}
+                  className="detalle-usuario-input"
+                />
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">
+                  {loading
+                    ? "-"
+                    : usuario?.DataUsuario.FechaNacimiento
+                      ? new Date(usuario.DataUsuario.FechaNacimiento).toLocaleDateString()
+                      : "-"}
+                </span>
+              )}
             </div>
             <div className="detalle-usuario-info-row">
-              <label>Identificador</label>
-              <span>{id || "-"}</span>
+              <label className="detalle-usuario-label"><b>Estado</b></label>
+              {editMode ? (
+                <div className="modal-crear-usuario-switch" style={{ marginLeft: 0 }}>
+                  <input
+                    type="checkbox"
+                    id="estado"
+                    name="EstadoAcceso"
+                    checked={form.EstadoAcceso}
+                    onChange={handleChange}
+                    style={{ display: "none" }}
+                  />
+                  <span
+                    className="modal-crear-usuario-slider"
+                    onClick={() => setForm(f => ({ ...f, EstadoAcceso: !f.EstadoAcceso }))}
+                    style={{ display: "inline-block", verticalAlign: "middle", marginRight: 8 }}
+                  ></span>
+                  <span className="modal-crear-usuario-estado-label">
+                    {form.EstadoAcceso ? "Activo" : "Inactivo"}
+                  </span>
+                </div>
+              ) : (
+                <span className="detalle-usuario-input detalle-usuario-input-readonly">
+                  {loading ? "-" : usuario?.getEstado() || "-"}
+                </span>
+              )}
+            </div>
+            <div className="detalle-usuario-info-row">
+              <label className="detalle-usuario-label"><b>Creado</b></label>
+              <span className="detalle-usuario-input detalle-usuario-input-readonly">-</span>
+            </div>
+            <div className="detalle-usuario-info-row">
+              <label className="detalle-usuario-label"><b>Identificador</b></label>
+              <span className="detalle-usuario-input detalle-usuario-input-readonly">{id || "-"}</span>
             </div>
           </div>
         </div>
