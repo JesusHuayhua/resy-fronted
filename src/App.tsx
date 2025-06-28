@@ -25,6 +25,7 @@ import HomeAdmin from './features/navegacionAdmin/gestionDePlatos/pages/HomeAdmi
 import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/GestionarPlatos'
 import UsuariosPage from './features/navegacionAdmin/gestionUsuarios/pages/Usuarios/UsuariosPage'
 import DetalleUsuarioPage from './features/navegacionAdmin/gestionUsuarios/pages/DetalleUsuario/DetalleUsuarioPage'
+import CalendarioReservas from "./features/navegacionAdmin/gestionReservas/pages/CalendarioReservas";
 
 
 
@@ -58,7 +59,7 @@ function App() {
               {/* Paginas del admin */}
               <Route path='/admin' element={<AdminLayout />}>
                 <Route index element= {<HomeAdmin />} />
-                <Route path="reservas" element={<div>Pagina reservas</div>} />
+                <Route path="reservas" element={< CalendarioReservas/>} />
                 <Route path="alimentos" element={<GestionarPlatos />} />
                 <Route path="usuarios" element={<UsuariosPage />} />
                 <Route path="usuarios/:id" element={<DetalleUsuarioPage />} />
