@@ -1,0 +1,293 @@
+.detalle-usuario-container {
+  padding: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.detalle-usuario-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.detalle-usuario-back-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #1976d2;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: color 0.2s;
+}
+.detalle-usuario-back-btn:hover {
+  color: #0c4284;
+}
+
+.detalle-usuario-title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0;
+  flex: 1;
+}
+
+.detalle-usuario-info-card {
+  display: flex;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0001;
+  padding: 32px 24px;
+  margin-bottom: 32px;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.detalle-usuario-avatar-col {
+  flex: 0 0 140px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.detalle-usuario-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e3e3e3;
+  background: #f5f5f5;
+}
+
+.detalle-usuario-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.detalle-usuario-info-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.detalle-usuario-edit-btn,
+.detalle-usuario-save-btn,
+.detalle-usuario-cancel-btn {
+  background: #f5f5f5;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #1976d2;
+  transition: background 0.2s, color 0.2s;
+}
+.detalle-usuario-edit-btn:hover,
+.detalle-usuario-save-btn:hover {
+  background: #1976d2;
+  color: #fff;
+}
+.detalle-usuario-cancel-btn {
+  color: #f44336;
+}
+.detalle-usuario-cancel-btn:hover {
+  background: #f44336;
+  color: #fff;
+}
+
+.detalle-usuario-info-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* Reducido para menor separación vertical */
+}
+
+.detalle-usuario-info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Menor separación horizontal */
+  margin-bottom: 0; /* Sin margen inferior extra */
+  min-height: 30px; /* Más compacto */
+}
+.detalle-usuario-info-row label {
+  flex: 0 0 180px; /* Aumenta el ancho mínimo para evitar saltos de línea */
+  font-weight: 500;
+  color: #222;
+  white-space: nowrap; /* Evita salto de línea en los labels */
+}
+.detalle-usuario-info-row input,
+.detalle-usuario-info-row select {
+  font-size: 1rem;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+.detalle-usuario-info-row input[type="date"] {
+  background: #fff;
+}
+.detalle-usuario-info-row input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin-left: 0;
+}
+
+.detalle-usuario-label {
+  font-weight: bold;
+  color: #222;
+}
+
+.detalle-usuario-input {
+  flex: 1 1 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #f5f5f5;
+  min-height: 36px;
+  display: flex;  
+  align-items: center;
+}
+.detalle-usuario-input,
+.detalle-usuario-input-readonly {
+  min-height: 28px; /* Más compacto */
+  padding: 4px 8px;
+}
+
+.detalle-usuario-input-readonly {
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  color: #222;
+  pointer-events: none;
+  user-select: text;
+}
+
+.detalle-usuario-estado-activo {
+  color: #4caf50;
+  font-weight: 600;
+}
+.detalle-usuario-estado-inactivo {
+  color: #f44336;
+  font-weight: 600;
+}
+
+/* Reservas */
+.detalle-usuario-reservas-section {
+  margin-top: 18px;
+}
+
+.detalle-usuario-reservas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.detalle-usuario-reservas-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.detalle-usuario-reservas-filtro {
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.detalle-usuario-reservas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.detalle-usuario-reservas-empty {
+  color: #888;
+  font-size: 1.1rem;
+  padding: 32px 0;
+  text-align: center;
+}
+
+.detalle-usuario-reserva-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+  padding: 18px 18px 12px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  font-size: 1.05rem;
+  position: relative;
+}
+
+.detalle-usuario-reserva-id {
+  font-weight: 700;
+  margin-right: 18px;
+}
+.detalle-usuario-reserva-fecha {
+  font-size: 1.1rem;
+  margin-right: 18px;
+}
+.detalle-usuario-reserva-mesa {
+  margin-right: 18px;
+}
+.detalle-usuario-reserva-hora {
+  margin-right: 18px;
+}
+.detalle-usuario-reserva-personas {
+  margin-right: 18px;
+}
+.detalle-usuario-reserva-estado {
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-size: 1rem;
+  text-align: center;
+  min-width: 110px;
+  margin-left: auto;
+}
+.detalle-usuario-reserva-estado-pendiente {
+  background: #e0e0e0;
+  color: #333;
+}
+.detalle-usuario-reserva-estado-completado {
+  background: #4caf50;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .detalle-usuario-container {
+    padding: 12px;
+  }
+  .detalle-usuario-info-card {
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px 8px;
+  }
+  .detalle-usuario-avatar-col {
+    justify-content: flex-start;
+  }
+  .detalle-usuario-info-row label {
+    flex: 0 0 140px; /* Ajuste para pantallas medianas */
+    font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .detalle-usuario-title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+  .detalle-usuario-info-row label {
+    flex: 0 0 110px; /* Ajuste para móviles */
+    font-size: 0.95rem;
+  }
+  .detalle-usuario-reserva-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.98rem;
+  }
+}

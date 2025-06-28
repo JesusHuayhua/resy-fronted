@@ -241,3 +241,15 @@
     box-sizing: border-box;
   }
 }
+
+/* adminLayout.css */
+.admin-main-content {
+  margin-left: 12%; /* Igual al ancho del sidebar */
+  transition: margin-left 0.3s;
+}
+
+@media (max-width: 768px) {
+  .admin-main-content {
+    margin-left: 280px; /* Igual al ancho del sidebar en móvil, no es responsive (falta) */
+  }
+}
