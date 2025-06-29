@@ -4,6 +4,7 @@ import "./DetalleUsuarioPage.css";
 import { FaArrowLeft, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import { Usuario } from "../../services/clases/classUsuario";
 import axios from "axios";
+import { modificarUsuario } from "../../services/modificarUsuarioService";
 
 const AVATAR_URL = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
@@ -53,10 +54,57 @@ const DetalleUsuarioPage: React.FC = () => {
       [name]: type === "checkbox" ? (target as HTMLInputElement).checked : value,
     }));
   };
-  const handleSave = () => {
-    // Aquí iría la llamada al API para guardar cambios
-    setEditMode(false);
-    // Actualizaría el usuario con el API
+  const handleSave = async () => {
+    if (!usuario) return;
+    try {
+      // Formatea la fecha a yyyy-mm-dd
+      const fecha = form.FechaNacimiento
+        ? (() => {
+            const d = new Date(form.FechaNacimiento);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+          })()
+        : "";
+
+      const payload = {
+        id: usuario.IdUsuario,
+        nombres: form.Nombres,
+        apellidos: form.Apellidos,
+        correo: form.Correo,
+        telefono: form.Telefono,
+        direccion: form.Direccion,
+        fechanacimiento: fecha,
+        contrasenia: usuario.DataUsuario.Contrasenia,
+        rol: Number(form.Rol),
+        estadoacceso: Boolean(form.EstadoAcceso),
+      };
+
+      console.log("JSON enviado al backend:", JSON.stringify(payload, null, 2));
+      const response = await modificarUsuario(payload);
+      if (response.status === 1) {
+        setUsuario(
+          new Usuario(usuario.IdUsuario, {
+            ...usuario.DataUsuario,
+            Nombres: form.Nombres,
+            Apellidos: form.Apellidos,
+            Correo: form.Correo,
+            Telefono: form.Telefono,
+            Direccion: form.Direccion,
+            FechaNacimiento: form.FechaNacimiento,
+            Rol: Number(form.Rol),
+            EstadoAcceso: Boolean(form.EstadoAcceso),
+            Contrasenia: usuario.DataUsuario.Contrasenia,
+          })
+        );
+        setEditMode(false);
+      } else {
+        alert("No se pudo actualizar el usuario.");
+      }
+    } catch (error) {
+      alert("Error al actualizar el usuario.");
+    }
   };
 
   return (
@@ -194,22 +242,20 @@ const DetalleUsuarioPage: React.FC = () => {
               <label className="detalle-usuario-label"><b>Estado</b></label>
               {editMode ? (
                 <div className="modal-crear-usuario-switch" style={{ marginLeft: 0 }}>
-                  <input
-                    type="checkbox"
-                    id="estado"
-                    name="EstadoAcceso"
-                    checked={form.EstadoAcceso}
-                    onChange={handleChange}
-                    style={{ display: "none" }}
-                  />
-                  <span
-                    className="modal-crear-usuario-slider"
-                    onClick={() => setForm(f => ({ ...f, EstadoAcceso: !f.EstadoAcceso }))}
-                    style={{ display: "inline-block", verticalAlign: "middle", marginRight: 8 }}
-                  ></span>
-                  <span className="modal-crear-usuario-estado-label">
-                    {form.EstadoAcceso ? "Activo" : "Inactivo"}
-                  </span>
+                  <label style={{ display: "flex", alignItems: "center", gap: 12, margin: 0, position: "relative" }}>
+                    <input
+                      type="checkbox"
+                      id="estado"
+                      name="EstadoAcceso"
+                      checked={form.EstadoAcceso}
+                      onChange={handleChange}
+                      className="modal-crear-usuario-checkbox"
+                    />
+                    <span className="modal-crear-usuario-slider"></span>
+                    <span className="modal-crear-usuario-estado-label">
+                      {form.EstadoAcceso ? "Activo" : "Inactivo"}
+                    </span>
+                  </label>
                 </div>
               ) : (
                 <span className="detalle-usuario-input detalle-usuario-input-readonly">
@@ -245,5 +291,7 @@ const DetalleUsuarioPage: React.FC = () => {
     </div>
   );
 };
+
+
 
 export default DetalleUsuarioPage;

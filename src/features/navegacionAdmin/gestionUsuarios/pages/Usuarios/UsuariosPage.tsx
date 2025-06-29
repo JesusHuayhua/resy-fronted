@@ -14,6 +14,7 @@ const UsuariosPage: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [loading, setLoading] = useState(true);
   const [roles, setRoles] = useState<Rol[]>([]);
+  const [rolesError, setRolesError] = useState<string | null>(null);
   const [filtroRol, setFiltroRol] = useState("TODOS");
   const [filtroEstado, setFiltroEstado] = useState("TODOS");
   const [busqueda, setBusqueda] = useState("");
@@ -24,10 +25,19 @@ const UsuariosPage: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    obtenerUsuarios()
-      .then(setUsuarios)
+    setRolesError(null);
+    Promise.all([
+      obtenerUsuarios(),
+      obtenerRoles().catch(() => {
+        setRolesError("No se pudieron cargar los roles.");
+        return [];
+      })
+    ])
+      .then(([usuariosData, rolesData]) => {
+        setUsuarios(usuariosData);
+        setRoles(rolesData);
+      })
       .finally(() => setLoading(false));
-    obtenerRoles().then(setRoles);
   }, [reload]);
 
   // Filtrado simple
@@ -48,6 +58,9 @@ const UsuariosPage: React.FC = () => {
   return (
     <div className="usuarios-container">
       <h1 className="usuarios-title">GESTIÓN DE USUARIOS</h1>
+      {rolesError && (
+        <div style={{ color: "red", marginBottom: 12 }}>{rolesError}</div>
+      )}
       <div className="usuarios-filtros">
         <select value={filtroRol} onChange={e => setFiltroRol(e.target.value)}>
           <option value="TODOS">TODOS</option>

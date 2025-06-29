@@ -256,6 +256,73 @@
   color: #fff;
 }
 
+/* Switch para estado en modal */
+.modal-crear-usuario-switch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 120px;
+}
+
+.modal-crear-usuario-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 48px;
+  height: 28px;
+  cursor: pointer;
+  margin: 0;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.modal-crear-usuario-slider {
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+  background: #4caf50;
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-right: 0;
+  vertical-align: middle;
+  z-index: 1;
+}
+
+.modal-crear-usuario-slider::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.modal-crear-usuario-checkbox:not(:checked) + .modal-crear-usuario-slider {
+  background: #ccc;
+}
+
+.modal-crear-usuario-checkbox:not(:checked) + .modal-crear-usuario-slider::before {
+  transform: translateX(0);
+}
+
+.modal-crear-usuario-checkbox:checked + .modal-crear-usuario-slider::before {
+  transform: translateX(20px);
+}
+
+.modal-crear-usuario-estado-label {
+  font-weight: 500;
+  min-width: 60px;
+  color: #222;
+  margin-left: 0;
+  position: static;
+  z-index: auto;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .detalle-usuario-container {
