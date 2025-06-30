@@ -1,4 +1,3 @@
-
 export interface NullableInt64 {
   Int64: number;
   Valid: boolean;
@@ -29,6 +28,10 @@ export class Reserva {
     this.DataReserva = DataReserva;
   }
 
+  getId(): string {
+    return this.IDReserva;
+  }
+
   getNombreCliente(): string {
     return this.DataReserva.NombreCliente.Valid
       ? this.DataReserva.NombreCliente.String
@@ -47,8 +50,24 @@ export class Reserva {
       : "Correo no disponible";
   }
 
+  getFechaReservada(): string {
+    return this.DataReserva.FechaReservada;
+  }
+
   getFechaFormateada(): string {
     return new Date(this.DataReserva.FechaReservada).toLocaleString();
+  }
+
+  getNumPersonas(): number {
+    return this.DataReserva.NumPersonas;
+  }
+
+  getEstadoReserva(): string {
+    return this.DataReserva.EstadoReserva;
+  }
+
+  getEspecificaciones(): string {
+    return this.DataReserva.Especificaciones;
   }
 
   getResumen(): string {
