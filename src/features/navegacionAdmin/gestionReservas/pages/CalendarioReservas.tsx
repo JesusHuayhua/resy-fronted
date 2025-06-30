@@ -61,10 +61,22 @@ const CalendarioReservas: React.FC = () => {
           </button>
         )}
         <div className="calendarioReservas-grid">
-          {visibleSlots.map((slot, idx) => (
-            <div className="calendarioReservas-col" key={startIdx + idx}>
-              <div className="calendarioReservas-slot-header">{slot}</div>
-              <div className="calendarioReservas-slot-content"></div>
+          {/* Fila de encabezados de slots */}
+          <div className="calendarioReservas-row calendarioReservas-header-row">
+            {visibleSlots.map((slot, idx) => (
+              <div className="calendarioReservas-col" key={`header-${startIdx + idx}`}>
+                <div className="calendarioReservas-slot-header">{slot}</div>
+              </div>
+            ))}
+          </div>
+          {/* 5 filas de contenido */}
+          {[...Array(5)].map((_, rowIdx) => (
+            <div className="calendarioReservas-row" key={`row-${rowIdx}`}>
+              {visibleSlots.map((_, colIdx) => (
+                <div className="calendarioReservas-col" key={`cell-${rowIdx}-${colIdx}`}>
+                  <div className="calendarioReservas-slot-content"></div>
+                </div>
+              ))}
             </div>
           ))}
         </div>
