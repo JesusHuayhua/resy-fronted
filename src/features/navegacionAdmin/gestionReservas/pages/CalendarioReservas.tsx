@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./CalendarioReservas.css";
 import { obtenerReservas } from "../services/obtenerReservas";
 import { Reserva } from "../services/clases/classReserva";
+// Importa el modal
+import ModalMostrarDetalleReserva from "../components/ModalMostrarDetalleReserva";
 
 const getTimeSlots = (start: string, end: string, interval: number) => {
   const slots: string[] = [];
@@ -46,14 +48,25 @@ const CalendarioReservas: React.FC = () => {
     const hoy = new Date();
     return hoy.toISOString().slice(0, 10);
   });
+  const [modalReservaId, setModalReservaId] = useState<string | null>(null);
 
-  // Obtener reservas al montar el componente
+  // Cargar reservas cada vez que cambia la fecha
   useEffect(() => {
     setLoading(true);
     obtenerReservas()
       .then(setReservas)
       .finally(() => setLoading(false));
-  }, []);
+  }, [fecha]);
+
+  // Filtrar reservas por la fecha seleccionada (solo día, no hora)
+  const reservasFiltradas = reservas.filter(reserva => {
+    const fechaReserva = new Date(reserva.getFechaReservada());
+    const yyyy = fechaReserva.getFullYear();
+    const mm = String(fechaReserva.getMonth() + 1).padStart(2, "0");
+    const dd = String(fechaReserva.getDate()).padStart(2, "0");
+    const fechaReservaStr = `${yyyy}-${mm}-${dd}`;
+    return fechaReservaStr === fecha;
+  });
 
   // Organizar reservas por celda [fila][columna]
   const reservasPorCelda: Reserva[][][] = Array.from({ length: FILAS }, () =>
@@ -63,11 +76,11 @@ const CalendarioReservas: React.FC = () => {
   // Mapear reservas por slot de tiempo (columna) para distribución
   const reservasPorSlot: { [key: number]: Reserva[] } = {};
 
-  reservas.forEach((reserva: Reserva) => {
+  reservasFiltradas.forEach((reserva: Reserva) => {
     const fecha = new Date(reserva.getFechaReservada());
     const hora = fecha.getHours();
     const minuto = fecha.getMinutes();
-    
+
     // Buscar el slot correspondiente
     const slotIdx = ALL_SLOTS.findIndex(slot => {
       const [start] = slot.split(" - ");
@@ -75,14 +88,14 @@ const CalendarioReservas: React.FC = () => {
       const [h, m] = timeStr.split(":");
       let hNum = parseInt(h);
       const mNum = parseInt(m);
-      
+
       // Convertir a formato 24 horas
       if (ampm === "PM" && hNum !== 12) {
         hNum += 12;
       } else if (ampm === "AM" && hNum === 12) {
         hNum = 0;
       }
-      
+
       return hNum === hora && mNum === minuto;
     });
 
@@ -98,14 +111,14 @@ const CalendarioReservas: React.FC = () => {
   Object.keys(reservasPorSlot).forEach(slotIdxStr => {
     const slotIdx = parseInt(slotIdxStr);
     const reservasEnSlot = reservasPorSlot[slotIdx];
-    
+
     // Solo procesar slots visibles
     if (slotIdx >= startIdx && slotIdx < startIdx + VISIBLE_COLUMNS) {
       const columnaVisible = slotIdx - startIdx;
-      
+
       // Distribuir reservas en diferentes filas
       reservasEnSlot.forEach((reserva, index) => {
-        const fila = index % FILAS; // Distribuir cíclicamente en las filas disponibles
+        const fila = index % FILAS;
         reservasPorCelda[fila][columnaVisible].push(reserva);
       });
     }
@@ -211,7 +224,24 @@ const CalendarioReservas: React.FC = () => {
             <div className="calendarioReservas-row" key={`row-${rowIdx}`}>
               {visibleSlots.map((_, colIdx) => (
                 <div className="calendarioReservas-col" key={`cell-${rowIdx}-${colIdx}`}>
-                  <div className="calendarioReservas-slot-content">
+                  <div
+                    className="calendarioReservas-slot-content"
+                    style={{
+                      background:
+                        reservasPorCelda[rowIdx][colIdx].length > 0
+                          ? (() => {
+                              // Solo toma el color del primer estado de la celda
+                              const res = reservasPorCelda[rowIdx][colIdx][0];
+                              // @ts-ignore
+                              const estado = res?.getEstadoReserva?.() || (res?.DataReserva?.EstadoReserva ?? "");
+                              if (estado === "Confirmada") return "#b6f5b6";
+                              if (estado === "Pendiente") return "#fff7b2";
+                              if (estado === "Cancelada") return "#ffb2b2";
+                              return "";
+                            })()
+                          : ""
+                    }}
+                  >
                     {loading
                       ? "Cargando..."
                       : reservasPorCelda[rowIdx][colIdx].length === 0
@@ -224,22 +254,18 @@ const CalendarioReservas: React.FC = () => {
                             const nombreCliente = res.getNombreCliente();
                             // @ts-ignore
                             const numPersonas = res.getNumPersonas();
-                            // @ts-ignore
-                            const estado = res.getEstadoReserva?.() || (res.DataReserva?.EstadoReserva ?? "");
-                            let bgColor = "";
-                            if (estado === "Confirmada") bgColor = "#b6f5b6";
-                            else if (estado === "Pendiente") bgColor = "#fff7b2";
-                            else if (estado === "Cancelada") bgColor = "#ffb2b2";
                             return (
                               <div
                                 key={i}
                                 style={{
                                   fontSize: "0.8em",
                                   marginBottom: 2,
-                                  background: bgColor,
                                   borderRadius: 4,
-                                  padding: "2px 4px"
+                                  padding: "2px 4px",
+                                  background: "transparent",
+                                  cursor: "pointer"
                                 }}
+                                onClick={() => setModalReservaId(res.getId())}
                               >
                                 <div><b>ID Reserva:</b> {res.getId()}</div>
                                 <div>
@@ -301,6 +327,13 @@ const CalendarioReservas: React.FC = () => {
           <span>Confirmada</span>
         </span>
       </div>
+      {/* Modal para mostrar detalle de reserva */}
+      {modalReservaId && (
+        <ModalMostrarDetalleReserva
+          idReserva={modalReservaId}
+          onClose={() => setModalReservaId(null)}
+        />
+      )}
     </div>
   );
 };
