@@ -14,9 +14,9 @@ function RegistroUsuario() {
         direccion: '',
         telefono: '',
         correo: '',
-        fechanacimiento: '', // corregido: antes era fechaNacimiento
-        contrasenia: '',     // corregido: antes era contrasena
-        confirmarContrasenia: '' // corregido: antes era confirmarContrasena
+        fechanacimiento: '', 
+        contrasenia: '',    
+        confirmarContrasenia: '' 
     });
 
     const [errors, setErrors] = useState({
@@ -26,9 +26,9 @@ function RegistroUsuario() {
         telefono: false,
         correoFormato: false,
         correoDuplicado: false,
-        fechanacimiento: false, // corregido
-        contrasenia: false,     // corregido
-        confirmarContrasenia: false // corregido
+        fechanacimiento: false, 
+        contrasenia: false,     
+        confirmarContrasenia: false 
     });
 
     const [success, setSuccess] = useState(false);
@@ -49,7 +49,7 @@ function RegistroUsuario() {
         const apellidosValid = /^[a-zA-Z\s]+$/.test(formData.apellidos);
         const direccionValid = true; // Ignora validación de dirección temporalmente
         const telefonoValid = /^[0-9]{9}$/.test(formData.telefono);
-        const correoFormatoValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo);
+        const correoFormatoValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.correo);
         const correoDuplicadoValid = formData.correo !== 'cuenta@gmail.com';
         const fechanacimientoValid = formData.fechanacimiento.trim() !== '' && new Date(formData.fechanacimiento) < new Date();
         const contraseniaValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.contrasenia);
@@ -58,7 +58,7 @@ function RegistroUsuario() {
         setErrors({
             nombres: !nombresValid,
             apellidos: !apellidosValid,
-            direccion: false, // No mostrar error de dirección
+            direccion: false,
             telefono: !telefonoValid,
             correoFormato: !correoFormatoValid,
             correoDuplicado: !correoDuplicadoValid,

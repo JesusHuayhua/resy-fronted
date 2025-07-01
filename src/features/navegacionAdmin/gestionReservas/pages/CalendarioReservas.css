@@ -1,0 +1,95 @@
+.calendarioReservas-container {
+  padding: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.calendarioReservas-title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.calendarioReservas-scroll-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  margin-top: 32px;
+}
+
+.calendarioReservas-arrow {
+  background: none;
+  color: #111;
+  border: none;
+  border-radius: 0;
+  width: 32px;
+  height: 32px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  box-shadow: none;
+}
+
+.calendarioReservas-arrow:disabled {
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+
+
+.calendarioReservas-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.calendarioReservas-row {
+  display: flex;
+}
+
+.calendarioReservas-col {
+  flex: 1 1 0;
+  min-width: 120px; /* más grande */
+  box-sizing: border-box;
+  max-width: 180px;
+  overflow: hidden;
+}
+
+.calendarioReservas-slot-header {
+  font-weight: bold;
+  text-align: center;
+  background: none;
+  padding: 10px 0;
+  border-top: 2px solid #bbb;      /* borde arriba */
+  border-left: 2px solid #bbb;     /* borde izquierda */
+  border-bottom: 2px solid #bbb;
+  border-right: 2px solid #bbb;
+  font-size: 0.75rem;
+}
+
+.calendarioReservas-slot-content {
+  min-height: 60px;
+  border-bottom: 2px solid #bbb;
+  border-right: 2px solid #bbb;
+  border-left: 2px solid #bbb;     /* borde izquierda */
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 0; /* Elimina padding extra para evitar distorsión */
+  box-sizing: border-box;
+}
+
+.calendarioReservas-slot-content > div {
+  margin: 4px 4px 0 4px;
+  border-radius: 4px;
+  /* Elimina el margin-bottom si hay varios, solo deja separación arriba */
+}
