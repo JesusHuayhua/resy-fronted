@@ -42,6 +42,10 @@ const CalendarioReservas: React.FC = () => {
   const [startIdx, setStartIdx] = useState(0);
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fecha, setFecha] = useState<string>(() => {
+    const hoy = new Date();
+    return hoy.toISOString().slice(0, 10);
+  });
 
   // Obtener reservas al montar el componente
   useEffect(() => {
@@ -122,6 +126,71 @@ const CalendarioReservas: React.FC = () => {
   return (
     <div className="calendarioReservas-container">
       <h1 className="calendarioReservas-title">CALENDARIO DE RESERVAS</h1>
+      {/* Selector de fecha con formato y estilo */}
+{/* Selector de fecha con formato y estilo */}
+      <div
+        style={{
+          marginBottom: 18,
+          textAlign: "left",
+          background: "#f3f3f3",
+          borderRadius: 10,
+          padding: "14px 22px",
+          display: "inline-flex",
+          alignItems: "center",
+          fontWeight: 500,
+          fontSize: "1.1rem",
+          boxShadow: "0 2px 8px #0001",
+          position: "relative"
+        }}
+      >
+        <span style={{ marginRight: 8 }}>
+          {(() => {
+            const dias = [
+              "Domingo",
+              "Lunes",
+              "Martes",
+              "Miércoles",
+              "Jueves",
+              "Viernes",
+              "Sábado"
+            ];
+            // Usar la fecha seleccionada, no la de hoy
+            const [yyyy, mm, dd] = fecha.split("-");
+            const f = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
+            const diaSemana = dias[f.getDay()];
+            return `${diaSemana} ${dd}/${mm}`;
+          })()}
+        </span>
+        <div style={{ position: "relative", display: "inline-block" }}>
+          <span 
+            style={{
+              fontSize: "1.2rem",
+              cursor: "pointer",
+              color: "#666",
+              userSelect: "none",
+              padding: "2px 4px"
+            }}
+            onClick={() => document.getElementById('date-picker')?.click()}
+          >
+            📅
+          </span>
+          <input
+            id="date-picker"
+            type="date"
+            value={fecha}
+            onChange={e => setFecha(e.target.value)}
+            style={{
+              position: "absolute",
+              left: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              opacity: 0,
+              cursor: "pointer"
+            }}
+          />
+        </div>
+      </div>
       <div className="calendarioReservas-scroll-row">
         {canScrollLeft && (
           <button className="calendarioReservas-arrow calendarioReservas-arrow-plain" onClick={handleLeft}>
