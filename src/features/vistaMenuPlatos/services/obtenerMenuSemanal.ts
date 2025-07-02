@@ -43,11 +43,11 @@ export async function obtenerMenuSemanal(){
     // Se tiene que realizar búsqueda.
     const menuLunes = new Menu(DiaSemana.Lunes, platosMenuLunes);
     const menuMartes = new Menu(DiaSemana.Martes, platosMenuMartes);
-    const menuMiercoles = new Menu(DiaSemana.Miércoles, []);
-    const menuJueves = new Menu(DiaSemana.Jueves, []);
-    const menuViernes = new Menu(DiaSemana.Viernes, []);
-    const menuSabado = new Menu(DiaSemana.Sábado, []);
-    const menuDomingo = new Menu(DiaSemana.Domingo, []);
+    const menuMiercoles = new Menu(DiaSemana.Miércoles, platosMenuLunes);
+    const menuJueves = new Menu(DiaSemana.Jueves, platosMenuLunes);
+    const menuViernes = new Menu(DiaSemana.Viernes, platosMenuLunes);
+    const menuSabado = new Menu(DiaSemana.Sábado, platosMenuMartes);
+    const menuDomingo = new Menu(DiaSemana.Domingo, platosMenuMartes);
 
     // Ahora realizaremos un catálogo del menú completo de la semana,
 
