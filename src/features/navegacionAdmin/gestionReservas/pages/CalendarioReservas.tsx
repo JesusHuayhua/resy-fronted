@@ -43,7 +43,8 @@ const getTimeSlots = (start: string, end: string, interval: number) => {
   return slots;
 };
 
-const ALL_SLOTS = getTimeSlots("9:00", "17:00", 30); // hasta las 5:00 pm
+// Cambia el rango de slots de "9:00" - "17:00" a "10:00" - "16:00"
+const ALL_SLOTS = getTimeSlots("10:00", "16:00", 30); // hasta las 4:00 pm
 
 const VISIBLE_COLUMNS = 6;
 const FILAS = 5;
@@ -57,10 +58,10 @@ const CalendarioReservas: React.FC = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
   // Función para formatear la fecha como "LUNES 30/06"
-  const formatearFecha = (fecha: Dayjs | null): string => {
-    if (!fecha) return "";
-    return fecha.locale('es').format('dddd DD/MM').toUpperCase();
-  };
+  //const formatearFecha = (fecha: Dayjs | null): string => {
+  //  if (!fecha) return "";
+  //  return fecha.locale('es').format('dddd DD/MM').toUpperCase();
+  //};
 
   // Cargar reservas cada vez que cambia la fecha
   useEffect(() => {
@@ -176,7 +177,7 @@ const CalendarioReservas: React.FC = () => {
                 sx: { width: 200 },
                 InputProps: {
                   readOnly: true, // Para evitar edición manual
-                  style: { textTransform: 'uppercase' }
+                  style: { textTransform: 'capitalize' }
                 }
               }
             }}
@@ -197,7 +198,19 @@ const CalendarioReservas: React.FC = () => {
           <div className="calendarioReservas-row calendarioReservas-header-row">
             {visibleSlots.map((slot, idx) => (
               <div className="calendarioReservas-col" key={`header-${startIdx + idx}`}>
-                <div className="calendarioReservas-slot-header">{slot}</div>
+                <div className="calendarioReservas-slot-header">
+                  {
+                    // slot es por ejemplo "Lunes 10:00 AM - 10:30 AM"
+                    (() => {
+                      // Si el slot tiene día de la semana, formatear solo la primera letra en mayúscula
+                      // pero en este caso slot es solo el rango de hora, así que no hay día de la semana
+                      // Si en el futuro slot incluye el día, usar esto:
+                      // slot.charAt(0).toUpperCase() + slot.slice(1).toLowerCase()
+                      // Pero aquí solo mostrar el slot tal cual:
+                      return slot;
+                    })()
+                  }
+                </div>
               </div>
             ))}
           </div>
