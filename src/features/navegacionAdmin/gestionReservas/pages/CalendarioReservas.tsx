@@ -198,7 +198,14 @@ const CalendarioReservas: React.FC = () => {
           <div className="calendarioReservas-row calendarioReservas-header-row">
             {visibleSlots.map((slot, idx) => (
               <div className="calendarioReservas-col" key={`header-${startIdx + idx}`}>
-                <div className="calendarioReservas-slot-header">
+                <div
+                  className="calendarioReservas-slot-header"
+                  style={{
+                    fontSize: "14px", // Igual que las celdas
+                    fontWeight: "bold",
+                    color: "#555"
+                  }}
+                >
                   {
                     // slot es por ejemplo "Lunes 10:00 AM - 10:30 AM"
                     (() => {
@@ -256,20 +263,22 @@ const CalendarioReservas: React.FC = () => {
                               <div
                                 key={i}
                                 style={{
-                                  fontSize: "0.8em",
+                                  fontSize: "1em", // Más grande
                                   marginBottom: 2,
                                   borderRadius: 4,
                                   padding: "2px 4px",
                                   background: "transparent",
-                                  cursor: "pointer"
+                                  cursor: "pointer",
+                                  fontWeight: "bold", // Negrita
+                                  color: "#555" // Plomo
                                 }}
                                 onClick={() => setModalReservaId(res.getId())}
                               >
-                                <div><b>ID Reserva:</b> {res.getId()}</div>
+                                {/* <div><b>ID Reserva:</b> {res.getId()}</div>  // Eliminado */}
                                 <div>
-                                  <b>Cliente:</b> {nombreCliente}
+                                  {nombreCliente}
                                 </div>
-                                <div><b>Personas:</b> {numPersonas}</div>
+                                <div>Personas: {numPersonas}</div>
                               </div>
                             );
                           })
