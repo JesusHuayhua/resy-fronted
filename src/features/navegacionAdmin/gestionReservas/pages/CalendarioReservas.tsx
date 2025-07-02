@@ -4,6 +4,8 @@ import { obtenerReservas } from "../services/obtenerReservas";
 import { Reserva } from "../services/clases/classReserva";
 // Importa el modal
 import ModalMostrarDetalleReserva from "../components/ModalMostrarDetalleReserva";
+import { obtenerUsuarios } from "../../gestionUsuarios/services/obtenerUsuarios";
+import { Usuario } from "../../gestionUsuarios/services/clases/classUsuario";
 
 const getTimeSlots = (start: string, end: string, interval: number) => {
   const slots: string[] = [];
@@ -49,6 +51,7 @@ const CalendarioReservas: React.FC = () => {
     return hoy.toISOString().slice(0, 10);
   });
   const [modalReservaId, setModalReservaId] = useState<string | null>(null);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
 
   // Cargar reservas cada vez que cambia la fecha
   useEffect(() => {
@@ -57,6 +60,11 @@ const CalendarioReservas: React.FC = () => {
       .then(setReservas)
       .finally(() => setLoading(false));
   }, [fecha]);
+
+  // Cargar usuarios una sola vez al montar
+  useEffect(() => {
+    obtenerUsuarios().then(setUsuarios);
+  }, []);
 
   // Filtrar reservas por la fecha seleccionada (solo día, no hora)
   const reservasFiltradas = reservas.filter(reserva => {
@@ -247,11 +255,15 @@ const CalendarioReservas: React.FC = () => {
                       : reservasPorCelda[rowIdx][colIdx].length === 0
                         ? null
                         : reservasPorCelda[rowIdx][colIdx].map((res, i) => {
-                            // Obtener ID cliente y nombre
+                            // Obtener nombre del cliente (si hay IDCliente, buscar en usuarios)
                             // @ts-ignore
                             const idCliente = res.DataReserva.IDCliente?.Valid ? res.DataReserva.IDCliente.Int64 : null;
                             // @ts-ignore
-                            const nombreCliente = res.getNombreCliente();
+                            let nombreCliente = res.getNombreCliente();
+                            if ((!nombreCliente || nombreCliente === "Nombre no disponible") && idCliente) {
+                              const user = usuarios.find(u => u.IdUsuario === idCliente);
+                              nombreCliente = user ? user.getNombreCompleto() : "";
+                            }
                             // @ts-ignore
                             const numPersonas = res.getNumPersonas();
                             return (
@@ -269,10 +281,7 @@ const CalendarioReservas: React.FC = () => {
                               >
                                 <div><b>ID Reserva:</b> {res.getId()}</div>
                                 <div>
-                                  <b>Cliente:</b>{" "}
-                                  {idCliente && idCliente !== 0
-                                    ? idCliente
-                                    : nombreCliente}
+                                  <b>Cliente:</b> {nombreCliente}
                                 </div>
                                 <div><b>Personas:</b> {numPersonas}</div>
                               </div>
