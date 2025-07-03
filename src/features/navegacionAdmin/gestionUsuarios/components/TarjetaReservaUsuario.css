@@ -1,0 +1,79 @@
+.tarjeta-reserva-usuario {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+  padding: 0;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.tarjeta-reserva-usuario-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 0;
+  padding: 12px 16px 12px 16px;
+  min-height: 100px;
+}
+
+.tarjeta-reserva-usuario-id {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  font-weight: 700;
+  align-self: start;
+  justify-self: start;
+}
+
+.tarjeta-reserva-usuario-hora {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  font-size: 1.1rem;
+  font-weight: 500;
+  align-self: start;
+  justify-self: end;
+}
+
+.tarjeta-reserva-usuario-fecha {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  font-size: 1.1rem;
+  color: #222;
+  margin-top: 2px;
+  align-self: start;
+  justify-self: start;
+}
+
+.tarjeta-reserva-usuario-personas {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  font-size: 1rem;
+  color: #222;
+  margin-top: 2px;
+  align-self: start;
+  justify-self: end;
+}
+
+.tarjeta-reserva-usuario-especificaciones {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+  color: #555;
+  font-style: italic;
+  font-size: 0.98rem;
+  margin-top: 8px;
+  align-self: end;
+  justify-self: start;
+}
+
+.tarjeta-reserva-usuario-estado {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 6px;
+  font-size: 1rem;
+  text-align: center;
+  min-width: 110px;
+  margin-top: 8px;
+  align-self: end;
+  justify-self: end;
+}

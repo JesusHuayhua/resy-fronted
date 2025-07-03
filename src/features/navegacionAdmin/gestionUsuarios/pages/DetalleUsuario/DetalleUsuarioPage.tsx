@@ -5,8 +5,12 @@ import { FaArrowLeft, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import { Usuario } from "../../services/clases/classUsuario";
 import axios from "axios";
 import { modificarUsuario } from "../../services/modificarUsuarioService";
+import TarjetaReservaUsuario from "../../components/TarjetaReservaUsuario";
+import { obtenerReservasPorUsuario } from "../../services/obtenerReservasPorUsuario";
+import type { Reserva } from "../../../gestionReservas/services/clases/classReserva";
 
 const AVATAR_URL = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+const estadosReserva = ["TODOS", "Pendiente", "Completado", "Cancelada"];
 
 const DetalleUsuarioPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,6 +29,8 @@ const DetalleUsuarioPage: React.FC = () => {
     Rol: 3,
     EstadoAcceso: true,
   });
+  const [reservas, setReservas] = useState<Reserva[]>([]);
+  const [filtroReserva, setFiltroReserva] = useState("TODOS");
 
   useEffect(() => {
     if (!id) return;
@@ -39,6 +45,11 @@ const DetalleUsuarioPage: React.FC = () => {
         }
       })
       .finally(() => setLoading(false));
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+    obtenerReservasPorUsuario(id).then(setReservas);
   }, [id]);
 
   const handleEdit = () => setEditMode(true);
@@ -106,6 +117,10 @@ const DetalleUsuarioPage: React.FC = () => {
       alert("Error al actualizar el usuario.");
     }
   };
+
+  const reservasFiltradas = reservas.filter(
+    r => filtroReserva === "TODOS" || r.getEstadoReserva().toLowerCase() === filtroReserva.toLowerCase()
+  );
 
   return (
     <div className="detalle-usuario-container">
@@ -278,14 +293,26 @@ const DetalleUsuarioPage: React.FC = () => {
       <div className="detalle-usuario-reservas-section">
         <div className="detalle-usuario-reservas-header">
           <span className="detalle-usuario-reservas-title">Reservas</span>
-          <select className="detalle-usuario-reservas-filtro" disabled>
-            <option>TODOS</option>
+          <select
+            className="detalle-usuario-reservas-filtro"
+            value={filtroReserva}
+            onChange={e => setFiltroReserva(e.target.value)}
+          >
+            {estadosReserva.map(e => (
+              <option key={e} value={e}>{e}</option>
+            ))}
           </select>
         </div>
         <div className="detalle-usuario-reservas-list">
-          <div className="detalle-usuario-reservas-empty">
-            No cuenta con reservas.
-          </div>
+          {reservasFiltradas.length === 0 ? (
+            <div className="detalle-usuario-reservas-empty">
+              No cuenta con reservas.
+            </div>
+          ) : (
+            reservasFiltradas.map(r => (
+              <TarjetaReservaUsuario key={r.getId()} reserva={r} />
+            ))
+          )}
         </div>
       </div>
     </div>

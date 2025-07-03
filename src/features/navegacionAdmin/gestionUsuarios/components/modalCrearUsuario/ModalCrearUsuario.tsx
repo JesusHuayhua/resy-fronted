@@ -56,7 +56,7 @@ const ModalCrearUsuario: React.FC<ModalCrearUsuarioProps> = ({
     const correoFormatoValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo);
     const telefonoValid = /^[0-9]{9}$/.test(formData.telefono); // Validación de 9 dígitos
     const fechaNacimientoValid = formData.fechaNacimiento.trim() !== "" && new Date(formData.fechaNacimiento) < new Date();
-    const contrasenaTemporalValid = formData.contrasenaTemporal.length >= 6;
+    const contrasenaTemporalValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.contrasenaTemporal);
     const rolValid = !!formData.rol;
 
     setErrors({
@@ -245,7 +245,7 @@ const ModalCrearUsuario: React.FC<ModalCrearUsuarioProps> = ({
           <div className="modal-crear-usuario-form-group">
             <label>Contraseña temporal</label>
             <input
-              type="text"
+              type="password"
               name="contrasenaTemporal"
               value={formData.contrasenaTemporal}
               onChange={handleChange}
@@ -253,7 +253,7 @@ const ModalCrearUsuario: React.FC<ModalCrearUsuarioProps> = ({
             />
           </div>
           {errors.contrasenaTemporal && (
-            <p className="error-message">La contraseña debe tener mínimo 6 caracteres</p>
+            <p className="error-message">La contraseña debe tener mínimo 8 caracteres</p>
           )}
           <div className="modal-crear-usuario-form-group">
             <label>Rol</label>
