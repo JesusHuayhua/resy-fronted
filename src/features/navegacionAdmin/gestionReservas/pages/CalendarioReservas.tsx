@@ -4,6 +4,14 @@ import { obtenerReservas } from "../services/obtenerReservas";
 import { Reserva } from "../services/clases/classReserva";
 // Importa el modal
 import ModalMostrarDetalleReserva from "../components/ModalMostrarDetalleReserva";
+import { obtenerUsuarios } from "../../gestionUsuarios/services/obtenerUsuarios";
+import { Usuario } from "../../gestionUsuarios/services/clases/classUsuario";
+// Cambio: Usar DatePicker directamente en lugar de FiltroCalendar
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import "dayjs/locale/es"; // Para nombres de días en español
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const getTimeSlots = (start: string, end: string, interval: number) => {
   const slots: string[] = [];
@@ -35,7 +43,8 @@ const getTimeSlots = (start: string, end: string, interval: number) => {
   return slots;
 };
 
-const ALL_SLOTS = getTimeSlots("9:00", "17:00", 30); // hasta las 5:00 pm
+// Cambia el rango de slots de "9:00" - "17:00" a "10:00" - "16:00"
+const ALL_SLOTS = getTimeSlots("10:00", "16:00", 30); // hasta las 4:00 pm
 
 const VISIBLE_COLUMNS = 6;
 const FILAS = 5;
@@ -44,11 +53,15 @@ const CalendarioReservas: React.FC = () => {
   const [startIdx, setStartIdx] = useState(0);
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(true);
-  const [fecha, setFecha] = useState<string>(() => {
-    const hoy = new Date();
-    return hoy.toISOString().slice(0, 10);
-  });
+  const [fecha, setFecha] = useState<Dayjs | null>(() => dayjs().locale('es'));
   const [modalReservaId, setModalReservaId] = useState<string | null>(null);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+
+  // Función para formatear la fecha como "LUNES 30/06"
+  //const formatearFecha = (fecha: Dayjs | null): string => {
+  //  if (!fecha) return "";
+  //  return fecha.locale('es').format('dddd DD/MM').toUpperCase();
+  //};
 
   // Cargar reservas cada vez que cambia la fecha
   useEffect(() => {
@@ -58,14 +71,24 @@ const CalendarioReservas: React.FC = () => {
       .finally(() => setLoading(false));
   }, [fecha]);
 
+  // Cargar usuarios una sola vez al montar
+  useEffect(() => {
+    obtenerUsuarios().then(setUsuarios);
+  }, []);
+
   // Filtrar reservas por la fecha seleccionada (solo día, no hora)
   const reservasFiltradas = reservas.filter(reserva => {
+    if (!fecha) return false;
     const fechaReserva = new Date(reserva.getFechaReservada());
     const yyyy = fechaReserva.getFullYear();
     const mm = String(fechaReserva.getMonth() + 1).padStart(2, "0");
     const dd = String(fechaReserva.getDate()).padStart(2, "0");
     const fechaReservaStr = `${yyyy}-${mm}-${dd}`;
-    return fechaReservaStr === fecha;
+    const yyyySel = fecha.year();
+    const mmSel = String(fecha.month() + 1).padStart(2, "0");
+    const ddSel = String(fecha.date()).padStart(2, "0");
+    const fechaSelStr = `${yyyySel}-${mmSel}-${ddSel}`;
+    return fechaReservaStr === fechaSelStr;
   });
 
   // Organizar reservas por celda [fila][columna]
@@ -139,71 +162,31 @@ const CalendarioReservas: React.FC = () => {
   return (
     <div className="calendarioReservas-container">
       <h1 className="calendarioReservas-title">CALENDARIO DE RESERVAS</h1>
-      {/* Selector de fecha con formato y estilo */}
-{/* Selector de fecha con formato y estilo */}
-      <div
-        style={{
-          marginBottom: 18,
-          textAlign: "left",
-          background: "#f3f3f3",
-          borderRadius: 10,
-          padding: "14px 22px",
-          display: "inline-flex",
-          alignItems: "center",
-          fontWeight: 500,
-          fontSize: "1.1rem",
-          boxShadow: "0 2px 8px #0001",
-          position: "relative"
-        }}
-      >
-        <span style={{ marginRight: 8 }}>
-          {(() => {
-            const dias = [
-              "Domingo",
-              "Lunes",
-              "Martes",
-              "Miércoles",
-              "Jueves",
-              "Viernes",
-              "Sábado"
-            ];
-            // Usar la fecha seleccionada, no la de hoy
-            const [yyyy, mm, dd] = fecha.split("-");
-            const f = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
-            const diaSemana = dias[f.getDay()];
-            return `${diaSemana} ${dd}/${mm}`;
-          })()}
-        </span>
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <span 
-            style={{
-              fontSize: "1.2rem",
-              cursor: "pointer",
-              color: "#666",
-              userSelect: "none",
-              padding: "2px 4px"
-            }}
-            onClick={() => document.getElementById('date-picker')?.click()}
-          >
-            📅
-          </span>
-          <input
-            id="date-picker"
-            type="date"
+      
+      {/* Selector de fecha usando DatePicker directamente */}
+      <div style={{ marginBottom: 18, textAlign: "left" }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+          <DatePicker
+            label="Seleccionar fecha"
             value={fecha}
-            onChange={e => setFecha(e.target.value)}
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              width: "100%",
-              height: "100%",
-              opacity: 0,
-              cursor: "pointer"
+            onChange={(newValue) => setFecha(newValue?.locale('es') || null)}
+            format="dddd DD/MM"
+            slotProps={{
+              textField: {
+                size: "small",
+                sx: { width: 200 },
+                InputProps: {
+                  readOnly: true, // Para evitar edición manual
+                  style: { textTransform: 'capitalize' }
+                }
+              }
             }}
+            formatDensity="spacious"
+            // NO agregamos ninguna limitación de fechas para permitir navegación libre
           />
-        </div>
+        </LocalizationProvider>
       </div>
+
       <div className="calendarioReservas-scroll-row">
         {canScrollLeft && (
           <button className="calendarioReservas-arrow calendarioReservas-arrow-plain" onClick={handleLeft}>
@@ -215,7 +198,26 @@ const CalendarioReservas: React.FC = () => {
           <div className="calendarioReservas-row calendarioReservas-header-row">
             {visibleSlots.map((slot, idx) => (
               <div className="calendarioReservas-col" key={`header-${startIdx + idx}`}>
-                <div className="calendarioReservas-slot-header">{slot}</div>
+                <div
+                  className="calendarioReservas-slot-header"
+                  style={{
+                    fontSize: "14px", // Igual que las celdas
+                    fontWeight: "bold",
+                    color: "#555"
+                  }}
+                >
+                  {
+                    // slot es por ejemplo "Lunes 10:00 AM - 10:30 AM"
+                    (() => {
+                      // Si el slot tiene día de la semana, formatear solo la primera letra en mayúscula
+                      // pero en este caso slot es solo el rango de hora, así que no hay día de la semana
+                      // Si en el futuro slot incluye el día, usar esto:
+                      // slot.charAt(0).toUpperCase() + slot.slice(1).toLowerCase()
+                      // Pero aquí solo mostrar el slot tal cual:
+                      return slot;
+                    })()
+                  }
+                </div>
               </div>
             ))}
           </div>
@@ -230,7 +232,6 @@ const CalendarioReservas: React.FC = () => {
                       background:
                         reservasPorCelda[rowIdx][colIdx].length > 0
                           ? (() => {
-                              // Solo toma el color del primer estado de la celda
                               const res = reservasPorCelda[rowIdx][colIdx][0];
                               // @ts-ignore
                               const estado = res?.getEstadoReserva?.() || (res?.DataReserva?.EstadoReserva ?? "");
@@ -247,34 +248,37 @@ const CalendarioReservas: React.FC = () => {
                       : reservasPorCelda[rowIdx][colIdx].length === 0
                         ? null
                         : reservasPorCelda[rowIdx][colIdx].map((res, i) => {
-                            // Obtener ID cliente y nombre
+                            // Obtener nombre del cliente (si hay IDCliente, buscar en usuarios)
                             // @ts-ignore
                             const idCliente = res.DataReserva.IDCliente?.Valid ? res.DataReserva.IDCliente.Int64 : null;
                             // @ts-ignore
-                            const nombreCliente = res.getNombreCliente();
+                            let nombreCliente = res.getNombreCliente();
+                            if ((!nombreCliente || nombreCliente === "Nombre no disponible") && idCliente) {
+                              const user = usuarios.find(u => u.IdUsuario === idCliente);
+                              nombreCliente = user ? user.getNombreCompleto() : "";
+                            }
                             // @ts-ignore
                             const numPersonas = res.getNumPersonas();
                             return (
                               <div
                                 key={i}
                                 style={{
-                                  fontSize: "0.8em",
+                                  fontSize: "1em", // Más grande
                                   marginBottom: 2,
                                   borderRadius: 4,
                                   padding: "2px 4px",
                                   background: "transparent",
-                                  cursor: "pointer"
+                                  cursor: "pointer",
+                                  fontWeight: "bold", // Negrita
+                                  color: "#555" // Plomo
                                 }}
                                 onClick={() => setModalReservaId(res.getId())}
                               >
-                                <div><b>ID Reserva:</b> {res.getId()}</div>
+                                {/* <div><b>ID Reserva:</b> {res.getId()}</div>  // Eliminado */}
                                 <div>
-                                  <b>Cliente:</b>{" "}
-                                  {idCliente && idCliente !== 0
-                                    ? idCliente
-                                    : nombreCliente}
+                                  {nombreCliente}
                                 </div>
-                                <div><b>Personas:</b> {numPersonas}</div>
+                                <div>Personas: {numPersonas}</div>
                               </div>
                             );
                           })
@@ -291,6 +295,7 @@ const CalendarioReservas: React.FC = () => {
           </button>
         )}
       </div>
+      
       {/* Leyenda de estados */}
       <div style={{ marginTop: 24, display: "flex", gap: 24, justifyContent: "center", alignItems: "center" }}>
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -327,6 +332,7 @@ const CalendarioReservas: React.FC = () => {
           <span>Confirmada</span>
         </span>
       </div>
+      
       {/* Modal para mostrar detalle de reserva */}
       {modalReservaId && (
         <ModalMostrarDetalleReserva

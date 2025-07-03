@@ -56,9 +56,9 @@
 
 .calendarioReservas-col {
   flex: 1 1 0;
-  min-width: 120px; /* más grande */
+  min-width: 140px; /* reducido de 160px */
   box-sizing: border-box;
-  max-width: 180px;
+  max-width: 180px; /* reducido de 220px */
   overflow: hidden;
 }
 
@@ -66,25 +66,25 @@
   font-weight: bold;
   text-align: center;
   background: none;
-  padding: 10px 0;
-  border-top: 2px solid #bbb;      /* borde arriba */
-  border-left: 2px solid #bbb;     /* borde izquierda */
+  padding: 14px 0; /* reducido de 18px */
+  border-top: 2px solid #bbb;
+  border-left: 2px solid #bbb;
   border-bottom: 2px solid #bbb;
   border-right: 2px solid #bbb;
-  font-size: 0.75rem;
+  font-size: 0.8rem; /* ligeramente más pequeño */
 }
 
 .calendarioReservas-slot-content {
-  min-height: 60px;
+  min-height: 70px; /* reducido de 90px */
   border-bottom: 2px solid #bbb;
   border-right: 2px solid #bbb;
-  border-left: 2px solid #bbb;     /* borde izquierda */
-  font-size: 0.85rem;
+  border-left: 2px solid #bbb;
+  font-size: 0.9rem; /* ligeramente más pequeño */
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  padding: 0; /* Elimina padding extra para evitar distorsión */
+  padding: 0;
   box-sizing: border-box;
 }
 
