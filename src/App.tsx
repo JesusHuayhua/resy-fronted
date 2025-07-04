@@ -29,6 +29,7 @@ import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/Ge
 import UsuariosPage from './features/navegacionAdmin/gestionUsuarios/pages/Usuarios/UsuariosPage'
 import DetalleUsuarioPage from './features/navegacionAdmin/gestionUsuarios/pages/DetalleUsuario/DetalleUsuarioPage'
 import CalendarioReservas from "./features/navegacionAdmin/gestionReservas/pages/CalendarioReservas";
+import GestionarCronograma from "./features/navegacionAdmin/gestionDePlatos/pages/GestionarCronograma";
 
 
 
@@ -66,6 +67,7 @@ function App() {
                 <Route path="alimentos" element={<GestionarPlatos />} />
                 <Route path="usuarios" element={<UsuariosPage />} />
                 <Route path="usuarios/:id" element={<DetalleUsuarioPage />} />
+                <Route path="cronograma" element={<GestionarCronograma />} />
                 <Route path="log_out" element={<div>Pagina log_out</div>} />
               </Route>
               
