@@ -1,9 +1,9 @@
 import FiltroCalendar from "./FiltroCalendar";
-
 import Categoria from "./Categoria";
 import Buscador from "./Buscador";
 import "./NavegacionSuperior.css"
 import type { Dayjs } from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 // Los ids serian los indices de cada categoria.
 // Por ahora hardcodeado, pendiente de cambiarlo.
@@ -17,6 +17,7 @@ interface Prop {
 }
 
 function NavegacionSuperior(prop: Prop){
+    const navigate = useNavigate();
 
     // Procedemos con definir el filtro de la fecha.
     // Aca habra tambien dos botones.
@@ -30,7 +31,7 @@ function NavegacionSuperior(prop: Prop){
                 </div>
                 <div className="admin-food-manager-buttons">
                     <button>Historial</button>
-                    <button>Cronograma</button>
+                    <button onClick={() => navigate("/admin/cronograma")}>Cronograma</button>
                 </div>
             </div>
             <div className="admin-food-manager-navbar-2">
