@@ -56,6 +56,7 @@ const CalendarioReservas: React.FC = () => {
   const [fecha, setFecha] = useState<Dayjs | null>(() => dayjs().locale('es'));
   const [modalReservaId, setModalReservaId] = useState<string | null>(null);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [reload, setReload] = useState(0); // Nuevo estado para recargar
 
   // Función para formatear la fecha como "LUNES 30/06"
   //const formatearFecha = (fecha: Dayjs | null): string => {
@@ -63,13 +64,13 @@ const CalendarioReservas: React.FC = () => {
   //  return fecha.locale('es').format('dddd DD/MM').toUpperCase();
   //};
 
-  // Cargar reservas cada vez que cambia la fecha
+  // Cargar reservas cada vez que cambia la fecha o reload
   useEffect(() => {
     setLoading(true);
     obtenerReservas()
       .then(setReservas)
       .finally(() => setLoading(false));
-  }, [fecha]);
+  }, [fecha, reload]); // Agrega reload como dependencia
 
   // Cargar usuarios una sola vez al montar
   useEffect(() => {
@@ -338,6 +339,7 @@ const CalendarioReservas: React.FC = () => {
         <ModalMostrarDetalleReserva
           idReserva={modalReservaId}
           onClose={() => setModalReservaId(null)}
+          onChange={() => setReload(r => r + 1)} // Nueva prop para recargar
         />
       )}
     </div>

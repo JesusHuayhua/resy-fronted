@@ -3,15 +3,18 @@ import { obtenerReservas } from "../services/obtenerReservas";
 import { Reserva } from "../services/clases/classReserva";
 import { obtenerUsuarios } from "../../gestionUsuarios/services/obtenerUsuarios";
 import { Usuario } from "../../gestionUsuarios/services/clases/classUsuario";
+import axios from "axios"; // Agregado para actualizar estado
 
 interface ModalMostrarDetalleReservaProps {
   idReserva: string;
   onClose: () => void;
+  onChange?: () => void; // Nueva prop opcional
 }
 
-const ModalMostrarDetalleReserva: React.FC<ModalMostrarDetalleReservaProps> = ({ idReserva, onClose }) => {
+const ModalMostrarDetalleReserva: React.FC<ModalMostrarDetalleReservaProps> = ({ idReserva, onClose, onChange }) => {
   const [reserva, setReserva] = useState<Reserva | null>(null);
   const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     obtenerReservas().then(reservas => {
@@ -60,6 +63,39 @@ const ModalMostrarDetalleReserva: React.FC<ModalMostrarDetalleReservaProps> = ({
     if (correoReserva && correoReserva !== "Correo no disponible") return correoReserva;
     if (usuario) return usuario.getCorreo();
     return "";
+  };
+
+  // Cambiar estado de la reserva
+  const actualizarEstadoReserva = async (nuevoEstado: string) => {
+    if (!reserva) return;
+    setLoading(true);
+    try {
+      // Construir el body según la estructura esperada por el backend
+      const data = {
+        id_cliente: reserva.DataReserva.IDCliente?.Valid ? reserva.DataReserva.IDCliente.Int64 : null,
+        nombre_cliente: reserva.DataReserva.NombreCliente?.Valid ? reserva.DataReserva.NombreCliente.String : null,
+        telefono_cliente: reserva.DataReserva.TelefonoCliente?.Valid ? reserva.DataReserva.TelefonoCliente.String : null,
+        correo_cliente: reserva.DataReserva.CorreoCliente?.Valid ? reserva.DataReserva.CorreoCliente.String : null,
+        fecha_reservada: reserva.DataReserva.FechaReservada,
+        num_personas: reserva.DataReserva.NumPersonas,
+        estado_reserva: nuevoEstado,
+        especificaciones: reserva.DataReserva.Especificaciones ?? ""
+      };
+      await axios.put(
+        `http://localhost:8082/reservas?id=${reserva.getId()}`,
+        data
+      );
+      setReserva(r => {
+        if (!r) return r;
+        return new Reserva(r.IDReserva, { ...r.DataReserva, EstadoReserva: nuevoEstado });
+      });
+      if (onChange) onChange(); // Notifica al padre para recargar
+      onClose();
+    } catch (e) {
+      alert("No se pudo actualizar el estado de la reserva.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -168,38 +204,45 @@ const ModalMostrarDetalleReserva: React.FC<ModalMostrarDetalleReservaProps> = ({
             </div>
           </div>
         )}
-        <div style={{ display: "flex", justifyContent: "center", gap: 18 }}>
-          <button
-            style={{
-              background: "#4caf50",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              padding: "10px 28px",
-              fontWeight: 500,
-              fontSize: "1rem",
-              cursor: "pointer"
-            }}
-            onClick={onClose}
-          >
-            Confirmar
-          </button>
-          <button
-            style={{
-              background: "#f44336",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              padding: "10px 28px",
-              fontWeight: 500,
-              fontSize: "1rem",
-              cursor: "pointer"
-            }}
-            onClick={onClose}
-          >
-            Cancelar
-          </button>
-        </div>
+        {/* Solo mostrar botones si la reserva NO está confirmada ni cancelada */}
+        {reserva && reserva.getEstadoReserva() !== "Confirmada" && reserva.getEstadoReserva() !== "Cancelada" && (
+          <div style={{ display: "flex", justifyContent: "center", gap: 18 }}>
+            <button
+              style={{
+                background: "#4caf50",
+                color: "#fff",
+                border: "none",
+                borderRadius: 6,
+                padding: "10px 28px",
+                fontWeight: 500,
+                fontSize: "1rem",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.7 : 1
+              }}
+              disabled={loading}
+              onClick={() => actualizarEstadoReserva("Confirmada")}
+            >
+              Confirmar
+            </button>
+            <button
+              style={{
+                background: "#f44336",
+                color: "#fff",
+                border: "none",
+                borderRadius: 6,
+                padding: "10px 28px",
+                fontWeight: 500,
+                fontSize: "1rem",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.7 : 1
+              }}
+              disabled={loading}
+              onClick={() => actualizarEstadoReserva("Cancelada")}
+            >
+              Cancelar
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
