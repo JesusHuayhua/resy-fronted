@@ -6,7 +6,7 @@ import { platosCatalogoService, type Plato } from "../services/platosCatalogoSer
 // Estructura que contiene platos con sus cantidades asignadas por día
 export interface MenuSemanaCompleto {
     diasConPlatos: {
-        dia: number;
+        dia: string;
         platos: PlatoConCantidadAsignada[];
     }[];
 }
@@ -43,24 +43,30 @@ export async function obtenerMenuSemanaCompleto(): Promise<MenuSemanaCompleto | 
         if (!menuSemana) {
             return null;
         }
-        // Ya capturado, procedemos con sacar la información completa de tal menu.
 
         // 2. Obtener menú completo con días
         const menuCompleto = await menuCompletoEspecifico(menuSemana.id_menu);
-        if (!menuCompleto) {
+        if (!menuCompleto || !menuCompleto.dias) {
             return null;
         }
-        // Capturado, seguimos.
 
         // 3. Obtener catálogo de platos
         const catalogoPlatos = await platosCatalogoService();
         if (!catalogoPlatos || catalogoPlatos.length === 0) {
             return null;
         }
-        // Catálogo completo de platos, ahora construimos el resultado.
 
-        // 4. Construir los días con platos y cantidades
+        // 4. Construir los días con platos y cantidades - CON VALIDACIONES
         const diasConPlatos = menuCompleto.dias.map(diaMenu => {
+            // VALIDACIÓN CLAVE: Verificar si platos existe y es un array
+            if (!diaMenu.platos || !Array.isArray(diaMenu.platos)) {
+                console.log(`Día ${diaMenu.id_dia} no tiene platos asignados`);
+                return {
+                    dia: diaMenu.dia_semana,
+                    platos: [] // Retornar array vacío en lugar de null
+                };
+            }
+
             // Para cada plato del día, buscar su información completa y combinarla con su cantidad
             const platosConCantidad: PlatoConCantidadAsignada[] = diaMenu.platos.map(platoMenu => {
                 // Buscar el plato completo en el catálogo
@@ -70,7 +76,6 @@ export async function obtenerMenuSemanaCompleto(): Promise<MenuSemanaCompleto | 
                     console.warn(`Plato con ID ${platoMenu.id_plato} no encontrado en catálogo`);
                     return null;
                 }
-                // Ya tenemos el plato, lo pasamos con su cantidad.
                 
                 return {
                     plato: platoCompleto,
@@ -79,7 +84,7 @@ export async function obtenerMenuSemanaCompleto(): Promise<MenuSemanaCompleto | 
             }).filter(Boolean) as PlatoConCantidadAsignada[]; // Filtrar los null
 
             return {
-                dia: diaMenu.id_dia,
+                dia: diaMenu.dia_semana,
                 platos: platosConCantidad
             };
         });
@@ -93,7 +98,7 @@ export async function obtenerMenuSemanaCompleto(): Promise<MenuSemanaCompleto | 
 }
 
 // Función auxiliar para filtrar platos por día
-export function filtrarPorDia(menuSemana: MenuSemanaCompleto, dia: number): PlatoConCantidadAsignada[] {
+export function filtrarPorDia(menuSemana: MenuSemanaCompleto, dia: string): PlatoConCantidadAsignada[] {
     const diaEncontrado = menuSemana.diasConPlatos.find(d => d.dia === dia);
     return diaEncontrado ? diaEncontrado.platos : [];
 }

@@ -26,6 +26,8 @@ import '@fontsource/alegreya/400.css'
 
 import HomeAdmin from './features/navegacionAdmin/gestionDePlatos/pages/HomeAdmin'
 import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/GestionarPlatos'
+import VisualizarHistorial from './features/navegacionAdmin/gestionDePlatos/pages/VisualizarHistorial'
+import VisualizarCronograma from './features/navegacionAdmin/gestionDePlatos/pages/VisualizarCronograma'
 
 
 
@@ -60,6 +62,8 @@ function App() {
                 <Route index element= {<HomeAdmin />} />
                 <Route path="reservas" element={<div>Pagina reservas</div>} />
                 <Route path="alimentos" element={<GestionarPlatos />} />
+                <Route path="alimentos-historial" element={<VisualizarHistorial />} />
+                <Route path="alimentos-cronograma" element={<VisualizarCronograma />} />
                 <Route path="usuarios" element={<div>Pagina usuarios</div>} />
                 <Route path="log_out" element={<div>Pagina log_out</div>} />
               </Route>

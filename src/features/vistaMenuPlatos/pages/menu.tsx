@@ -8,29 +8,31 @@ import { filtrarPorCategoria, filtrarPorDia, obtenerCategoriasCompleto, obtenerM
 import type { Categoria } from "../services/categoriaMenuService";
 
 const diasNombres: string[] = [
-    "Domingo",
-    "Lunes",
-    "Martes",
-    "Miércoles",
-    "Jueves",
-    "Viernes",
-    "Sábado",
+  "Domingo",
+  "Lunes",
+  "Martes",
+  "Miercoles",
+  "Jueves",
+  "Viernes",
+  "Sabado",
 ];
 
 function MenuComp() {
-  
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [filtros, setFiltros] = useState({ dia: new Date().getDay(), categoria: 1, platoSeleccionado: 0 });
 
   // Del backend
   const [menuSemana, setMenuSemana] = useState<MenuSemanaCompleto | null>(null);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
 
-  
+
   const [platosFiltrados, setPlatosFiltrados] = useState<PlatoConCantidadAsignada[]>([]);
 
   // Capturamos la data del back
   useEffect(() => {
-    
+
     const fetchData = async () => {
       try {
         const [menuApi, cats] = await Promise.all([
@@ -40,32 +42,31 @@ function MenuComp() {
 
         if (menuApi) {
           setMenuSemana(menuApi);
-          console.log("Menu cargado:", menuApi); 
+          console.log("Menu cargado:", menuApi);
         }
         if (cats) {
           setCategorias(cats);
-          console.log("Categorías cargadas:", cats); 
+          console.log("Categorías cargadas:", cats);
         }
       } catch (error) {
         console.error("Error al cargar datos:", error);
         alert("Error al cargar menú o categorías");
       }
     };
-    fetchData();
+    fetchData().then(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
     if (!menuSemana) return;
+
     // Filtramos el día.
-    const platosDelDia = filtrarPorDia(menuSemana, filtros.dia);
-    console.log(`Platos del día ${filtros.dia}:`, platosDelDia); 
+    const platosDelDia = filtrarPorDia(menuSemana, diasNombres[filtros.dia]);
 
     // Filtramos por categoría.
     const finales = filtrarPorCategoria(platosDelDia, filtros.categoria);
-    console.log(`Platos filtrados por categoría ${filtros.categoria}:`, finales); // Debug log
 
     setPlatosFiltrados(finales);
-    
+
     // Reseteo
     if (finales.length === 0 || filtros.platoSeleccionado >= finales.length) {
       setFiltros(prev => ({ ...prev, platoSeleccionado: 0 }));
@@ -102,7 +103,7 @@ function MenuComp() {
         minHeight: '100vh'
       }}
     >
-      <div className="main-container">
+      {!isLoading && <div className="main-container">
         <div className="sidebar">
           <div className="day-selector">
             <button onClick={diaAnterior}>‹</button>
@@ -116,7 +117,6 @@ function MenuComp() {
                 onClick={() => handlePlatoClick(index)}
                 className={index === filtros.platoSeleccionado ? 'selected' : 'secondary'}
               >
-                {/* Display dish name with quantity information */}
                 {platoConCantidad.plato.Info.NombrePlato}
               </button>
             ))}
@@ -138,21 +138,47 @@ function MenuComp() {
 
           <div className="food-card-placeholder">
             {platosFiltrados.length > 0 && platosFiltrados[filtros.platoSeleccionado] ? (
-              <Comida 
-                platoDia={{ 
-                  plato: platosFiltrados[filtros.platoSeleccionado].plato, 
-                  cantidad: platosFiltrados[filtros.platoSeleccionado].cantidad // Pass quantity info to child component
-                }} 
+              <Comida
+                platoDia={{
+                  plato: platosFiltrados[filtros.platoSeleccionado].plato,
+                  cantidad: platosFiltrados[filtros.platoSeleccionado].cantidad
+                }}
               />
             ) : (
               <div className="no-platos-message">
-                <p>No hay platos disponibles para este día y categoría</p>
-                <p>Día: {diasNombres[filtros.dia]} | Categoría: {categorias.find(c => c.IDCategoria === filtros.categoria)?.Info.Nombre || 'Desconocida'}</p>
+                <div className="no-platos-icon">🍽️</div>
+                <h3 className="no-platos-title">No hay platos disponibles</h3>
+                <p className="no-platos-description">
+                  Lo sentimos, no encontramos platos para la selección actual.
+                  Intenta elegir otro día o categoría.
+                </p>
+                <div className="no-platos-info">
+                  <div className="no-platos-info-item">
+                    <span className="no-platos-info-label">Día:</span>
+                    <span className="no-platos-info-value">{diasNombres[filtros.dia]}</span>
+                  </div>
+                  <div className="no-platos-info-item">
+                    <span className="no-platos-info-label">Categoría:</span>
+                    <span className="no-platos-info-value">
+                      {categorias.find(c => c.IDCategoria === filtros.categoria)?.Info.Nombre || 'Desconocida'}
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </div>
-      </div>
+      </div>}
+      {isLoading && (
+        <div className="loading-container">
+          <div className="loading-spinner">
+            <div className="spinner-circle"></div>
+            <p className="loading-text">
+              Cargando menú<span className="loading-dots"></span>
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
