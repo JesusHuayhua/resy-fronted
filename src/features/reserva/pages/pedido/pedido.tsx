@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const pedido = () => {
   return <div>Página de Pedido</div>

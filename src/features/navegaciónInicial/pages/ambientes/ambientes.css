@@ -2,214 +2,156 @@
   min-height: 100vh;
   background-size: cover;
   background-position: center;
-  position: relative;
+  color: white;
+  padding-top: 6rem;
 }
 
 .ambientes-content {
   max-width: 900px;
   margin: 0 auto;
-  padding-top: 8rem; /* Aumenta para respetar header */
-  padding-bottom: 2rem; 
+  padding: 1rem;
   text-align: center;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .ambientes-titulo {
-  font-size: 2.5rem;
   font-family: 'Playfair Display', serif;
-  margin: 0;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
-
 
 .ambientes-separador {
-  width: 90%;
-  border: none;
-  border-top: 3px solid #FFD700;
-  opacity: 0.95;
-  margin: 0.1rem auto auto auto; 
+  width: 120px;
+  margin: 0 auto 1rem auto;
+  border-top: 3px solid #ffd700;
 }
 
+/* Carrusel Central */
 .ambiente-carrusel-centro {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  overflow: visible;
-  margin-top: 1rem;
-  padding-bottom: 2rem;
+  gap: 2rem;
+  padding: 2rem 0;
 }
-
-/* Reduce el tamaño de las imágenes laterales */
-.ambiente-lateral {
-  width: 280px;
-  height: 180px;
-  filter: blur(2px) grayscale(40%);
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.2s;
-  transform: scale(0.9);
-  opacity: 0.7;
-  position: absolute;
-  top: 50%;
-  z-index: 0;
-  cursor: pointer; /* Añadir cursor de puntero */
-}
-
-.ambiente-lateral:hover {
-  filter: blur(1px) grayscale(20%);
-  opacity: 0.95;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.32);
-}
-
-.ambiente-lateral-izq {
-  left: -15%; /* Acercar al centro */
-  transform: translateY(-50%);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.25);
-}
-.ambiente-lateral-der {
-  right: -15%; /* Acercar al centro */
-  transform: translateY(-50%);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.25);
-}
-
-
 
 .ambiente-principal {
   width: 60vw;
-  max-width: 720px;
-  border-radius: 1.2rem;
+  max-width: 700px;
+  cursor: zoom-in;
   position: relative;
+}
+
+.ambiente-principal .ambiente-nombre {
+  position: absolute;
+  top: -3rem; /* titulo */
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  font-size: 1.3rem;
+  background: rgba(0,0,0,0.7); /* más opaco para mejor contraste */
+  padding: 0.5rem 1.2rem; /* más padding */
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4); /* sombra para separar del fondo */
+  pointer-events: none; 
   z-index: 2;
-  margin-top: 0.1rem;
-  background: none; /* Asegura que no bloquee clics */
-  padding: 0;
 }
-
-.ambiente-nombre {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-shadow: 0 2px 8px #000;
-}
-
-.ambiente-img-container {
-  width: 100%;
-  aspect-ratio: 16/9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-
 
 .ambiente-img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-  cursor: zoom-in;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transition: transform 0.3s;
 }
-
 
 .ambiente-img.zoom {
-  position: fixed;               /* la saca del flujo del carrusel */
-  top: 50%;                      /* centra verticalmente */
-  left: 50%;                     /* centra horizontalmente */
-  transform: translate(-50%, -50%);
-  width: 60vw;                   /* 60% del ancho de la ventana */
-  height: auto;                  /* altura proporcional */
-  max-height: 70vh;              /* que no exceda el 80% de la altura */
-  z-index: 1000;                 /* por encima de todo */
-  cursor: zoom-out;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-}
-
-/* Icono de zoom / cerrar: por defecto absoluto respecto al contenedor de la imagen */
-.ambiente-zoom-icon {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-  background: rgba(0,0,0,0.5);
-  border-radius: 50%;
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-  user-select: none;
-  z-index: 10;
-}
-
-/* Cuando la imagen está en modo zoom, el icono va fijo en la ventana */
-.ambiente-img.zoom ~ .ambiente-zoom-icon {
   position: fixed;
-  top: 2rem;
-  right: 2rem;
-  z-index: 1001;
+  top: 50%;
+  left: 50%;
+  width: 80vw;
+  height: auto;
+  max-height: 80vh;
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 1000;
+  cursor: zoom-out;
 }
 
+/* Ambientes Laterales */
+.ambiente-lateral {
+  width: 200px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ambiente-lateral:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.ambiente-lateral img {
+  width: 100%;
+  border-radius: 1rem;
+  filter: blur(2px) grayscale(30%);
+}
+
+/* Flechas */
 .ambiente-flechas {
   display: flex;
   justify-content: center;
-  gap: 1.2rem; /* más juntas */
-  margin-top: 0.01rem; /* más cerca de la imagen */
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .ambiente-arrow {
   background: rgba(0,0,0,0.7);
   border: none;
-  color: #fff;
-  font-size: 2rem;
-  border-radius: 0; /* cuadrado */
-  width: 2.8rem;
-  height: 2.8rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  border-radius: 0.5rem;
+  transition: background 0.3s ease;
+}
+
+.ambiente-arrow:hover {
+  background: rgba(0,0,0,0.9);
 }
 
 /* Responsive */
-@media (max-width: 1100px) {
-  .ambiente-principal {
-    width: 96vw;
+@media (max-width: 1024px) {
+  .ambiente-lateral { width: 120px; }
+  .ambiente-principal { width: 75vw; }
+}
+
+@media (max-width: 768px) {
+  .ambiente-carrusel-centro { gap: 1rem; }
+  .ambiente-lateral { display: none; }
+  .ambiente-principal { 
+    width: 90vw;
+    /* Relación de aspecto vertical tipo móvil */
+    aspect-ratio: 9/16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ambiente-principal .ambiente-nombre {
+    top: -2.2rem;
+    font-size: 1.1rem;
+    padding: 0.4rem 0.8rem;
   }
   .ambiente-img {
-    width: 96vw;
-    height: 36vw;
-    min-height: 160px;
-  }
-  .ambiente-lateral {
-    width: 120px;
-    height: 75px;
-  }
-  .ambiente-lateral-izq {
-    left: -18px;
-  }
-  .ambiente-lateral-der {
-    right: -18px;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
   }
 }
 
-@media (max-width: 700px) {
+/* Si quieres aún más vertical en móviles pequeños */
+@media (max-width: 480px) {
   .ambiente-principal {
-    width: 98vw;
-  }
-  .ambiente-img {
-    width: 98vw;
-    height: 44vw;
-    min-height: 120px;
-  }
-  .ambiente-lateral {
-    display: none;
+    aspect-ratio: 9/19;
   }
 }
-
-

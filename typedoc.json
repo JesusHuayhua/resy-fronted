@@ -1,0 +1,5 @@
+{
+  "entryPoints": ["src/features/**/*.tsx"],
+  "out": "docs",
+  "name": "Salon Verde"
+}

@@ -1,0 +1,255 @@
+
+
+/* Sidebar principal */
+.admin-sidebar {
+  width: 12%;
+  height: 100vh;
+  background-color: white;
+  border-right: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* Header del sidebar con logo */
+.admin-sidebar-header {
+  padding: 20px 16px;
+  background-color: white;
+}
+
+.admin-logo-image {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.admin-item-text {
+  font-size: 18px;
+  font-family: 'Alegreya';
+  font-weight: normal;
+  color: #0C4284;
+}
+
+/* Navegación del sidebar */
+.admin-sidebar-nav {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.admin-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.admin-nav-item {
+  margin: 16px;
+}
+
+/* Enlaces de navegación */
+.admin-nav-link {
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  color: #495057 !important;
+  text-decoration: none !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  gap: 12px !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-nav-link:hover {
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+}
+
+.admin-nav-link.active {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+/* Iconos de navegación */
+.admin-nav-icon {
+  width: 30px !important;
+  height: 30px !important;
+  opacity: 0.7 !important;
+  flex-shrink: 0;
+  display: inline-block !important;
+}
+
+.admin-nav-link:hover .admin-nav-icon,
+.admin-nav-link.active .admin-nav-icon {
+  opacity: 1 !important;
+}
+
+/* Items de navegación sin enlace */
+.admin-nav-item:not(:has(.admin-nav-link)) {
+  padding: 12px 24px;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  margin: 2px 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-nav-item:not(:has(.admin-nav-link)):hover {
+  background-color: #f1f5f9;
+}
+
+/* Botón hamburguesa para móvil */
+.admin-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: left 0.3s ease;
+}
+
+.admin-menu-toggle.sidebar-open {
+  left: 300px;
+}
+
+/* Overlay para cerrar sidebar en móvil */
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Responsive para tablets */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 20%;
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .admin-menu-toggle {
+    display: block;
+  }
+  
+  .admin-sidebar {
+    width: 280px;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Mostrar sidebar al hacer hover en el botón o en el área del sidebar */
+  .admin-menu-toggle:hover + .admin-sidebar,
+  .admin-sidebar:hover {
+    transform: translateX(0);
+  }
+  
+  /* Mantener sidebar visible por un momento después del hover */
+  .admin-sidebar {
+    transition: transform 0.3s ease 0.2s;
+  }
+  
+  .admin-menu-toggle:hover + .admin-sidebar,
+  .admin-sidebar:hover {
+    transition-delay: 0s;
+  }
+  
+  .admin-sidebar-overlay.show {
+    display: block;
+  }
+  
+  .admin-sidebar-header {
+    padding: 16px;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .admin-logo-image {
+    max-width: 120px;
+  }
+  
+  .admin-nav-item {
+    margin: 1px 8px;
+  }
+  
+  .admin-nav-link {
+    padding: 14px 16px !important;
+    font-size: 16px !important;
+  }
+  
+  .admin-nav-icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  
+  .admin-item-text {
+    font-size: 16px;
+  }
+}
+
+/* Responsive para móviles pequeños */
+@media (max-width: 480px) {
+  .admin-sidebar {
+    width: 260px;
+  }
+  
+  .admin-sidebar-header {
+    padding: 12px;
+  }
+  
+  .admin-logo-image {
+    max-width: 100px;
+  }
+  
+  .admin-nav-link {
+    padding: 12px 14px !important;
+    font-size: 15px !important;
+  }
+  
+  .admin-item-text {
+    font-size: 15px;
+  }
+}
+
+/* Estados para pantallas táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .admin-nav-link {
+    padding: 16px !important;
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+}
+
+/* adminLayout.css */
+.admin-main-content {
+  margin-left: 12%; /* Igual al ancho del sidebar */
+  transition: margin-left 0.3s;
+}
+
+@media (max-width: 768px) {
+  .admin-main-content {
+    margin-left: 280px; /* Igual al ancho del sidebar en móvil, no es responsive (falta) */
+  }
+}

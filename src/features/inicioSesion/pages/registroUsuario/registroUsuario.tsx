@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './registroUsuario.css';
+import { register } from '../../services/registerService'; // Importa el servicio
 
 // Imagenes.
 import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif';
@@ -13,9 +14,9 @@ function RegistroUsuario() {
         direccion: '',
         telefono: '',
         correo: '',
-        fechaNacimiento: '',
-        contrasena: '',
-        confirmarContrasena: ''
+        fechanacimiento: '', 
+        contrasenia: '',    
+        confirmarContrasenia: '' 
     });
 
     const [errors, setErrors] = useState({
@@ -25,12 +26,13 @@ function RegistroUsuario() {
         telefono: false,
         correoFormato: false,
         correoDuplicado: false,
-        fechaNacimiento: false,
-        contrasena: false,
-        confirmarContrasena: false
+        fechanacimiento: false, 
+        contrasenia: false,     
+        confirmarContrasenia: false 
     });
 
     const [success, setSuccess] = useState(false);
+    const [errorApi, setErrorApi] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,28 +43,28 @@ function RegistroUsuario() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const nombresValid = /^[a-zA-Z\s]+$/.test(formData.nombres);
         const apellidosValid = /^[a-zA-Z\s]+$/.test(formData.apellidos);
-        const direccionValid = formData.direccion.trim() !== '';
+        const direccionValid = true; // Ignora validación de dirección temporalmente
         const telefonoValid = /^[0-9]{9}$/.test(formData.telefono);
-        const correoFormatoValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo);
+        const correoFormatoValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.correo);
         const correoDuplicadoValid = formData.correo !== 'cuenta@gmail.com';
-        const fechaNacimientoValid = formData.fechaNacimiento.trim() !== '' && new Date(formData.fechaNacimiento) < new Date();
-        const contrasenaValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.contrasena);
-        const confirmarContrasenaValid = formData.contrasena === formData.confirmarContrasena;
+        const fechanacimientoValid = formData.fechanacimiento.trim() !== '' && new Date(formData.fechanacimiento) < new Date();
+        const contraseniaValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.contrasenia);
+        const confirmarContraseniaValid = formData.contrasenia === formData.confirmarContrasenia;
 
         setErrors({
             nombres: !nombresValid,
             apellidos: !apellidosValid,
-            direccion: !direccionValid,
+            direccion: false,
             telefono: !telefonoValid,
             correoFormato: !correoFormatoValid,
             correoDuplicado: !correoDuplicadoValid,
-            fechaNacimiento: !fechaNacimientoValid,
-            contrasena: !contrasenaValid,
-            confirmarContrasena: !confirmarContrasenaValid
+            fechanacimiento: !fechanacimientoValid,
+            contrasenia: !contraseniaValid,
+            confirmarContrasenia: !confirmarContraseniaValid
         });
 
         if (
@@ -72,11 +74,33 @@ function RegistroUsuario() {
             telefonoValid &&
             correoFormatoValid &&
             correoDuplicadoValid &&
-            fechaNacimientoValid &&
-            contrasenaValid &&
-            confirmarContrasenaValid
+            fechanacimientoValid &&
+            contraseniaValid &&
+            confirmarContraseniaValid
         ) {
-            setSuccess(true);
+            try {
+                setErrorApi(null);
+                // Enviando como JSON (objeto plano), NO como FormData
+                const payload = {
+                    nombres: formData.nombres,
+                    apellidos: formData.apellidos,
+                    correo: formData.correo,
+                    telefono: formData.telefono,
+                    direccion: formData.direccion,
+                    fechanacimiento: formData.fechanacimiento,
+                    contrasenia: formData.contrasenia,
+                    estadoacceso: true
+                };
+                const response = await register(payload);
+                if (response.status === 1) {
+                    setSuccess(true);
+                } else {
+                    setErrorApi('Error en el registro. Intenta nuevamente. ERROR 1');
+                }
+            } catch (error) {
+                console.error('Error al registrar usuario:', error);
+                setErrorApi('Error en el registro. Intenta nuevamente. ERROR 2');
+            }
         }
     };
 
@@ -149,39 +173,39 @@ function RegistroUsuario() {
                                 value={formData.correo}
                                 onChange={handleChange}
                             />
-                            {errors.fechaNacimiento && (
+                            {errors.fechanacimiento && (
                                 <p className='error-message'>Ingrese una fecha de nacimiento válida</p>
                             )}
                             <input
-                                name='fechaNacimiento'
+                                name='fechanacimiento'
                                 placeholder='Fecha de nacimiento'
                                 type='date'
                                 className='form-input'
-                                value={formData.fechaNacimiento}
+                                value={formData.fechanacimiento}
                                 onChange={handleChange}
                             />
-                            {errors.contrasena && (
+                            {errors.contrasenia && (
                                 <p className='error-message'>
                                     La contraseña debe tener una longitud minima de 8 caracteres e incluye números y letras
                                 </p>
                             )}
                             <input
-                                name='contrasena'
+                                name='contrasenia'
                                 placeholder='Contraseña'
                                 type='password'
                                 className='form-input'
-                                value={formData.contrasena}
+                                value={formData.contrasenia}
                                 onChange={handleChange}
                             />
-                            {errors.confirmarContrasena && (
+                            {errors.confirmarContrasenia && (
                                 <p className='error-message'>Las contraseñas deben ser iguales</p>
                             )}
                             <input
-                                name='confirmarContrasena'
+                                name='confirmarContrasenia'
                                 placeholder='Confirmar contraseña'
                                 type='password'
                                 className='form-input'
-                                value={formData.confirmarContrasena}
+                                value={formData.confirmarContrasenia}
                                 onChange={handleChange}
                             />
                         </div>
@@ -189,6 +213,7 @@ function RegistroUsuario() {
                         <button type='submit' className='registro-button'>
                             CREAR CUENTA
                         </button>
+                        {errorApi && <div className="error-message">{errorApi}</div>}
                     </form>
                 </div>
             </div>

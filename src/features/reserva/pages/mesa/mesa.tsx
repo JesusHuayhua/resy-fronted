@@ -1,4 +1,6 @@
+
 import BarraReserva from '../../components/barraReserva/barraReserva'
+
 
 const mesa = () => {
   

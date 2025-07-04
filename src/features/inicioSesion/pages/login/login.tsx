@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { login as loginService } from '../../services/loginService';
+import { useUser } from '../../../user/context/UserContext';
 
 //
 
@@ -15,7 +17,8 @@ function Login(){
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const navigate = useNavigate();
-
+    const { login } = useUser();
+    const [apiError, setApiError] = useState<string | null>(null);
 
     // Manejan el estado de los textos.
     // Declararle lo del React.ChangeEvent pa que no se loquee.
@@ -28,17 +31,23 @@ function Login(){
         setPassword(e.target.value);
     };
 
-    const handleLogin = () => {
-        const isEmailValid = email === 'cuenta@gmail.com';
-        const isPasswordValid = password === '123';
+    const handleLogin = async () => {
+        setApiError(null);
+        setEmailError(false);
+        setPasswordError(false);
 
-        setEmailError(!isEmailValid);
-        setPasswordError(!isPasswordValid);
-
-        if (!isEmailValid || !isPasswordValid) {
-            navigate('/login'); // Reload the same page
-        } else {
-            // Proceed with login logic
+        try {
+            const response = await loginService(email, password);
+            if (response.acceso) {
+                login(response.usuario);
+                navigate('/');
+            } else {
+                setApiError('Correo o contraseña incorrectos');
+                setEmailError(true);
+                setPasswordError(true);
+            }
+        } catch (error) {
+            setApiError('Error de conexión o servidor');
         }
     };
 
@@ -54,6 +63,9 @@ function Login(){
                     {/* Se declara el from del login */}
                     <form className='login-form'>
                         <div className='input-group'>
+                            {apiError && (
+                                <p className='error-message'>{apiError}</p>
+                            )}
                             {emailError && (
                                 <p className='error-message'>Ingrese correctamente su correo electrónico</p>
                             )}
@@ -69,6 +81,7 @@ function Login(){
                             <input 
                                 placeholder='Contraseña'
                                 className='form-input'
+                                type='password'
                                 onChange={handlePassword}
                                 value={password}
                             />

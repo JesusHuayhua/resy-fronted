@@ -2,31 +2,57 @@
 .contacto-container {
   display: flex;
   min-height: 100vh;
-  background: #222 url('/src/assets/background.avif') center/cover no-repeat;
-  color: #fff;
-  font-family: sans-serif;
+  background: url('/src/assets/background.avif') no-repeat center center/cover;
+  color: white;
+  padding-top: 90px; /* altura del header */
 }
 
 .contacto-left, .contacto-right {
   flex: 1;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 20px;
 }
 
-.contacto-horario, .contacto-info {
-  margin-bottom: 1em;
-  font-size: 1.1em;
+.contacto-card {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.contacto-redes > div {
-  margin-bottom: 0.7em;
-  font-size: 1.1em;
+.contacto-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ffd700;
+  display: inline-block;
+}
+
+.contacto-info {
+  margin-bottom: 1rem;
+}
+
+.contacto-redes li {
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.5rem;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contacto-container {
+    flex-direction: column;
+    padding-top: 90px; /* altura del header en movil */
+  }
+
+  .contacto-left, .contacto-right {
+    padding: 1rem;
+  }
+
+  .contacto-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
 
 
