@@ -1,14 +1,13 @@
 import type { IMenuData } from './classMenu'; // Solo tipos
 import { Menu } from './classMenu'; 
 
-
 import type { IDiaMenuData } from './classDiaMenu';
 import { DiaMenu  } from './classDiaMenu';
 
 import { ArrPlato } from './classArregloPlato'
 
 export interface IMenuCompletoData extends IMenuData {
-  dias: IDiaMenuData[];
+  dias: IDiaMenuData[] | null; // Permitir null explícitamente
 }
 
 export class MenuCompleto extends Menu {
@@ -16,7 +15,14 @@ export class MenuCompleto extends Menu {
 
   constructor(data: IMenuCompletoData) {
     super(data); // inicializa fecha_inicio, fechafin, id_menu
-    this.dias = data.dias.map(d => new DiaMenu(d));
+    
+    // Validar que dias no sea null o undefined antes de hacer map
+    if (data.dias && Array.isArray(data.dias)) {
+      this.dias = data.dias.map(d => new DiaMenu(d));
+    } else {
+      //console.warn('⚠️ MenuCompleto: data.dias es null, undefined o no es un array:', data.dias);
+      this.dias = []; // Inicializar como array vacío
+    }
   }
 
   getDias(): DiaMenu[] {

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Plato } from "./clases/classPlato"; // Ajusta la ruta si es necesario
-import type { IPlatoData } from "./clases/classPlato";
+import { Plato } from "./clases/ClassPlato"; // Ajusta la ruta si es necesario
+import type { IPlatoData } from "./clases/ClassPlato";
 
 const API_URL = "http://localhost:8081/platos";
 

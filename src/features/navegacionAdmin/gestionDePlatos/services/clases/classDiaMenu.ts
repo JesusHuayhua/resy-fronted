@@ -5,7 +5,7 @@ export interface IDiaMenuData {
   dia_semana: string;
   id_dia: number;
   id_menu: string;
-  platos: IArrPlatoData[];
+  platos: IArrPlatoData[] | null; // Permitir null explícitamente
 }
 
 export class DiaMenu {
@@ -18,6 +18,13 @@ export class DiaMenu {
     this.dia_semana = data.dia_semana;
     this.id_dia = data.id_dia;
     this.id_menu = data.id_menu;
-    this.platos = data.platos.map(p => new ArrPlato(p));
+    
+    // Validar que platos no sea null o undefined antes de hacer map
+    if (data.platos && Array.isArray(data.platos)) {
+      this.platos = data.platos.map(p => new ArrPlato(p));
+    } else {
+      //console.warn('⚠️ DiaMenu: data.platos es null, undefined o no es un array:', data.platos);
+      this.platos = []; // Inicializar como array vacío
+    }
   }
 }

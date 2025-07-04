@@ -1,5 +1,5 @@
 // ClassPlato.ts
-export interface IPlatoData {
+export interface IArrPlatoData {
   cantidad_plato: number;
   disponible: boolean;
   id_dia: number;
@@ -12,7 +12,7 @@ export class ArrPlato {
   id_dia: number;
   id_plato: number;
 
-  constructor(data: IPlatoData) {
+  constructor(data: IArrPlatoData) {
     this.cantidad_plato = data.cantidad_plato;
     this.disponible = data.disponible;
     this.id_dia = data.id_dia;
