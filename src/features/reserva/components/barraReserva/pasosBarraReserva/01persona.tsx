@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useReservation } from '../../../context/ReservationContext';
 
 interface PersonaSelectorProps {
   onNext: () => void;
@@ -7,10 +8,12 @@ interface PersonaSelectorProps {
 
 const PersonaSelector: React.FC<PersonaSelectorProps> = ({ onNext, backgroundImg }) => {
   const [selectedPersona, setSelectedPersona] = useState<number | null>(null);
+  const { setData } = useReservation();
   const [hoveredPersona, setHoveredPersona] = useState<number | null>(null);
 
   const handlePersonaSelect = (number: number) => {
     setSelectedPersona(number);
+    setData({ personas: number });
     setTimeout(() => {
       onNext();
     }, 150);
