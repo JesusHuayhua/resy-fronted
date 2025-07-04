@@ -6,9 +6,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es";
 import isoWeek from "dayjs/plugin/isoWeek";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import { obtenerMenu } from "../services/obtenerMenu";
+import { obtenerMenuCompleto } from "../services/obtenerMenuCompleto";
+import { obtenerPlatos } from "../services/obtenerPlato";
 import type { Menu } from "../services/clases/classMenu";
+import type { MenuCompleto } from "../services/clases/classMenuCompleto";
+import type { DiaMenu } from "../services/clases/classDiaMenu";
+import type { ArrPlato } from "../services/clases/classArregloPlato";
+import type { Plato } from "../services/clases/ClassPlato";
 dayjs.extend(isoWeek);
 
 const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
@@ -18,29 +23,173 @@ const GestionarCronograma: React.FC = () => {
   const [semana, setSemana] = useState<Dayjs | null>(dayjs().startOf("week"));
   const [menus, setMenus] = useState<Menu[]>([]);
   const [idMenu, setIdMenu] = useState<string | null>(null);
+  const [menuCompleto, setMenuCompleto] = useState<MenuCompleto | null>(null);
+  const [platos, setPlatos] = useState<Plato[]>([]);
+
+  // Cargar platos al inicio
+  useEffect(() => {
+    obtenerPlatos().then(platosObtenidos => {
+      setPlatos(platosObtenidos);
+    });
+  }, []);
 
   useEffect(() => {
-    obtenerMenu().then(setMenus);
+    obtenerMenu().then(menusObtenidos => {
+      setMenus(menusObtenidos);
+    });
   }, []);
 
   useEffect(() => {
     if (!semana || menus.length === 0) {
       setIdMenu(null);
+      setMenuCompleto(null);
       return;
     }
+    
     const lunes = semana.startOf("week").add(1, "day").startOf("day");
+    
     const menuEncontrado = menus.find(menu => {
-      const fechaInicio = dayjs(new Date(menu.getFechaInicio())).subtract(1, "day").startOf("day");
-      return fechaInicio.isSame(lunes, "day");
+      const fechaInicio = dayjs(new Date(menu.getFechaInicio())).startOf("day");
+      
+      const coincideExacto = fechaInicio.isSame(lunes, "day");
+      const coincideConOffset = fechaInicio.subtract(1, "day").isSame(lunes, "day");
+      const coincideConOffset2 = fechaInicio.add(1, "day").isSame(lunes, "day");
+      
+      return coincideExacto || coincideConOffset || coincideConOffset2;
     });
-    setIdMenu(menuEncontrado ? menuEncontrado.getIdMenu() : null);
+    
+    if (menuEncontrado) {
+      setIdMenu(menuEncontrado.getIdMenu());
+      
+      obtenerMenuCompleto(menuEncontrado.getIdMenu()).then(menuCompletoObtenido => {
+        setMenuCompleto(menuCompletoObtenido);
+      }).catch(error => {
+        setMenuCompleto(null);
+      });
+    } else {
+      setIdMenu(null);
+      setMenuCompleto(null);
+    }
   }, [semana, menus]);
 
-  const lunes = semana ? semana.startOf("week").add(1, "day") : null;
-  const domingo = semana ? semana.startOf("week").add(7, "day") : null;
-  const semanaLabel = lunes && domingo
-    ? `Lunes ${lunes.format("DD/MM")} - Domingo ${domingo.format("DD/MM")}`
-    : "";
+  // Función para obtener el nombre del plato por ID
+  const obtenerNombrePlato = (idPlato: number): string => {
+    const plato = platos.find(p => p.getId() === idPlato);
+    return plato ? plato.getNombre() : `Plato ID: ${idPlato}`;
+  };
+
+  // Función para obtener el día de la semana según el índice de columna
+  const obtenerDiaSemana = (col: number): string => {
+    return diasSemana[col];
+  };
+
+  // Función para obtener los platos de un día específico
+  const obtenerPlatosDelDia = (nombreDia: string): ArrPlato[] => {
+    if (!menuCompleto) return [];
+    
+    try {
+      // Intentar primero con el nombre original
+      let diaMenu = menuCompleto.getDiaPorNombre(nombreDia);
+      
+      // Si no encuentra, probar con diferentes variantes del nombre
+      if (!diaMenu) {
+        // Probar sin tildes
+        const nombreSinTildes = nombreDia.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        diaMenu = menuCompleto.getDiaPorNombre(nombreSinTildes);
+      }
+      
+      // Si aún no encuentra, probar variantes específicas conocidas
+      if (!diaMenu) {
+        const variantes: { [key: string]: string } = {
+          "Miércoles": "Miercoles",
+          "Sábado": "Sabado"
+        };
+        
+        if (variantes[nombreDia]) {
+          diaMenu = menuCompleto.getDiaPorNombre(variantes[nombreDia]);
+        }
+      }
+      
+      // Si no se encuentra el día, retornar array vacío
+      if (!diaMenu) {
+        return [];
+      }
+      
+      return diaMenu.platos || [];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  // Función para renderizar el contenido de una celda
+  const renderCellContent = (fila: number, col: number) => {
+    const nombreDia = obtenerDiaSemana(col);
+    const platosDelDia = obtenerPlatosDelDia(nombreDia);
+    
+    // Si hay platos para este día, mostrar el plato correspondiente a la fila
+    if (platosDelDia.length > 0 && fila < platosDelDia.length) {
+      const plato = platosDelDia[fila];
+      const nombrePlato = obtenerNombrePlato(plato.id_plato);
+      
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            padding: "12px",
+            background: "#f8f9fa",
+            borderRadius: 8,
+            border: "1px solid #e9ecef",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            height: "100%",
+            minHeight: 60
+          }}
+          onClick={() => {
+            // Acción al hacer clic en el plato
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "#e9ecef";
+            e.currentTarget.style.transform = "scale(1.02)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#f8f9fa";
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+        >
+          <div
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: "600",
+              color: "#495057",
+              textAlign: "center",
+              lineHeight: "1.2"
+            }}
+          >
+            {nombrePlato}
+          </div>
+          <div
+            style={{
+              fontSize: "0.8rem",
+              color: "#6c757d",
+              textAlign: "center",
+              fontWeight: "500"
+            }}
+          >
+            Stock: {plato.cantidad_plato}
+          </div>
+        </div>
+      );
+    }
+    
+    // Si no hay platos para esta fila, devolver contenido vacío
+    return null;
+  };
+
+  // Calcular el número máximo de filas necesarias
+  const maxFilas = menuCompleto ? 
+    Math.max(...diasSemana.map(dia => obtenerPlatosDelDia(dia).length), 1) : 1;
 
   return (
     <div style={{ padding: 32 }}>
@@ -61,14 +210,14 @@ const GestionarCronograma: React.FC = () => {
           }}
           title="Volver a gestionar platos"
         >
-          {/* Flecha izquierda unicode */}
           <span style={{ fontSize: "2.2rem", fontWeight: 700 }}>&#8249;</span>
         </button>
         <h1 style={{ fontWeight: 700, fontSize: "2rem", color: "#15396A", letterSpacing: 1, margin: 0 }}>
           CRONOGRAMA
         </h1>
       </div>
-      {/* Selector de semana: solo permite seleccionar el primer día de la semana */}
+      
+      {/* Selector de semana */}
       <div style={{ margin: "24px 0 12px 0", maxWidth: 320 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
           <DatePicker
@@ -91,48 +240,7 @@ const GestionarCronograma: React.FC = () => {
           />
         </LocalizationProvider>
       </div>
-      {idMenu && (
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            background: "#f3f3f3",
-            color: "#1976d2",
-            borderRadius: 8,
-            padding: "8px 18px",
-            fontWeight: 700,
-            fontSize: "1.08rem",
-            marginBottom: 10,
-            gap: 8,
-            border: "1px solid #bcd"
-          }}
-        >
-          <span style={{ fontWeight: 600 }}>ID MENÚ:</span> {idMenu}
-        </div>
-      )}
-      {semana && (
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            background: "#e0e0e0",
-            color: "#555",
-            borderRadius: 8,
-            padding: "8px 18px",
-            fontWeight: 600,
-            fontSize: "1.08rem",
-            marginBottom: 18,
-            gap: 8
-          }}
-        >
-          <FaRegCalendarAlt style={{ fontSize: 18, color: "#555" }} />
-          {(() => {
-            const lunes = semana.startOf("week").add(1, "day");
-            const domingo = semana.startOf("week").add(7, "day");
-            return `Lunes ${lunes.format("DD/MM")} - Domingo ${domingo.format("DD/MM")}`;
-          })()}
-        </div>
-      )}
+      
       <div
         style={{
           marginTop: 16,
@@ -167,6 +275,7 @@ const GestionarCronograma: React.FC = () => {
                     textAlign: "center",
                     borderTopLeftRadius: idx === 0 ? 12 : 0,
                     borderTopRightRadius: idx === diasSemana.length - 1 ? 12 : 0,
+                    position: "relative"
                   }}
                 >
                   {dia}
@@ -175,23 +284,26 @@ const GestionarCronograma: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {[...Array(7)].map((_, fila) => (
+            {[...Array(maxFilas)].map((_, fila) => (
               <tr key={fila}>
                 {diasSemana.map((_, col) => (
                   <td
                     key={col}
                     style={{
-                      minHeight: 60,
-                      height: 60,
+                      minHeight: 80,
+                      height: 80,
                       border: "1px solid #f0f0f0",
                       borderLeft: col === 0 ? "none" : undefined,
                       borderRight: col === diasSemana.length - 1 ? "none" : undefined,
-                      borderBottom: fila === 6 ? "none" : undefined,
+                      borderBottom: fila === maxFilas - 1 ? "none" : undefined,
                       background: "#fff",
                       textAlign: "center",
-                      padding: 0,
+                      padding: 4,
+                      verticalAlign: "top"
                     }}
-                  ></td>
+                  >
+                    {renderCellContent(fila, col)}
+                  </td>
                 ))}
               </tr>
             ))}
