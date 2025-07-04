@@ -1,10 +1,18 @@
 import FiltroCalendar from "./FiltroCalendar";
+
+
+import Categoria from "./Categoria";
+
 import Buscador from "./Buscador";
 import "./NavegacionSuperior.css";
 import type { Dayjs } from "dayjs";
+
 import { Link } from "react-router-dom";
 import type { Categoria } from "../../../vistaMenuPlatos/services/categoriaMenuService";
 import CategoriaComponente from "./Categoria";
+
+import { useNavigate } from "react-router-dom";
+
 
 // Interfaz para las props del componente
 // Hemos actualizado los tipos para que sean más específicos y claros
@@ -16,7 +24,16 @@ interface Props {
     setIndexCategoria: (index: number | null) => void;
 }
 
+
 function NavegacionSuperior(props: Props) {
+
+function NavegacionSuperior(prop: Prop){
+    const navigate = useNavigate();
+
+    // Procedemos con definir el filtro de la fecha.
+    // Aca habra tambien dos botones.
+    
+
     return (
         <>
             {/* Primera sección de navegación: Calendario y botones de acción */}
@@ -31,6 +48,7 @@ function NavegacionSuperior(props: Props) {
                 
                 {/* Botones de navegación a otras secciones */}
                 <div className="admin-food-manager-buttons">
+
                     <Link
                         to="/admin/alimentos-historial"
                         className="admin-food-manager-link-button"
@@ -47,6 +65,10 @@ function NavegacionSuperior(props: Props) {
                     >
                         Cronograma
                     </Link>
+
+                    <button>Historial</button>
+                    <button onClick={() => navigate("/admin/cronograma")}>Cronograma</button>
+
                 </div>
             </div>
 
