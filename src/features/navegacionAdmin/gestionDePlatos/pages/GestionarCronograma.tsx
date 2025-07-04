@@ -6,7 +6,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/es";
 import isoWeek from "dayjs/plugin/isoWeek";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import { obtenerMenu } from "../services/obtenerMenu";
 import { obtenerMenuCompleto } from "../services/obtenerMenuCompleto";
 import { obtenerPlatos } from "../services/obtenerPlato";
