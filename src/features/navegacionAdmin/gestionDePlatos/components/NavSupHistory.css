@@ -1,0 +1,236 @@
+/* SOLUCIÓN UNIFICADA: Todo en una sola línea horizontal */
+/* Cambiamos la dirección principal a row para que todo esté en línea */
+
+.admin-food-history-navwrapper {
+  display: flex;
+  flex-direction: row; /* CAMBIO CLAVE: Ahora todo va en fila horizontal */
+  align-items: center; /* Centrar verticalmente todos los elementos */
+  gap: 20px; /* Espacio entre las secciones de categorías y botones */
+  width: 100%;
+  flex-wrap: wrap; /* Permitir que se envuelva en pantallas pequeñas */
+  box-sizing: border-box;
+  height: 70px;
+}
+
+/* Container para las categorías - Ahora parte de la línea horizontal */
+.admin-food-history-categorias {
+  display: flex;
+  align-items: center; /* Centrar verticalmente los elementos internos */
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 0; /* Evitar que se encoja demasiado */
+  margin: 0;
+  padding: 0;
+  min-height: 40px; /* Altura consistente con los botones */
+  box-sizing: border-box;
+  /* Ya no necesitamos width: 100% porque ahora comparte espacio horizontal */
+}
+
+/* Container para los botones - Ahora ocupa el espacio restante de la línea */
+.admin-food-history-buttons {
+  display: flex;
+  align-items: center; /* Misma alineación vertical que categorías */
+  justify-content: flex-end;
+  gap: 15px;
+  flex-wrap: wrap;
+  flex: 1; /* CAMBIO CLAVE: Ocupa el espacio restante de la línea horizontal */
+  padding: 0;
+  margin: 0;
+  min-height: 40px; /* Misma altura que categorías para alineación perfecta */
+  box-sizing: border-box;
+}
+
+/* Botones de filtro - Altura consistente con el botón X */
+.admin-food-history-buttons > button {
+  display: inline-flex;
+  align-items: end;
+  justify-content: center;
+  padding: 8px 16px; /* Padding ajustado para mejor proporción */
+  min-height: 32px; /* Misma altura que el botón X de categorías */
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  color: #495057;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.admin-food-history-buttons > button:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.admin-food-history-buttons > button:active {
+  background-color: #e9ecef;
+  transform: translateY(1px);
+}
+
+/* Botón X para limpiar filtro - Estilo específico */
+.admin-food-history-buttons > button:last-child {
+  min-width: 32px; /* Misma anchura que el botón X de categorías */
+  padding: 8px 10px;
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+.admin-food-history-buttons > button:last-child:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+/* CORRECCIÓN IMPORTANTE: Eliminar estilos para elementos <text> */
+/* Los elementos <text> son para SVG, no para HTML regular */
+/* En su lugar, el texto va directamente en el botón */
+
+/* Responsive optimizado - Mantiene línea única en desktop, envuelve en móvil */
+@media (max-width: 1024px) {
+  .admin-food-history-navwrapper {
+    gap: 18px;
+    /* Mantener línea horizontal en tablets */
+  }
+  
+  .admin-food-history-categorias {
+    gap: 10px;
+    min-height: 38px;
+  }
+  
+  .admin-food-history-buttons {
+    gap: 12px;
+    min-height: 38px;
+  }
+  
+  .clear-category-btn {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .admin-food-history-buttons > button {
+    min-height: 30px;
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+  
+  .admin-food-history-buttons > button:last-child {
+    min-width: 30px;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-food-history-navwrapper {
+    gap: 15px;
+    /* En tablets pequeños, comenzar a considerar el apilamiento si es necesario */
+    flex-wrap: wrap;
+  }
+  
+  .admin-food-history-categorias {
+    gap: 8px;
+    min-height: 36px;
+    /* Permitir que las categorías tomen menos espacio si es necesario */
+    flex-shrink: 1;
+  }
+  
+  .admin-food-history-buttons {
+    gap: 10px;
+    min-height: 36px;
+    /* Asegurar que los botones se mantengan juntos */
+    flex-shrink: 0;
+  }
+  
+  .clear-category-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .admin-food-history-buttons > button {
+    min-height: 28px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .admin-food-history-buttons > button:last-child {
+    min-width: 28px;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-food-history-navwrapper {
+    gap: 12px;
+    /* En móviles, permitir apilamiento vertical si el contenido no cabe */
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .admin-food-history-categorias {
+    gap: 6px;
+    min-height: 34px;
+    width: 100%; /* En móvil, ocupar todo el ancho cuando se apila */
+  }
+  
+  .admin-food-history-buttons {
+    gap: 8px;
+    min-height: 34px;
+    width: 100%; /* En móvil, ocupar todo el ancho cuando se apila */
+    flex: none; /* Remover flex: 1 en móvil */
+  }
+  
+  .clear-category-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+  
+  .admin-food-history-buttons > button {
+    min-height: 26px;
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  .admin-food-history-buttons > button:last-child {
+    min-width: 26px;
+    padding: 5px 6px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .admin-food-history-navwrapper {
+    gap: 25px;
+  }
+  
+  .admin-food-history-categorias {
+    gap: 15px;
+    min-height: 42px;
+  }
+  
+  .admin-food-history-buttons {
+    gap: 18px;
+    min-height: 42px;
+  }
+  
+  .clear-category-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+  
+  .admin-food-history-buttons > button {
+    min-height: 34px;
+    padding: 9px 18px;
+    font-size: 15px;
+  }
+  
+  .admin-food-history-buttons > button:last-child {
+    min-width: 34px;
+    padding: 9px 12px;
+  }
+}

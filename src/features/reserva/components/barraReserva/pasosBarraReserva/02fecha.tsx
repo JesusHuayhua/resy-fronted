@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useReservation } from '../../../context/ReservationContext';
 
 interface DayInfo {
   name: string;
@@ -13,6 +14,7 @@ const WeeklyCalendar: React.FC<CalendarSelectorProps> = ( {onNext}) => {
   const [weekDays, setWeekDays] = useState<DayInfo[]>([]);
   const [currentMonth, setCurrentMonth] = useState('');
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const { setData } = useReservation();
 
   const dayNames = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
   const monthNames = [
@@ -53,6 +55,8 @@ const WeeklyCalendar: React.FC<CalendarSelectorProps> = ( {onNext}) => {
   const handleDayClick = (index: number) => {
     if (!weekDays[index].isPast) {
       setSelectedDay(index);
+      const fecha = `${weekDays[index].date} ${currentMonth}`;
+      setData({ fecha });
       onNext();
     }
   };

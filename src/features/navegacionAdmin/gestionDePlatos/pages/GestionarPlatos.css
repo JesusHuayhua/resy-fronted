@@ -2,7 +2,6 @@
 .admin-food-manager-container {
   margin-left: 12%; /* Ajuste para el sidebar de 12% */
   min-height: 100vh;
-  background-color: #f8f9fa;
   padding: 0;
   width: calc(100% - 12%);
   box-sizing: border-box;
@@ -37,13 +36,10 @@
 /* En lugar de centrar –> alinea al inicio */
 .admin-food-manager-menu {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 280px));
   gap: 16px;
-  
-  /* estos dos quitan el centrado forzado de cada celda */
   justify-content: start;  
   justify-items: start;    
-  
   padding: 20px 16px;
   background-color: #f8f9fa;
   min-height: calc(100vh - 200px);
@@ -170,4 +166,267 @@
 /* Transiciones suaves para cambios de layout */
 .admin-food-manager-container {
   transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* ===== ESTADOS DE CARGA Y VACÍO ===== */
+
+/* Contenedor principal para el estado de carga */
+.admin-food-manager-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* Spinner de carga animado */
+.admin-food-manager-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e3f2fd;
+  border-top: 4px solid #0C4284;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+/* Animación del spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Texto del estado de carga */
+.admin-food-manager-loading-text {
+  font-size: 18px;
+  color: #0C4284;
+  font-family: 'Alegreya', serif;
+  font-weight: 500;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+/* Subtexto del estado de carga */
+.admin-food-manager-loading-subtext {
+  font-size: 14px;
+  color: #6c757d;
+  font-family: 'Alegreya', serif;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* ===== ESTADO SIN PLATOS ENCONTRADOS ===== */
+
+/* Contenedor para el estado vacío */
+.admin-food-manager-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* Icono del estado vacío */
+.admin-food-manager-empty-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #e3f2fd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de pulso sutil para el icono */
+.admin-food-manager-empty-icon::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #0C4284;
+  opacity: 0.1;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Animación de pulso */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.05;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+}
+
+/* Símbolo del plato vacío */
+.admin-food-manager-empty-symbol {
+  font-size: 36px;
+  color: #0C4284;
+  position: relative;
+  z-index: 1;
+}
+
+/* Título del estado vacío */
+.admin-food-manager-empty-title {
+  font-size: 24px;
+  color: #0C4284;
+  font-family: 'Alegreya', serif;
+  font-weight: bold;
+  margin-bottom: 12px;
+  letter-spacing: 0.4px;
+}
+
+/* Mensaje del estado vacío */
+.admin-food-manager-empty-message {
+  font-size: 16px;
+  color: #6c757d;
+  font-family: 'Alegreya', serif;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 400px;
+  margin-bottom: 24px;
+}
+
+/* Sugerencia adicional */
+.admin-food-manager-empty-suggestion {
+  font-size: 14px;
+  color: #495057;
+  font-family: 'Alegreya', serif;
+  font-weight: 400;
+  background-color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border-left: 4px solid #0C4284;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 350px;
+}
+
+/* ===== RESPONSIVE PARA ESTADOS ===== */
+
+/* Responsive para tablets */
+@media (max-width: 1024px) {
+  .admin-food-manager-loading,
+  .admin-food-manager-empty {
+    padding: 32px 24px;
+  }
+  
+  .admin-food-manager-empty-icon {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .admin-food-manager-empty-symbol {
+    font-size: 32px;
+  }
+  
+  .admin-food-manager-empty-title {
+    font-size: 22px;
+  }
+  
+  .admin-food-manager-loading-text {
+    font-size: 16px;
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .admin-food-manager-loading,
+  .admin-food-manager-empty {
+    padding: 24px 20px;
+    min-height: calc(100vh - 160px);
+  }
+  
+  .admin-food-manager-spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+  }
+  
+  .admin-food-manager-empty-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .admin-food-manager-empty-symbol {
+    font-size: 28px;
+  }
+  
+  .admin-food-manager-empty-title {
+    font-size: 20px;
+  }
+  
+  .admin-food-manager-empty-message {
+    font-size: 15px;
+  }
+  
+  .admin-food-manager-loading-text {
+    font-size: 16px;
+  }
+  
+  .admin-food-manager-loading-subtext {
+    font-size: 13px;
+  }
+}
+
+/* Responsive para móviles pequeños */
+@media (max-width: 480px) {
+  .admin-food-manager-loading,
+  .admin-food-manager-empty {
+    padding: 20px 16px;
+  }
+  
+  .admin-food-manager-empty-title {
+    font-size: 18px;
+  }
+  
+  .admin-food-manager-empty-message {
+    font-size: 14px;
+  }
+  
+  .admin-food-manager-empty-suggestion {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+}
+
+/* ===== TRANSICIONES SUAVES ===== */
+
+/* Transición para cambio de estados */
+.admin-food-manager-loading,
+.admin-food-manager-empty,
+.admin-food-manager-menu {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Entrada suave de los elementos */
+.admin-food-manager-loading,
+.admin-food-manager-empty {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

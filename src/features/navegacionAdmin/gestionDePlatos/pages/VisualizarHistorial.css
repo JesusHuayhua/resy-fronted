@@ -1,0 +1,70 @@
+/* Container principal del historial */
+.admin-food-history-container {
+  margin-left: 12%; /* Ajuste para el sidebar de 12% */
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 0;
+  width: calc(100% - 12%);
+  box-sizing: border-box;
+}
+
+/* Header con título y botón de atrás */
+.admin-food-history-navbar-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  gap: 15px;
+}
+
+.admin-food-history-navbar-header a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #6c757d;
+  font-size: 18px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.admin-food-history-navbar-header a:hover {
+  background-color: #e9ecef;
+  color: #495057;
+  transform: translateX(-2px);
+}
+
+.admin-food-history-navbar-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-family: 'Alegreya';
+  font-weight: bold;
+  color: #0C4284;
+  letter-spacing: 0.5px;
+}
+
+/* Container para los botones del navbar superior */
+.admin-food-history-buttons {
+  background-color: #ffffff;
+}
+
+/* Container principal del historial (contenido) */
+.admin-food-history {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
+  gap: 16px;
+  
+  /* estos dos quitan el centrado forzado de cada celda */
+  justify-content: start;  
+  justify-items: start;    
+  
+  padding: 20px 16px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 200px);
+}

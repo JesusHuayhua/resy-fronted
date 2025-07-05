@@ -26,10 +26,15 @@ import '@fontsource/alegreya/400.css'
 
 import HomeAdmin from './features/navegacionAdmin/gestionDePlatos/pages/HomeAdmin'
 import GestionarPlatos from './features/navegacionAdmin/gestionDePlatos/pages/GestionarPlatos'
+
+import VisualizarHistorial from './features/navegacionAdmin/gestionDePlatos/pages/VisualizarHistorial'
+import VisualizarCronograma from './features/navegacionAdmin/gestionDePlatos/pages/VisualizarCronograma'
+
 import UsuariosPage from './features/navegacionAdmin/gestionUsuarios/pages/Usuarios/UsuariosPage'
 import DetalleUsuarioPage from './features/navegacionAdmin/gestionUsuarios/pages/DetalleUsuario/DetalleUsuarioPage'
 import CalendarioReservas from "./features/navegacionAdmin/gestionReservas/pages/CalendarioReservas";
 import GestionarCronograma from "./features/navegacionAdmin/gestionDePlatos/pages/GestionarCronograma";
+
 
 
 
@@ -65,9 +70,15 @@ function App() {
                 <Route index element= {<HomeAdmin />} />
                 <Route path="reservas" element={< CalendarioReservas/>} />
                 <Route path="alimentos" element={<GestionarPlatos />} />
+
+                <Route path="alimentos-historial" element={<VisualizarHistorial />} />
+                <Route path="alimentos-cronograma" element={<VisualizarCronograma />} />
+                <Route path="usuarios" element={<div>Pagina usuarios</div>} />
+
                 <Route path="usuarios" element={<UsuariosPage />} />
                 <Route path="usuarios/:id" element={<DetalleUsuarioPage />} />
                 <Route path="cronograma" element={<GestionarCronograma />} />
+
                 <Route path="log_out" element={<div>Pagina log_out</div>} />
               </Route>
               

@@ -7,7 +7,7 @@ interface Props{
 };
 
 
-function Categoria(props: Props){
+function CategoriaComponente(props: Props){
     // Procedemos con renderizar el boton de categorias.
     return(
             <button className="categoria-button" onClick={() => props.setIndexCategoria(props.index)}>
@@ -16,4 +16,4 @@ function Categoria(props: Props){
     );
 }
 
-export default Categoria;
+export default CategoriaComponente;
