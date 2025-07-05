@@ -1,7 +1,7 @@
-
+import UbicacionEnvio from '../../components/pedido/UbicacionEnvio';
 
 const pedido = () => {
-  return <div>Página de Pedido</div>
-}
+  return <UbicacionEnvio />;
+};
 
-export default pedido
+export default pedido;

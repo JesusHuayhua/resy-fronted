@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/login';
+const API_URL = 'http://127.0.0.1/usuario/login';
 
 export interface LoginResponse {
   acceso: boolean;
