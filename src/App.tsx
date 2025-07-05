@@ -16,7 +16,7 @@ import RegistroUsuario from './features/inicioSesion/pages/registroUsuario/regis
 import RecuperarContrasena from './features/inicioSesion/pages/recuperarContrasena/recuperar'
 import Codigo from './features/inicioSesion/pages/recuperarContrasena/codigo'
 import Cambiar from './features/inicioSesion/pages/recuperarContrasena/cambiar'
-import { UserProvider } from './features/user/context/UserContext';
+import { UserProvider, useUser } from './features/user/context/UserContext';
 import { UsuarioLayout } from './layouts/usuarioLayout'
 import { AdminLayout } from './layouts/adminLayout'
 
@@ -34,11 +34,18 @@ import UsuariosPage from './features/navegacionAdmin/gestionUsuarios/pages/Usuar
 import DetalleUsuarioPage from './features/navegacionAdmin/gestionUsuarios/pages/DetalleUsuario/DetalleUsuarioPage'
 import CalendarioReservas from "./features/navegacionAdmin/gestionReservas/pages/CalendarioReservas";
 import GestionarCronograma from "./features/navegacionAdmin/gestionDePlatos/pages/GestionarCronograma";
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-
-
-
-
+function LogoutPage() {
+  const { logout } = useUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    logout();
+    navigate('/login');
+  }, [logout, navigate]);
+  return null;
+}
 
 function App() {
   return (
@@ -79,7 +86,7 @@ function App() {
                 <Route path="usuarios/:id" element={<DetalleUsuarioPage />} />
                 <Route path="cronograma" element={<GestionarCronograma />} />
 
-                <Route path="log_out" element={<div>Pagina log_out</div>} />
+                <Route path="log_out" element={<LogoutPage />} />
               </Route>
               
             </Routes>
