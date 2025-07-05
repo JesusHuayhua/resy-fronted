@@ -1,10 +1,5 @@
 import UbicacionEnvio from '../../components/pedido/UbicacionEnvio';
-
-const pedido = () => {
-  return <UbicacionEnvio />;
-};
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ReservationProvider, useReservation } from '../../context/ReservationContext';
 import BackgroundImg from '../../../../assets/imagenesReserva/mesas.webp'
 import Logo from '../../../../assets/logo.webp';
@@ -216,11 +211,22 @@ const ReservaForm = () => {
   );
 };
 
-const PedidoReserva = () => (
-  <ReservationProvider>
-    <ReservaForm />
-  </ReservationProvider>
-);
+const PedidoReserva = () => {
+  const [paso, setPaso] = useState<'ubicacion' | 'form'>('ubicacion');
+
+  // Función que se pasa a UbicacionEnvio para avanzar al formulario
+  const handleUbicacionSeleccionada = () => setPaso('form');
+
+  return (
+    <ReservationProvider>
+      {paso === 'ubicacion' ? (
+        <UbicacionEnvio onUbicacionSeleccionada={handleUbicacionSeleccionada} />
+      ) : (
+        <ReservaForm />
+      )}
+    </ReservationProvider>
+  );
+};
 
 export default PedidoReserva;
 

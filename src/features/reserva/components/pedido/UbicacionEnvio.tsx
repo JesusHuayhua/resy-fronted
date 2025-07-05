@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { FaMapMarkerAlt, FaSearchLocation } from 'react-icons/fa';
+import { useReservation } from '../../context/ReservationContext';
+import { useNavigate } from 'react-router-dom';
 
 const direccionesSugeridas = [
   {
@@ -44,7 +46,11 @@ function LocationSelector({ onSelect }: { onSelect: (lat: number, lng: number) =
   return null;
 }
 
-const UbicacionEnvio: React.FC = () => {
+interface UbicacionEnvioProps {
+  onUbicacionSeleccionada?: () => void;
+}
+
+const UbicacionEnvio: React.FC<UbicacionEnvioProps> = ({ onUbicacionSeleccionada }) => {
   const [direccion, setDireccion] = useState('');
   const [seleccionada, setSeleccionada] = useState<number | null>(null);
   const [marker, setMarker] = useState<{ lat: number; lng: number } | null>({ lat: -12.174801, lng: -77.016396 });
@@ -52,6 +58,8 @@ const UbicacionEnvio: React.FC = () => {
   const [reverseAddress, setReverseAddress] = useState('');
   const mapRef = useRef<any>(null);
   const initialPosition = { lat: -12.174801, lng: -77.016396 };
+  const { setData } = useReservation();
+  const navigate = useNavigate();
 
   // Cuando se selecciona una dirección sugerida
   const handleSeleccionarDireccion = (idx: number) => {
@@ -83,6 +91,19 @@ const UbicacionEnvio: React.FC = () => {
       }
     } catch (error) {
       setReverseAddress('');
+    }
+  };
+
+  const handleSeleccionarEnMapa = () => {
+    if (direccion && direccion.trim().length > 0) {
+      setData({ direccion });
+      if (onUbicacionSeleccionada) {
+        onUbicacionSeleccionada();
+      } else {
+        navigate('/local_reserva');
+      }
+    } else {
+      alert('Selecciona una ubicación válida en el mapa antes de continuar.');
     }
   };
 
@@ -135,7 +156,7 @@ const UbicacionEnvio: React.FC = () => {
         </div>
         {/* Botones */}
         <div className="w-full flex flex-row gap-2 px-8 mb-2 mt-2">
-          <button className="flex-1 bg-yellow-400 text-black font-bold py-2 rounded-lg hover:bg-yellow-500 transition flex items-center justify-center gap-2 text-base shadow">
+          <button className="flex-1 bg-yellow-400 text-black font-bold py-2 rounded-lg hover:bg-yellow-500 transition flex items-center justify-center gap-2 text-base shadow" onClick={handleSeleccionarEnMapa}>
             <FaMapMarkerAlt className="text-lg" />
             Seleccionar En El Mapa
           </button>
