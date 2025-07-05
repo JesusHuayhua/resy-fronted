@@ -40,6 +40,10 @@ function GestionarPlatos() {
     const [categorias, setCategorias] = useState<Categoria[]>([]);
     const [platosFiltrados, setPlatosFiltrados] = useState<PlatoConCantidadAsignada[]>([]);
 
+    // ESTADO PARA BÚSQUEDA - CAMBIADO A STRING
+    const [buscarPlato, setBuscarPlato] = useState<string>("");
+
+
     // Efecto para cargar datos del backend
     useEffect(() => {
         const fetchData = async () => {
@@ -159,6 +163,8 @@ function GestionarPlatos() {
                     setFecha={setDate}
                     indexCategoria={indexCategoria}
                     setIndexCategoria={handleCategoriaClick}
+                    setBuscarPlato={setBuscarPlato}
+                    buscarPlato={buscarPlato}
                 />
             </div>
 
