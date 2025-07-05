@@ -1,11 +1,8 @@
-
 import UbicacionEnvio from '../../components/pedido/UbicacionEnvio';
 
 const pedido = () => {
   return <UbicacionEnvio />;
 };
-
-export default pedido;
 
 import React, { useState } from 'react';
 import { ReservationProvider, useReservation } from '../../context/ReservationContext';
@@ -226,4 +223,6 @@ const PedidoReserva = () => (
 );
 
 export default PedidoReserva;
+
+
 
