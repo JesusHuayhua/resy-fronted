@@ -1,7 +1,7 @@
 import FiltroCalendar from "./FiltroCalendar";
 
 
-import Categoria from "./Categoria";
+
 
 import Buscador from "./Buscador";
 import "./NavegacionSuperior.css";
@@ -22,16 +22,16 @@ interface Props {
     setFecha: (fecha: Dayjs | null) => void;
     indexCategoria: number | null;
     setIndexCategoria: (index: number | null) => void;
+    setBuscarPlato: (buscar: string) => void;
+    buscarPlato: string;
 }
 
 
 function NavegacionSuperior(props: Props) {
 
-function NavegacionSuperior(prop: Prop){
+
     const navigate = useNavigate();
 
-    // Procedemos con definir el filtro de la fecha.
-    // Aca habra tambien dos botones.
     
 
     return (
@@ -66,9 +66,6 @@ function NavegacionSuperior(prop: Prop){
                         Cronograma
                     </Link>
 
-                    <button>Historial</button>
-                    <button onClick={() => navigate("/admin/cronograma")}>Cronograma</button>
-
                 </div>
             </div>
 
@@ -102,7 +99,7 @@ function NavegacionSuperior(prop: Prop){
                 
                 {/* Componente de búsqueda */}
                 <div className="admin-food-manager-search">
-                    <Buscador />
+                    <Buscador buscarPlato={props.buscarPlato} setBuscarPlato={props.setBuscarPlato}/>
                 </div>
             </div>
         </>
