@@ -1,38 +1,23 @@
 import FiltroCalendar from "./FiltroCalendar";
-
-
-import Categoria from "./Categoria";
-
 import Buscador from "./Buscador";
 import "./NavegacionSuperior.css";
 import type { Dayjs } from "dayjs";
-
 import { Link } from "react-router-dom";
-import type { Categoria } from "../../../vistaMenuPlatos/services/categoriaMenuService";
+import type { Categoria as CategoriaType } from "../../../vistaMenuPlatos/services/categoriaMenuService";
 import CategoriaComponente from "./Categoria";
-
 import { useNavigate } from "react-router-dom";
 
-
 // Interfaz para las props del componente
-// Hemos actualizado los tipos para que sean más específicos y claros
 interface Props {
-    categoriaComidas: Categoria[];
+    categoriaComidas: CategoriaType[];
     fechaActual: Dayjs | null;
     setFecha: (fecha: Dayjs | null) => void;
     indexCategoria: number | null;
     setIndexCategoria: (index: number | null) => void;
 }
 
-
 function NavegacionSuperior(props: Props) {
-
-function NavegacionSuperior(prop: Prop){
     const navigate = useNavigate();
-
-    // Procedemos con definir el filtro de la fecha.
-    // Aca habra tambien dos botones.
-    
 
     return (
         <>
@@ -48,7 +33,6 @@ function NavegacionSuperior(prop: Prop){
                 
                 {/* Botones de navegación a otras secciones */}
                 <div className="admin-food-manager-buttons">
-
                     <Link
                         to="/admin/alimentos-historial"
                         className="admin-food-manager-link-button"
@@ -68,7 +52,6 @@ function NavegacionSuperior(prop: Prop){
 
                     <button>Historial</button>
                     <button onClick={() => navigate("/admin/cronograma")}>Cronograma</button>
-
                 </div>
             </div>
 
@@ -80,7 +63,7 @@ function NavegacionSuperior(prop: Prop){
                     {props.categoriaComidas.map((categoria) => {
                         return (
                             <CategoriaComponente 
-                                key={categoria.IDCategoria} // Key único para React
+                                key={categoria.IDCategoria}
                                 name={categoria.Info.Nombre} 
                                 index={categoria.IDCategoria} 
                                 setIndexCategoria={props.setIndexCategoria}
@@ -100,7 +83,7 @@ function NavegacionSuperior(prop: Prop){
                     )}
                 </div>
                 
-                {/* Componente de búsqueda */}
+                {/* Componenste de búsqueda */}
                 <div className="admin-food-manager-search">
                     <Buscador />
                 </div>
