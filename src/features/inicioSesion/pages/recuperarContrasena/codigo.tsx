@@ -10,6 +10,8 @@ import './recuperar.css';
 import { useNavigate } from 'react-router-dom';
 import { verificarTokenRecuperacion } from '../../services/verificarTokenRecuperacionService';
 
+
+import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif';
 /**
  * Props del componente CodigoRecuperacion.
  * @typedef {Object} CodigoRecuperacionProps

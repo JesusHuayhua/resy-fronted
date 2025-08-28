@@ -1,0 +1,815 @@
+/* Modal overlay - covers the entire screen */
+.admin-food-modal-agregar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly darker overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px); /* Add subtle blur effect */
+}
+
+/* Main modal container */
+.admin-food-modal-agregar-container {
+  background-color: white;
+  border-radius: 12px; /* Slightly more rounded corners */
+  width: 90%;
+  max-width: 520px; /* Slightly wider for better proportions */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+  position: relative;
+  animation: modalFadeIn 0.3s ease-out; /* Add entrance animation */
+}
+
+/* Animation for modal entrance */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Header with breadcrumb and close button */
+.admin-food-modal-agregar-header {
+  background: linear-gradient(135deg, #6c757d, #5a6268); /* Subtle gradient */
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+}
+
+.admin-food-modal-agregar-breadcrumb {
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.admin-food-modal-agregar-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  font-weight: bold;
+}
+
+.admin-food-modal-agregar-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Title section */
+.admin-food-modal-agregar-title {
+  padding: 24px 28px 20px;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0; /* Add subtle separator */
+}
+
+.admin-food-modal-agregar-title h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: #2c3e50; /* Darker, more professional color */
+  letter-spacing: -0.5px;
+}
+
+.admin-food-modal-agregar-title h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 16px 0 0 0;
+  color: #2c3e50;
+  text-align: left;
+}
+
+/* Form styling */
+.admin-food-modal-agregar-form {
+  padding: 24px 28px 20px;
+}
+
+.admin-food-modal-agregar-form-group {
+  margin-bottom: 20px;
+}
+
+.admin-food-modal-agregar-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+/* Input styling */
+.admin-food-modal-agregar-form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.admin-food-modal-agregar-form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.admin-food-modal-agregar-form-input:hover {
+  border-color: #ced4da;
+}
+
+.admin-food-modal-agregar-form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.admin-food-modal-agregar-form-input-small {
+  width: 140px;
+}
+
+/* Select styling */
+.admin-food-modal-agregar-select-container {
+  position: relative;
+}
+
+.admin-food-modal-agregar-form-select {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  appearance: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.admin-food-modal-agregar-form-select:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.admin-food-modal-agregar-form-select:hover {
+  border-color: #ced4da;
+}
+
+.admin-food-modal-agregar-select-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  pointer-events: none;
+  font-size: 14px;
+}
+
+/* File input styling */
+.admin-food-modal-agregar-form-input-file {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.admin-food-modal-agregar-form-input-file:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.admin-food-modal-agregar-form-input-file:hover {
+  border-color: #ced4da;
+}
+
+/* Quantity controls */
+.admin-food-modal-agregar-quantity-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.admin-food-modal-agregar-quantity-btn {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #495057;
+}
+
+.admin-food-modal-agregar-quantity-btn:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-1px);
+}
+
+.admin-food-modal-agregar-quantity-btn:active {
+  transform: translateY(0);
+}
+
+.admin-food-modal-agregar-quantity-display {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 32px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Image section */
+.admin-food-modal-agregar-image-section {
+  padding: 24px 28px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.admin-food-modal-agregar-image-section h4 {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.admin-food-modal-agregar-image-upload-area {
+  border: 2px dashed #ced4da;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: #f8f9fa;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.admin-food-modal-agregar-image-upload-area:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.admin-food-modal-agregar-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-food-modal-agregar-image-icon {
+  font-size: 56px;
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+.admin-food-modal-agregar-image-placeholder p {
+  margin: 0;
+  color: #007bff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.admin-food-modal-agregar-image-preview {
+  width: 100%;
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.admin-food-modal-agregar-preview-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Action buttons */
+.admin-food-modal-agregar-actions {
+  padding: 24px 28px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.admin-food-modal-agregar-btn-cancel,
+.admin-food-modal-agregar-btn-confirm {
+  padding: 14px 40px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.admin-food-modal-agregar-btn-cancel {
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.admin-food-modal-agregar-btn-cancel:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.admin-food-modal-agregar-btn-confirm {
+  background-color: #fd7e14;
+  color: white;
+  box-shadow: 0 2px 8px rgba(253, 126, 20, 0.3);
+}
+
+.admin-food-modal-agregar-btn-confirm:hover {
+  background-color: #e8690b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(253, 126, 20, 0.4);
+}
+
+.admin-food-modal-agregar-btn-cancel:active,
+.admin-food-modal-agregar-btn-confirm:active {
+  transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .admin-food-modal-agregar-container {
+    width: 95%;
+    margin: 10px;
+    max-width: none;
+  }
+  
+  .admin-food-modal-agregar-title,
+  .admin-food-modal-agregar-form,
+  .admin-food-modal-agregar-image-section,
+  .admin-food-modal-agregar-actions {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .admin-food-modal-agregar-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .admin-food-modal-agregar-btn-cancel,
+  .admin-food-modal-agregar-btn-confirm {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .admin-food-modal-agregar-image-upload-area {
+    padding: 36px 20px;
+  }
+  
+  .admin-food-modal-agregar-image-icon {
+    font-size: 48px;
+  }
+}
+
+/* Additional enhancements for better user experience */
+.admin-food-modal-agregar-form-group:focus-within label {
+  color: #007bff;
+  transition: color 0.2s ease;
+}
+
+/* Improved accessibility */
+.admin-food-modal-agregar-form-input:focus,
+.admin-food-modal-agregar-form-select:focus,
+.admin-food-modal-agregar-form-input-file:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* Loading state for buttons */
+.admin-food-modal-agregar-btn-loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Error state for inputs */
+.admin-food-modal-agregar-form-input.error,
+.admin-food-modal-agregar-form-select.error {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.admin-food-modal-agregar-form-input.error:focus,
+.admin-food-modal-agregar-form-select.error:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+/* Popup overlay - sits on top of the main modal */
+.admin-food-modal-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for popup */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100; /* Higher than the main modal (1000) */
+  backdrop-filter: blur(3px); /* Blur effect for better focus */
+  animation: popupOverlayFadeIn 0.2s ease-out;
+}
+
+/* Animation for popup overlay entrance */
+@keyframes popupOverlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(3px);
+  }
+}
+
+/* Main popup container */
+.admin-food-modal-popup-container {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 10px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: popupScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy animation */
+  overflow: hidden;
+}
+
+/* Bouncy scale animation for popup entrance */
+@keyframes popupScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Success popup variant with green accent */
+.admin-food-modal-popup-success {
+  border-top: 4px solid #28a745; /* Green accent for success */
+}
+
+/* Popup header styling */
+.admin-food-modal-popup-header {
+  padding: 24px 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.admin-food-modal-popup-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  letter-spacing: -0.5px;
+}
+
+/* Success icon styling */
+.admin-food-modal-popup-success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #28a745;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 16px;
+  animation: successIconPulse 0.6s ease-out 0.3s both;
+}
+
+/* Success icon pulse animation */
+@keyframes successIconPulse {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Popup content styling */
+.admin-food-modal-popup-content {
+  padding: 16px 24px 24px;
+  text-align: center;
+}
+
+.admin-food-modal-popup-content p {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  color: #495057;
+  line-height: 1.5;
+}
+
+/* Details section for confirmation popup */
+.admin-food-modal-popup-details {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  text-align: left;
+  border-left: 4px solid #007bff;
+}
+
+.admin-food-modal-popup-details strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Popup action buttons container */
+.admin-food-modal-popup-actions {
+  padding: 16px 24px 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Base button styling for popups */
+.admin-food-modal-popup-btn-cancel,
+.admin-food-modal-popup-btn-confirm,
+.admin-food-modal-popup-btn-success {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+
+/* Cancel button styling */
+.admin-food-modal-popup-btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  box-shadow: 0 2px 6px rgba(108, 117, 125, 0.3);
+}
+
+.admin-food-modal-popup-btn-cancel:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
+}
+
+/* Confirm button styling */
+.admin-food-modal-popup-btn-confirm {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+.admin-food-modal-popup-btn-confirm:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+/* Disabled state for confirm button */
+.admin-food-modal-popup-btn-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.2);
+}
+
+/* Success button styling */
+.admin-food-modal-popup-btn-success {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+  min-width: 120px;
+}
+
+.admin-food-modal-popup-btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+
+/* Active state for all popup buttons */
+.admin-food-modal-popup-btn-cancel:active,
+.admin-food-modal-popup-btn-confirm:active,
+.admin-food-modal-popup-btn-success:active {
+  transform: translateY(0);
+}
+
+/* Loading state animation for confirm button */
+.admin-food-modal-popup-btn-confirm:disabled::after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design for popups */
+@media (max-width: 768px) {
+  .admin-food-modal-popup-container {
+    width: 95%;
+    max-width: none;
+    margin: 20px;
+  }
+  
+  .admin-food-modal-popup-header,
+  .admin-food-modal-popup-content,
+  .admin-food-modal-popup-actions {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .admin-food-modal-popup-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .admin-food-modal-popup-btn-cancel,
+  .admin-food-modal-popup-btn-confirm,
+  .admin-food-modal-popup-btn-success {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .admin-food-modal-popup-success-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+/* Accessibility improvements */
+.admin-food-modal-popup-btn-cancel:focus,
+.admin-food-modal-popup-btn-confirm:focus,
+.admin-food-modal-popup-btn-success:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .admin-food-modal-popup-container {
+    border: 2px solid #000;
+  }
+  
+  .admin-food-modal-popup-details {
+    border: 1px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .admin-food-modal-popup-container {
+    animation: none;
+  }
+  
+  .admin-food-modal-popup-overlay {
+    animation: none;
+  }
+  
+  .admin-food-modal-popup-success-icon {
+    animation: none;
+  }
+  
+  .admin-food-modal-popup-btn-cancel,
+  .admin-food-modal-popup-btn-confirm,
+  .admin-food-modal-popup-btn-success {
+    transition: none;
+  }
+}
+
+/* Estilos para campos con errores de validación */
+.admin-food-modal-agregar-form-input-error {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.admin-food-modal-agregar-form-input-error:focus {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Estilos para mensajes de error */
+.admin-food-modal-agregar-error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+  font-weight: 500;
+}
+
+/* Estilos para labels con asterisco (campos obligatorios) */
+.admin-food-modal-agregar-form-group label {
+  position: relative;
+}
+
+/* Animación suave para mostrar/ocultar errores */
+.admin-food-modal-agregar-error-message {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: fadeInError 0.3s ease forwards;
+}
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para campos válidos después de la validación */
+.admin-food-modal-agregar-form-input.valid {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* Mejoras en la accesibilidad */
+.admin-food-modal-agregar-form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para placeholders */
+.admin-food-modal-agregar-form-input::placeholder {
+  color: #6c757d;
+  opacity: 0.7;
+}
+
+.admin-food-modal-agregar-form-textarea::placeholder {
+  color: #6c757d;
+  opacity: 0.7;
+}

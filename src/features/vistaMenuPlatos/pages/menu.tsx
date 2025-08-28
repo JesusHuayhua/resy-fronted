@@ -1,180 +1,186 @@
 import { useEffect, useState } from "react";
 import "./menu.css"
 import img from '../../../assets/background.avif'
-import Header from "../../navegaciónInicial/components/header/header";
-import HeaderLogged from '../../navegaciónInicial/components/header/HeaderLogged';
 import Comida from "../components/comida/comida";
-import { obtenerMenuSemanal } from "../services/obtenerMenuSemanal";
-import { obtenerMenuDia } from "../services/obtenerMenuDelDia";
-import { Menu } from "../services/clases/classMenu";
-import type { PlatoConDisponibilidad } from "../services/obtenerPlatosDia";
-import { useUser } from '../../user/context/UserContext';
 
-// Declararemos las categorias (puede que hayan mas. Por ahora esta hardcodeado)
-// Su "i" es el ID de la categoria
-const dias : string [] = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado" ,"Domingo"];
- 
-function MenuComp(){
-    const { user } = useUser();
+// Updated imports to match the new service structure
+import { filtrarPorCategoria, filtrarPorDia, obtenerCategoriasCompleto, obtenerMenuSemanaCompleto, type MenuSemanaCompleto, type PlatoConCantidadAsignada } from "../hooks/useMenuHooks";
+import type { Categoria } from "../services/categoriaMenuService";
 
-    // Objeto Filtro que manejará los indexs de cada array.
-    const [filtros, setFiltros] = useState(
-        {
-            dia: 0,
-            categoria: 0,
-            plato: 0
+const diasNombres: string[] = [
+  "Domingo",
+  "Lunes",
+  "Martes",
+  "Miercoles",
+  "Jueves",
+  "Viernes",
+  "Sabado",
+];
+
+function MenuComp() {
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [filtros, setFiltros] = useState({ dia: new Date().getDay(), categoria: 1, platoSeleccionado: 0 });
+
+  // Del backend
+  const [menuSemana, setMenuSemana] = useState<MenuSemanaCompleto | null>(null);
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+
+  const [platosFiltrados, setPlatosFiltrados] = useState<PlatoConCantidadAsignada[]>([]);
+
+  // Capturamos la data del back
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const [menuApi, cats] = await Promise.all([
+          obtenerMenuSemanaCompleto(),
+          obtenerCategoriasCompleto()
+        ]);
+
+        if (menuApi) {
+          setMenuSemana(menuApi);
+          console.log("Menu cargado:", menuApi);
         }
-    );
-
-    const [platosDia, setPlatosDia] = useState<PlatoConDisponibilidad[]>([]);
-    // Tendremos un listado de platos con los filtros correspondientes.
-    const [menuSemana, setMenuSemana] = useState<Menu[]>([]);
-    // Y un plato correspondiente.
-    const [platoSeleccionado, setPlatoSeleccionado] = useState<PlatoConDisponibilidad | undefined>(undefined); // No hay plato seleccionado inicialmente
-    // Primero capturaremos el menú de la semana.
-    useEffect( () => {
-        const fetchMenu = async () => {
-            try {
-                const menuSem = await obtenerMenuSemanal(); // No seguira hasta que se obtenga la data del menuSemanal.
-                setMenuSemana(menuSem);
-                console.log("Se capturo la data");
-            } catch(error){
-                alert("Error al capturar el menú de la semana");
-            }
-        };
-        fetchMenu();
-    }, []); // Array vacío indica primera carga de la página
-
-    // Ya capturada el menú de la semana, aplicaremos los filtros.
-    // Cada vez que se cambie los filtros, los platos del día van a cambiar.   
-    useEffect( () => {
-        if(menuSemana){
-            const fetchPlatosDia = async () => {
-                try{
-                    const platosConFiltro = await obtenerMenuDia(
-                        menuSemana,
-                        dias[filtros.dia],
-                        filtros.categoria
-                    ); // No seguira hasta que se obtenga el menu del dia
-
-                    // Hecho esto, procedemos con asignar
-                    setPlatosDia(platosConFiltro);
-                }catch(error){
-                    alert("No se pudo aplicar los filtros");
-                }
-            }
-            fetchPlatosDia();
+        if (cats) {
+          setCategorias(cats);
+          console.log("Categorías cargadas:", cats);
         }
-        // Caso contrario no se ejecuta nada.
-    }, [filtros]);
-
-    // Ahora handlers
-    const diaSiguiente = () => {
-        setFiltros((filtroAnterior) => ({
-            ...filtroAnterior,
-            dia: (filtroAnterior.dia + 1) % dias.length
-        }));
+      } catch (error) {
+        console.error("Error al cargar datos:", error);
+        alert("Error al cargar menú o categorías");
+      }
     };
+    fetchData().then(() => setIsLoading(false));
+  }, []);
 
-    const diaAnterior = () => {
-        setFiltros((filtroAnterior) => ({
-            ...filtroAnterior,
-            dia: 
-                filtroAnterior.dia === 0 ? dias.length - 1 : filtroAnterior.dia - 1
-        }));
-    };
+  useEffect(() => {
+    if (!menuSemana) return;
 
-    const handleCategoriaClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        const valor = parseInt(e.currentTarget.value);
-        setFiltros({ ...filtros, categoria: valor });
-    };
+    // Filtramos el día.
+    const platosDelDia = filtrarPorDia(menuSemana, diasNombres[filtros.dia]);
 
-    const handlePlatoClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        const valor = parseInt(e.currentTarget.value);
-        setFiltros({ ...filtros, plato: valor });
+    // Filtramos por categoría.
+    const finales = filtrarPorCategoria(platosDelDia, filtros.categoria);
 
-        const platoSeleccionado = platosDia.find((platoDia) => 
-            platoDia.plato.getId() === valor
-        );
+    setPlatosFiltrados(finales);
 
-        setPlatoSeleccionado(platoSeleccionado); // Puede ser undefined si no se encuentra
-    };
+    // Reseteo
+    if (finales.length === 0 || filtros.platoSeleccionado >= finales.length) {
+      setFiltros(prev => ({ ...prev, platoSeleccionado: 0 }));
+    }
+  }, [filtros.dia, filtros.categoria, menuSemana]);
 
+  const diaSiguiente = () => {
+    setFiltros(prev => ({ ...prev, dia: (prev.dia + 1) % diasNombres.length, platoSeleccionado: 0 }));
+  };
 
-    // Para renderizar alimentos
-    const alimentosSeleccion = platosDia.map((platoDia) => {
-        return (
-            <button className={
-                platoDia.plato.getId() === filtros.plato ? 'selected' : 'secondary'
-            } value={platoDia.plato.getId()} onClick={handlePlatoClick}>
-                {platoDia.plato.getNombre()}
-            </button>
-        )
-    })
-   
-    return (
-        <>
-            {user ? <HeaderLogged /> : <Header />}
-            <div style={{ 
-                backgroundImage: `url(${img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                minHeight: '100vh'
-            }}>
-                
-                <div className="main-container">
-                    <div className="sidebar">
-                        <div className="day-selector">
-                            <button onClick={diaAnterior}>‹</button>
-                            <h3>{dias[filtros.dia]}</h3>
-                            <button onClick={diaSiguiente}>›</button>
-                        </div>
-                        <div className="menu-options">
-                            {alimentosSeleccion}
-                        </div>
-                    </div>
-                    <div className="content-section">
-                        <div className="menu-tabs">
-                            <button
-                                value="0"
-                                onClick={handleCategoriaClick}
-                                className={filtros.categoria === 0 ? 'active' : ''}
-                            >
-                                Entradas
-                            </button>
-                            <button
-                                value="1"
-                                onClick={handleCategoriaClick}
-                                className={filtros.categoria === 1 ? 'active' : ''}
-                            >
-                                Segundos
-                            </button>
-                            <button
-                                value="2"
-                                onClick={handleCategoriaClick}
-                                className={filtros.categoria === 2 ? 'active' : ''}
-                            >
-                                Carta
-                            </button>
-                            <button
-                                value="3"
-                                onClick={handleCategoriaClick}
-                                className={filtros.categoria === 3 ? 'active' : ''}
-                            >
-                                Adicional
-                            </button>
+  const diaAnterior = () => {
+    setFiltros(prev => ({
+      ...prev,
+      dia: prev.dia === 0 ? diasNombres.length - 1 : prev.dia - 1,
+      platoSeleccionado: 0
+    }));
+  };
 
-                        </div>
-                        <div className="food-card-placeholder">
-                            <Comida platoDia ={platoSeleccionado}/>
-                        </div>
-                    </div>
+  const handleCategoriaClick = (idCategoria: number) => {
+    setFiltros(prev => ({ ...prev, categoria: idCategoria, platoSeleccionado: 0 }));
+  };
+
+  const handlePlatoClick = (index: number) => {
+    setFiltros(prev => ({ ...prev, platoSeleccionado: index }));
+  };
+
+  return (
+    <div
+      style={{
+        backgroundImage: `url(${img})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh'
+      }}
+    >
+      {!isLoading && <div className="main-container">
+        <div className="sidebar">
+          <div className="day-selector">
+            <button onClick={diaAnterior}>‹</button>
+            <h3>{diasNombres[filtros.dia]}</h3>
+            <button onClick={diaSiguiente}>›</button>
+          </div>
+          <div className="menu-options">
+            {platosFiltrados.map((platoConCantidad, index) => (
+              <button
+                key={platoConCantidad.plato.IDPlato}
+                onClick={() => handlePlatoClick(index)}
+                className={index === filtros.platoSeleccionado ? 'selected' : 'secondary'}
+              >
+                {platoConCantidad.plato.Info.NombrePlato}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="content-section">
+          <div className="menu-tabs">
+            {categorias.map(cat => (
+              <button
+                key={cat.IDCategoria}
+                onClick={() => handleCategoriaClick(cat.IDCategoria)}
+                className={filtros.categoria === cat.IDCategoria ? 'active' : ''}
+              >
+                {cat.Info.Nombre}
+              </button>
+            ))}
+          </div>
+
+          <div className="food-card-placeholder">
+            {platosFiltrados.length > 0 && platosFiltrados[filtros.platoSeleccionado] ? (
+              <Comida
+                platoDia={{
+                  plato: platosFiltrados[filtros.platoSeleccionado].plato,
+                  cantidad: platosFiltrados[filtros.platoSeleccionado].cantidad
+                }}
+              />
+            ) : (
+              <div className="no-platos-message">
+                <div className="no-platos-icon">🍽️</div>
+                <h3 className="no-platos-title">No hay platos disponibles</h3>
+                <p className="no-platos-description">
+                  Lo sentimos, no encontramos platos para la selección actual.
+                  Intenta elegir otro día o categoría.
+                </p>
+                <div className="no-platos-info">
+                  <div className="no-platos-info-item">
+                    <span className="no-platos-info-label">Día:</span>
+                    <span className="no-platos-info-value">{diasNombres[filtros.dia]}</span>
+                  </div>
+                  <div className="no-platos-info-item">
+                    <span className="no-platos-info-label">Categoría:</span>
+                    <span className="no-platos-info-value">
+                      {categorias.find(c => c.IDCategoria === filtros.categoria)?.Info.Nombre || 'Desconocida'}
+                    </span>
+                  </div>
                 </div>
-            </div>
-        </>
-        
-    );
+              </div>
+            )}
+          </div>
+        </div>
+      </div>}
+      {isLoading && (
+        <div className="loading-container">
+          <div className="loading-spinner">
+            <div className="spinner-circle"></div>
+            <p className="loading-text">
+              Cargando menú<span className="loading-dots"></span>
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default MenuComp;

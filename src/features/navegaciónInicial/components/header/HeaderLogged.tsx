@@ -219,6 +219,11 @@ const HeaderLogged: React.FC = () => {
     toggleMenu();
   };
 
+  // Metodos para ingreso de navegacion ya sea para admin o usuario.
+  const navUserProfile = (e: React.MouseEvent) => {
+    window.location.href = '/perfil'; 
+  }
+
   return (
     <header style={styles.header}>
       <nav style={styles.navbar}>
@@ -247,6 +252,8 @@ const HeaderLogged: React.FC = () => {
             RESERVAR
           </Link>
         </div>
+
+        {/* Ahora la seccion de user */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
           <div style={styles.userMenu} onClick={handleUserMenuClick}>
             <span style={styles.userName}>
@@ -254,8 +261,24 @@ const HeaderLogged: React.FC = () => {
             </span>
             <span style={styles.userArrow}>{isMenuOpen ? '▲' : '▼'}</span>
             <div style={styles.dropdown}>
-              <button style={styles.dropdownBtn} onClick={e => { e.stopPropagation(); window.location.href = '/perfil'; }}>
-                PERFIL
+              {
+                /* 
+                  Seccion rapida pa entender lo de e.stopPropagation().
+                  Si lo quitas, cuando el usuario ingrese a Perfil u Otro, ese menu se va a cerrar (el dropdown).
+                  Con stopPropagation evitamos eso.
+                */
+              }
+              <button style={styles.dropdownBtn} onClick={
+                e => {
+                  e.stopPropagation()
+                  window.location.href = '/admin'; 
+                  user?.DataUsuario.Rol === 1 ?  window.location.href = '/admin' : window.location.href = '/usuario'; 
+                  }
+                  
+                }>
+                {
+                  user?.DataUsuario.Rol === 1 ? <text>MODO ADMINISTRADOR</text> : <text>PERFIL</text>
+                }
               </button>
               <hr style={styles.divider} />
               <button style={styles.dropdownBtn} onClick={e => { e.stopPropagation(); logout(); }}>

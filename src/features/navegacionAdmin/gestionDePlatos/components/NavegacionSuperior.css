@@ -1,0 +1,196 @@
+/* Contenedor principal de la navegación superior */
+.admin-food-manager-navbar-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 16px;
+}
+
+/* Sección del calendario */
+.admin-food-manager-calendar {
+  display: flex;
+  align-items: center;
+}
+
+/* Botones de Historial y Cronograma */
+.admin-food-manager-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Link que luce como botón */
+.admin-food-manager-link-button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: normal;
+  font-family: 'Alegreya', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+  text-align: center;
+  text-decoration: none; /* elimina subrayado */
+  display: inline-block; /* para que respete el padding */
+}
+
+.admin-food-manager-link-button:hover {
+  background-color: #1976d2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+.admin-food-manager-link-button:active {
+  transform: translateY(0);
+}
+
+
+/* Segunda barra de navegación con categorías y búsqueda */
+.admin-food-manager-navbar-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px 8px 24px;
+  background-color: white;
+}
+
+/* Contenedor de categorías */
+.admin-food-manager-categories {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Solo afecta al botón "X" de limpiar categoría */
+.clear-category-btn {
+  background-color: white;
+  border: 1px solid #cce5ff;
+  border-radius: 20px;
+  padding: 6px 12px;
+  margin-left: 8px;       /* mismo espaciado que .categoria-btn */
+  color: #339af0;
+  font-size: 0.9rem;
+  font-family: 'Inter';
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color .2s, border-color .2s;
+}
+.clear-category-btn:hover {
+  background-color: #e6f7ff;
+  border-color: #99d6ff;
+}
+.clear-category-btn:active {
+  background-color: #cce5ff;
+  border-color: #99d6ff;
+}
+
+
+/* Sección del buscador */
+.admin-food-manager-search {
+  display: flex;
+  align-items: center;
+  min-width: 280px;
+}
+
+/* Responsive para tablets */
+@media (max-width: 1024px) {
+  .admin-food-manager-navbar-1 {
+    padding: 16px 20px;
+  }
+  
+  .admin-food-manager-navbar-2 {
+    padding: 0 20px 16px 20px;
+  }
+  
+  .admin-food-manager-buttons {
+    gap: 8px;
+  }
+  
+  .admin-food-manager-buttons button {
+    padding: 10px 20px;
+    font-size: 13px;
+    min-width: 100px;
+  }
+  
+  .admin-food-manager-search {
+    min-width: 240px;
+  }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .admin-food-manager-navbar-1 {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    align-items: stretch;
+  }
+  
+  .admin-food-manager-calendar {
+    justify-content: center;
+  }
+  
+  .admin-food-manager-buttons {
+    justify-content: center;
+  }
+  
+  .admin-food-manager-navbar-2 {
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 16px 16px 16px;
+    align-items: stretch;
+  }
+  
+  .admin-food-manager-categories {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .admin-food-manager-search {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .admin-food-manager-buttons button {
+    flex: 1;
+    min-width: auto;
+  }
+}
+
+/* Responsive para móviles pequeños */
+@media (max-width: 480px) {
+  .admin-food-manager-navbar-1 {
+    padding: 12px;
+  }
+  
+  .admin-food-manager-navbar-2 {
+    padding: 0 12px 12px 12px;
+  }
+  
+  
+  .admin-food-manager-categories {
+    gap: 4px;
+  }
+  
+  .admin-food-manager-link-button {
+    padding: 10px 20px;
+    font-size: 13px;
+    min-width: 100px;
+  }
+}
+
+/* Estados para pantallas táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .admin-food-manager-link-button {
+    padding: 14px 24px;
+    min-height: 48px;
+  }
+}

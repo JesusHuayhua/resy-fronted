@@ -1,13 +1,12 @@
-
 import BarraReserva from '../../components/barraReserva/barraReserva'
+import { ReservationProvider } from '../../context/ReservationContext';
 
 
 const mesa = () => {
-  
   return (
-    <div>
+    <ReservationProvider>
       <BarraReserva />
-    </div>
+    </ReservationProvider>
   );
 };
 

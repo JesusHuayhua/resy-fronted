@@ -1,0 +1,133 @@
+/* Estilos del botón principal */
+.admin-alimentos-history-agregar {
+  /* Eliminamos estilos por defecto del botón */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  
+  /* Establecemos las dimensiones del botón */
+  height: 400px;
+  width: 100%;
+  max-width: 280px;
+  
+  /* Usamos flexbox para centrar el contenido */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  
+  /* Creamos el borde punteado característico */
+  border: 2px dashed #4A90E2;
+  border-radius: 8px;
+  
+  /* Color de fondo muy sutil */
+  background-color: #FAFBFC;
+  
+  /* Transición suave para efectos hover */
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efectos de interacción del botón */
+.admin-alimentos-history-agregar:hover {
+  /* Cambiamos el color del borde al hacer hover */
+  border-color: #357ABD;
+  
+  /* Fondo ligeramente más visible */
+  background-color: #F0F7FF;
+  
+  /* Elevación sutil con sombra */
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.1);
+  
+  /* Escalado muy ligero para feedback visual */
+  transform: scale(1.02);
+}
+
+/* Estado activo (cuando se hace clic) */
+.admin-alimentos-history-agregar:active {
+  /* Escalado hacia adentro para simular presión */
+  transform: scale(0.98);
+  
+  /* Sombra más intensa */
+  box-shadow: 0 1px 4px rgba(74, 144, 226, 0.2);
+}
+
+/* Estado deshabilitado */
+.admin-alimentos-history-agregar:disabled {
+  /* Reducimos la opacidad para indicar que está deshabilitado */
+  opacity: 0.5;
+  
+  /* Cursor normal en lugar de pointer */
+  cursor: not-allowed;
+  
+  /* Eliminamos efectos de hover */
+  transform: none;
+  box-shadow: none;
+}
+
+/* Estilos del contenedor del ícono */
+.admin-alimentos-history-agregar__icon {
+  /* Color del ícono */
+  color: #4A90E2;
+  
+  /* Aseguramos que el ícono se centre correctamente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Transición para cambios de color */
+  transition: color 0.2s ease-in-out;
+}
+
+/* Cambio de color del ícono en hover */
+.admin-alimentos-history-agregar:hover .admin-alimentos-history-agregar__icon {
+  color: #357ABD;
+}
+
+/* Estilos del texto */
+.admin-alimentos-history-agregar__text {
+  /* Tipografía del texto */
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  
+  /* Color del texto */
+  color: #4A90E2;
+  
+  /* Centramos el texto */
+  text-align: center;
+  
+  /* Evitamos que el texto se seleccione */
+  user-select: none;
+  
+  /* Transición para cambios de color */
+  transition: color 0.2s ease-in-out;
+}
+
+/* Cambio de color del texto en hover */
+.admin-alimentos-history-agregar:hover .admin-alimentos-history-agregar__text {
+  color: #357ABD;
+}
+
+/* Versión responsiva para pantallas pequeñas */
+@media (max-width: 768px) {
+  .admin-alimentos-history-agregar {
+    /* Hacemos el botón más pequeño en móviles */
+    width: 160px;
+    height: 120px;
+    gap: 8px;
+  }
+  
+  .admin-alimentos-history-agregar__icon svg {
+    /* Reducimos el tamaño del ícono */
+    width: 20px;
+    height: 20px;
+  }
+  
+  .admin-alimentos-history-agregar__text {
+    /* Texto más pequeño en móviles */
+    font-size: 12px;
+  }
+}
