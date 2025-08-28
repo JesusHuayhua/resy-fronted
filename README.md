@@ -1,98 +1,33 @@
-# React + TypeScript + Vite
+# Salon Verde - Sistema de Reservas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bienvenido al sistema de reservas de Salon Verde. Este proyecto es una aplicación web desarrollada en React + TypeScript para gestionar reservas en el restaurante, para llevar o para recojo en el restaurante.
 
-Currently, two official plugins are available:
+## Tabla de Contenidos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Salon Verde - Sistema de Reservas](#salon-verde---sistema-de-reservas)
+  - [Tabla de Contenidos](#tabla-de-contenidos)
+  - [Integrantes del proyecto](#integrantes-del-proyecto)
+  - [Documentos realizados](#documentos-realizados)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Integrantes del proyecto
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- [ Leoncio Villanueva ](https://github.com/darkfrozen132)
+- [ Camilo Váques ](https://github.com/CaVassM)
+- [ Martín Sayago ](https://github.com/Martin-a24)
+- [ Luis Martinez ](https://github.com/toniprogram)
+- [ Jesus Huayhua ](https://github.com/JesusHuayhua)
+- [ Diego Chupurgo ](https://github.com/DiegoEduChG)
+- [ Jorge Quiroa](https://github.com/Coco12-code)
+- [ Rodrigo Medina](https://github.com/homuposting123)
+- [ Fabrizzio Gomez  ](https://github.com/Shauanth)
+--- 
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Documentos realizados
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-
-## Estructura de carpetas
-```js
-
-src/
-├── features/
-│   ├── auth/
-│   │   ├── pages/            # LoginPage, RegisterPage
-│   │   ├── components/       # FormLogin, Logo, FooterAuth
-│   │   ├── hooks/            # useLogin (useEffect para fetch)
-│   │   └── services/         # login(), register() → llamadas al API
-│   │
-│   ├── reservas/
-│   │   ├── pages/            # ReservasPage, NuevaReservaPage
-│   │   ├── components/       # MesaCard, Calendario, Footer
-│   │   ├── hooks/            # useFetchReservas, useCrearReserva
-│   │   └── services/         # getReservas(), postReserva()
-│   │
-│   └── pedidos/
-│       ├── pages/            # MenuPage, CarritoPage
-│       ├── components/       # ItemCard, CarritoResumen, Header
-│       ├── hooks/            # useFetchMenu, useAgregarAlCarrito
-│       └── services/         # getMenu(), postPedido()
-│
-├── shared/
-│   └── components/           # Header, Footer, Button, Modal, etc.
-│
-├── utils/                    # formateadores, validadores, helpers puros
-├── router/                   # AppRouter.tsx → definición de rutas
-├── App.tsx                   # Entrada de la app
-└── main.tsx                    # Montaje de React
-├── .env                        # Variables de entorno
-├── .env.development
-├── .env.production
-├── .eslintrc.cjs               # Configuración de ESLint para linting
-├── .gitignore                  # Archivos y directorios a ignorar por Git
-├── package.json                # Dependencias del proyecto y scripts de npm
-├── pnpm-lock.yaml (o package-lock.json o yarn.lock) # Bloqueo de dependencias
-├── postcss.config.js           # Configuración de PostCSS (necesario para Tailwind)
-├── tailwind.config.js          # Configuración de Tailwind CSS
-├── tsconfig.json               # Configuración de TypeScript
-├── tsconfig.node.json          # Configuración de TypeScript para el entorno Node.js
-└── vite.config.ts              # Configuración de Vite
-```
+- [Documento de visión](documentos/Documento_de_Visión.pdf)
+- [Catalogo de Requerimiento](documentos/Catalgo_de_Requerimiento.pdf)
+- [Especificación de Requisitos de Software](documentos/Especificación_de_Requisitos_de_Software.pdf)
+- [Documento de Arquitectura](documentos/Documento_de_Arquitectura.docx.pdf)
+- [Documento de Pruebas](documentos/Documentos_de_pruebas.pdf)
