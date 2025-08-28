@@ -11,11 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { verificarTokenRecuperacion } from '../../services/verificarTokenRecuperacionService';
 
 
-
-// Imagenes.
-import mesaImagen from '../../../../assets/imagenesLogin/tableImage.avif'
 import logoImagen from '../../../../assets/imagenesLogin/logoImagen.avif';
-
 /**
  * Props del componente CodigoRecuperacion.
  * @typedef {Object} CodigoRecuperacionProps
