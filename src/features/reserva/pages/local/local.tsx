@@ -93,7 +93,7 @@ const LocalReservaForm = () => {
           </div>
           <button type="submit" className="w-full bg-gradient-to-r from-amber-400 to-yellow-500 text-black font-bold py-5 px-8 rounded-md hover:from-amber-500 hover:to-yellow-600 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl text-lg">
             REALIZAR EL PAGO
-          </button>
+          </button>1
         </div>
         </form>
         {/* Popup de medios de pago */}
